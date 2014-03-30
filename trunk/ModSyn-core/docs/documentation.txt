@@ -1,0 +1,63 @@
+ModSyn - a software sound synthesis and processing library
+===========================================================
+
+Introduction
+------------
+ModSyn is a java library for digital sound synthesis and processing.
+It is meant to provide a very modular and easy to use system for building
+software synthesizers and sound processors.
+A number of basic building blocks are already there, but it's easy to extend
+to add more of these building blocks.
+All sound processing is done in 32-bit floating point format.
+
+Everything is built around signals
+----------------------------------
+In early versions of ModSyn, there was a distinction between different kinds
+of signals. For example audio signals, control signals and triggers were
+different.
+
+Now, this distinction has been removed, so they are all treated the same. This
+means that for example an Oscillator can be used as an LFO (by setting it to
+a low frequency), where before they absolutely needed to be 2 separate classes.
+This also means that everything with a signal can be connected to each other,
+even if that doesn't always necessarily makes sense. 
+For example it's no problem to directly connect an ADSR envelope generator to
+an audio input, which probably doesn't make much sense to do.
+
+The reason to remove these distinctions is that to simplify the API, and to
+provide maximum flexibility. Something that might not seem to make sense to me
+might make perfect sense for someone else who has different goals. 
+
+The 3 most important types are:
+
+org.modsyn.SignalInput
+  An input of a signal, directly comparable with a real-world signal input 
+  (for example an audio-in jack).
+
+org.modsyn.SignalOutput
+  An output of a signal, directly comparable with a real-world signal output 
+  (for example an audio-out jack).
+  Connectivity is realized through these SignalOutputs using its one method:
+   void connectTo(SignalInput);
+
+org.modsyn.SignalSource
+  An extension of a SignalOutput, which serves as a processing source. 
+  In practice this means that every sample, a method is called that will update
+  the signal.
+
+Using this Signal paradigm, we could see a real-life audio amplifier to have
+a number of SignalSources and SignalOutputs, but there is probably no
+SignalSource: It doesn't generate signals, it just amplifies existing signals.
+
+On the other hand, a real-life tone generator should be developed as a
+SignalSource, because it generates a signal and can be connected to a 
+SignalInput.
+
+A last example: A real-life guitar effects pedal should be implemented so that
+it has both a SignalInput (to connect the guitar to) and a SignalOuput (to
+connect to an amplifier).
+
+For that last example, a 4th interface type is created for convenience:
+
+org.modsyn.SignalInsert
+  Extends both SignalInput and SignalOutput.
