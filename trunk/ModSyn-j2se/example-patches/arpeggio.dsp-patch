@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<patch>
+  <dspobjects>
+    <dspobject bounds="350,75,80,104" id="1828122" name="Osc-HQ" type="org.modsyn.editor.blocks.OscillatorHQModel">
+      <inputs>
+        <input decimals="2" id="660475396" max="48000.0" min="0.0" name="freq" value="0.0"/>
+        <input decimals="2" id="267009229" max="100.0" min="0.0" name="pwm" value="37.690002"/>
+        <input decimals="4" id="1530773220" max="1.1" min="0.9" name="det" value="1.0"/>
+        <input decimals="0" id="851417480" max="7.0" min="0.0" name="shape" value="2.7502995"/>
+        <input decimals="0" id="1090046399" max="16.0" min="1.0" name="o/s" value="8.006498"/>
+        <input decimals="4" id="226835436" max="2.0" min="0.0" name="filter" value="0.6104"/>
+      </inputs>
+      <outputs>
+        <output id="639699427" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="475,175,80,48" id="1125132707" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1511894714" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1387946894" max="2.0" min="0.0" name="lvl" value="0.5"/>
+      </inputs>
+      <outputs>
+        <output id="1256073744" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="600,175,80,48" id="1067165398" name="Split2" type="org.modsyn.editor.blocks.SplitterModel">
+      <inputs>
+        <input decimals="3" id="65424442" max="1.0" min="-1.0" name="IN" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="76969430" name="OUT-1"/>
+        <output id="840054516" name="OUT-2"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="725,175,80,48" id="1238755034" name="Asio OUT" type="org.modsyn.editor.blocks.ToAsioModel">
+      <inputs>
+        <input decimals="3" id="2049382420" max="1.0" min="-1.0" name="IN.L" value="0.0"/>
+        <input decimals="3" id="480118707" max="1.0" min="-1.0" name="IN.R" value="0.0"/>
+      </inputs>
+      <outputs/>
+    </dspobject>
+    <dspobject bounds="225,175,80,202" id="1259046770" name="Arpeggio" type="org.modsyn.editor.blocks.ArpeggioModel" channels="4">
+      <inputs>
+        <input decimals="2" id="1642689499" max="20000.0" min="0.0" name="length" value="1430.0"/>
+        <input decimals="2" id="632643861" max="20000.0" min="0.0" name="freq0" value="0.0"/>
+        <input decimals="4" id="653835530" max="1.0" min="0.0" name="velo0" value="0.0"/>
+        <input decimals="4" id="339931011" max="1.0" min="0.0" name="trig0" value="0.0"/>
+        <input decimals="2" id="914000857" max="20000.0" min="0.0" name="freq1" value="0.0"/>
+        <input decimals="4" id="661876608" max="1.0" min="0.0" name="velo1" value="0.0"/>
+        <input decimals="4" id="194859196" max="1.0" min="0.0" name="trig1" value="0.0"/>
+        <input decimals="2" id="85945497" max="20000.0" min="0.0" name="freq2" value="0.0"/>
+        <input decimals="4" id="1376957295" max="1.0" min="0.0" name="velo2" value="0.0"/>
+        <input decimals="4" id="1237476993" max="1.0" min="0.0" name="trig2" value="0.0"/>
+        <input decimals="2" id="2044183803" max="20000.0" min="0.0" name="freq3" value="0.0"/>
+        <input decimals="4" id="1153792315" max="1.0" min="0.0" name="velo3" value="0.0"/>
+        <input decimals="4" id="10105795" max="1.0" min="0.0" name="trig3" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="196888452" name="freq"/>
+        <output id="1979396384" name="velo"/>
+        <output id="1045850211" name="trig"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,225,80,132" id="450845582" name="ADSR" type="org.modsyn.editor.blocks.ADSRModel">
+      <inputs>
+        <input decimals="4" id="1039390058" max="1.0" min="0.0" name="trig" value="0.0"/>
+        <input decimals="4" id="1396720108" max="1.0" min="0.0" name="at-lvl" value="0.0"/>
+        <input decimals="4" id="531109799" max="1.0" min="0.0" name="at-tim" value="1.9999454E-4"/>
+        <input decimals="4" id="1420354861" max="1.0" min="0.0" name="dc-lvl" value="0.5872"/>
+        <input decimals="4" id="475928775" max="1.0" min="0.0" name="dc-tim" value="0.27230003"/>
+        <input decimals="4" id="1705819997" max="1.0" min="0.0" name="su-lvl" value="0.17579995"/>
+        <input decimals="4" id="810002129" max="1.0" min="0.0" name="rl-lvl" value="0.0"/>
+        <input decimals="4" id="806943770" max="1.0" min="0.0" name="rl-tim" value="0.047500014"/>
+      </inputs>
+      <outputs>
+        <output id="944711585" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="50,150,80,300" channels="4" id="1421006824" name="MIDI IN" type="org.modsyn.editor.blocks.FromMidiPolyModel">
+      <inputs>
+        <input decimals="0" id="696052681" max="12.0" min="-12.0" name="pb-r" value="2.0"/>
+        <input decimals="0" id="1213984358" max="127.0" min="0.0" name="c-nr" value="16.0"/>
+      </inputs>
+      <outputs>
+        <output id="192974759" name="freq0"/>
+        <output id="626467543" name="velo0"/>
+        <output id="2075157607" name="trig0"/>
+        <output id="2039473569" name="bend0"/>
+        <output id="1445784416" name="mod0"/>
+        <output id="521213907" name="freq1"/>
+        <output id="456338836" name="velo1"/>
+        <output id="1022713215" name="trig1"/>
+        <output id="281893917" name="bend1"/>
+        <output id="442137737" name="mod1"/>
+        <output id="715527139" name="freq2"/>
+        <output id="2103685620" name="velo2"/>
+        <output id="473451132" name="trig2"/>
+        <output id="866263389" name="bend2"/>
+        <output id="1497135910" name="mod2"/>
+        <output id="297347471" name="freq3"/>
+        <output id="324498528" name="velo3"/>
+        <output id="1385780363" name="trig3"/>
+        <output id="1350409226" name="bend3"/>
+        <output id="1720679886" name="mod3"/>
+      </outputs>
+    </dspobject>
+  </dspobjects>
+  <connections>
+    <connection from-id="639699427" to-id="1511894714"/>
+    <connection from-id="1256073744" to-id="65424442"/>
+    <connection from-id="76969430" to-id="2049382420"/>
+    <connection from-id="840054516" to-id="480118707"/>
+    <connection from-id="196888452" to-id="660475396"/>
+    <connection from-id="1045850211" to-id="1039390058"/>
+    <connection from-id="944711585" to-id="1387946894"/>
+    <connection from-id="192974759" to-id="632643861"/>
+    <connection from-id="626467543" to-id="653835530"/>
+    <connection from-id="2075157607" to-id="339931011"/>
+    <connection from-id="521213907" to-id="914000857"/>
+    <connection from-id="456338836" to-id="661876608"/>
+    <connection from-id="1022713215" to-id="194859196"/>
+    <connection from-id="715527139" to-id="85945497"/>
+    <connection from-id="2103685620" to-id="1376957295"/>
+    <connection from-id="473451132" to-id="1237476993"/>
+    <connection from-id="297347471" to-id="2044183803"/>
+    <connection from-id="324498528" to-id="1153792315"/>
+    <connection from-id="1385780363" to-id="10105795"/>
+  </connections>
+</patch>

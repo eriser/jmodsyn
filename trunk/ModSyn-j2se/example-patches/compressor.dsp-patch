@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<patch>
+  <dspobjects>
+    <dspobject bounds="25,25,80,34" id="451685407" name="Asio IN" type="org.modsyn.editor.blocks.FromAsioModel">
+      <inputs/>
+      <outputs>
+        <output id="121943304" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="250,100,80,48" id="801711090" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1045888352" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1091881369" max="2.0" min="0.0" name="lvl" value="1.0083997"/>
+      </inputs>
+      <outputs>
+        <output id="1002405168" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,100,80,104" id="414447861" name="Compressor" type="org.modsyn.editor.blocks.CompressorModel">
+      <inputs>
+        <input decimals="3" id="1335732606" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="2011346951" max="0.2" min="0.0" name="thr" value="0.0280801"/>
+        <input decimals="3" id="1168118030" max="10.0" min="0.0" name="rat" value="0.3320017"/>
+        <input decimals="3" id="264229336" max="1000.0" min="0.0" name="atk" value="808.0"/>
+        <input decimals="3" id="2053751803" max="1000.0" min="0.0" name="rel" value="562.80054"/>
+        <input decimals="4" id="901894790" max="5.0" min="0.0" name="out" value="1.4709988"/>
+      </inputs>
+      <outputs>
+        <output id="1206155004" name="OUT"/>
+        <output id="1749008195" name="meter"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="475,175,80,80" id="824573229" name="Meter" type="org.modsyn.editor.blocks.VUMeterModel">
+      <inputs>
+        <input decimals="3" id="890285712" max="1.0" min="-1.0" name="IN" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1513392935" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="675,25,80,48" id="798743477" name="Asio OUT" type="org.modsyn.editor.blocks.ToAsioModel">
+      <inputs>
+        <input decimals="3" id="561340542" max="1.0" min="-1.0" name="IN.L" value="0.0"/>
+        <input decimals="3" id="554828123" max="1.0" min="-1.0" name="IN.R" value="0.0"/>
+      </inputs>
+      <outputs/>
+    </dspobject>
+    <dspobject bounds="125,25,80,48" id="622267987" name="Pan" type="org.modsyn.editor.blocks.PanPotModel">
+      <inputs>
+        <input decimals="3" id="212696619" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="3" id="1379286925" max="1.0" min="-1.0" name="pan" value="1.0"/>
+      </inputs>
+      <outputs>
+        <output id="1736862757" name="OUT.L"/>
+        <output id="707143228" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="575,25,80,48" channels="2" id="781730498" name="Split" type="org.modsyn.editor.blocks.MultiSplitterModel">
+      <inputs>
+        <input decimals="3" id="239527540" max="1.0" min="-1.0" name="IN" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1355010302" name="OUT-1"/>
+        <output id="1741552926" name="OUT-2"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="475,25,80,48" channels="2" id="77918672" name="Mix" type="org.modsyn.editor.blocks.MixerModel">
+      <inputs>
+        <input decimals="3" id="1761579281" max="1.0" min="-1.0" name="in.1" value="0.0"/>
+        <input decimals="3" id="1653418225" max="1.0" min="-1.0" name="in.2" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="561715395" name="OUT"/>
+      </outputs>
+    </dspobject>
+  </dspobjects>
+  <connections>
+    <connection from-id="1002405168" to-id="1335732606"/>
+    <connection from-id="1749008195" to-id="890285712"/>
+    <connection from-id="121943304" to-id="212696619"/>
+    <connection from-id="707143228" to-id="1045888352"/>
+    <connection from-id="1355010302" to-id="561340542"/>
+    <connection from-id="1741552926" to-id="554828123"/>
+    <connection from-id="561715395" to-id="239527540"/>
+    <connection from-id="1206155004" to-id="1653418225"/>
+    <connection from-id="1736862757" to-id="1761579281"/>
+  </connections>
+</patch>
