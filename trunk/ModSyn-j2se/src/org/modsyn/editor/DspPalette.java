@@ -34,6 +34,7 @@ import org.modsyn.editor.blocks.LPFModel;
 import org.modsyn.editor.blocks.MixerModel;
 import org.modsyn.editor.blocks.MoogVCFModel;
 import org.modsyn.editor.blocks.MultiSplitterModel;
+import org.modsyn.editor.blocks.NoiseModel;
 import org.modsyn.editor.blocks.OctaverModel;
 import org.modsyn.editor.blocks.OscillatorHQModel;
 import org.modsyn.editor.blocks.OscillatorModel;
@@ -139,6 +140,17 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(new OscillatorHQModel(c), pm);
+		}
+	},
+	Noise("Oscillators") {
+		@Override
+		public String getModelName() {
+			return NoiseModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(new NoiseModel(c), pm);
 		}
 	},
 	K__Str("Oscillators") {
