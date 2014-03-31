@@ -23,8 +23,6 @@ import org.modsyn.editor.blocks.EnvelopeFollowerModel;
 import org.modsyn.editor.blocks.Filter4PoleModel;
 import org.modsyn.editor.blocks.Filter8PoleModel;
 import org.modsyn.editor.blocks.FilterXPoleModel;
-import org.modsyn.editor.blocks.FromAsioModel;
-import org.modsyn.editor.blocks.FromJavaSoundModel;
 import org.modsyn.editor.blocks.FromMidiPolyModel;
 import org.modsyn.editor.blocks.Karlsen24dBModel;
 import org.modsyn.editor.blocks.KarplusStrongModel;
@@ -42,17 +40,15 @@ import org.modsyn.editor.blocks.PanPotModel;
 import org.modsyn.editor.blocks.PhaserModel;
 import org.modsyn.editor.blocks.PitcherModel;
 import org.modsyn.editor.blocks.SoftClipModel;
-import org.modsyn.editor.blocks.ToAsioModel;
-import org.modsyn.editor.blocks.ToJavaSoundModel;
 import org.modsyn.editor.blocks.VUMeterModel;
 import org.modsyn.editor.blocks.VocoderModel;
 import org.modsyn.gui.JKnob;
 import org.modsyn.modules.Compressor;
 import org.modsyn.modules.Tracker;
 import org.modsyn.modules.ctrl.ADSREnvelope;
-import org.modsyn.modules.ext.AsioSupport;
+import org.modsyn.modules.ext.AudioInSupport;
+import org.modsyn.modules.ext.AudioOutSupport;
 import org.modsyn.modules.ext.MidiVoicePolyAdapter;
-import org.modsyn.modules.ext.ToJavaSound;
 import org.modsyn.util.Keyboard2;
 import org.modsyn.util.Keyboard2Adapter;
 
@@ -492,45 +488,23 @@ public enum DspPalette {
 	Audio_IN("EXT") {
 		@Override
 		public String getModelName() {
-			return FromJavaSoundModel.class.getName();
+			return AudioInSupport.class.getName();
 		}
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new FromJavaSoundModel(c), pm);
+			return AudioInSupport.create(c, pm, channels);
 		}
 	},
 	Audio_OUT("EXT") {
 		@Override
 		public String getModelName() {
-			return ToJavaSoundModel.class.getName();
+			return AudioOutSupport.class.getName();
 		}
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new ToJavaSoundModel(new ToJavaSound(c, 2, 1024)), pm);
-		}
-	},
-	Asio_IN("EXT") {
-		@Override
-		public String getModelName() {
-			return FromAsioModel.class.getName();
-		}
-
-		@Override
-		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new FromAsioModel(c, AsioSupport.INSTANCE), pm);
-		}
-	},
-	Asio_OUT("EXT") {
-		@Override
-		public String getModelName() {
-			return ToAsioModel.class.getName();
-		}
-
-		@Override
-		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new ToAsioModel(c, AsioSupport.INSTANCE), pm);
+			return AudioOutSupport.create(c, pm, channels);
 		}
 	};
 
@@ -553,6 +527,13 @@ public enum DspPalette {
 			if (pal.getModelName().equals(modelName)) {
 				return pal.create(c, pm, channels);
 			}
+		}
+
+		if (AudioInSupport.normalizeClassName(modelName) != null) {
+			return AudioInSupport.create(c, pm, channels);
+		}
+		if (AudioOutSupport.normalizeClassName(modelName) != null) {
+			return AudioOutSupport.create(c, pm, channels);
 		}
 		return null;
 	}

@@ -18,12 +18,12 @@ import org.modsyn.Context;
 import org.modsyn.DspObject;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalSource;
+import org.modsyn.util.ContextUpdateThread;
 
 /**
  * @author Erik Duijs
  * 
- *         Steams its AudioInputs to JavaSound. If you set it up to mono, use
- *         inputL.
+ *         Steams its AudioInputs to JavaSound. If you set it up to mono, use inputL.
  */
 public class ToJavaSound implements SignalSource, DspObject {
 
@@ -45,6 +45,8 @@ public class ToJavaSound implements SignalSource, DspObject {
 
 	private float gain = 32767f;
 	private final Context context;
+
+	private ContextUpdateThread updater;
 
 	public ToJavaSound(Context context, int channels, int soundBufferSize) {
 		this.context = context;
@@ -99,9 +101,12 @@ public class ToJavaSound implements SignalSource, DspObject {
 			System.out.println("buffer    : " + line.getBufferSize());
 			System.out.println("Sound initialized successfully.");
 
+			updater = new ContextUpdateThread(context);
+			updater.start();
 		} catch (LineUnavailableException lue) {
 			System.err.println("Unavailable data line");
 		}
+
 	}
 
 	public void reset() {
@@ -170,6 +175,7 @@ public class ToJavaSound implements SignalSource, DspObject {
 
 	public void stop() {
 		// line.drain();
+		updater.interrupt();
 		line.stop();
 		line.close();
 	}

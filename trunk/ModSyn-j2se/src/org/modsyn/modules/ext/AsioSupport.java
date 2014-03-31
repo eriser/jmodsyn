@@ -19,9 +19,8 @@ public enum AsioSupport implements SignalSource {
 	INSTANCE;
 
 	/**
-	 * Optional multi-threading support. In this case, the Context is updated
-	 * from a different Thread. This is disabled for now; The ASIO thread itself
-	 * will update the Context.
+	 * Optional multi-threading support. In this case, the Context is updated from a different Thread. This is disabled
+	 * for now; The ASIO thread itself will update the Context.
 	 */
 	private final boolean MULTI_THREAD = false;
 	private final Object SYNC = new Object();
@@ -50,6 +49,20 @@ public enum AsioSupport implements SignalSource {
 	};
 
 	public SignalInput connectedInput = NullInput.INSTANCE;
+
+	public boolean isSupported() {
+		try {
+			boolean isSupported = AsioDriver.getDriverNames().size() > 0;
+			if (!isSupported) {
+				System.out.println("No Asio support found.");
+			}
+			return isSupported;
+		} catch (Throwable t) {
+			// this will happen in non-windows environments or if otherwise Asio could not initialize.
+			System.err.println(t.getMessage());
+			return false;
+		}
+	}
 
 	public void start(final Context context) {
 
@@ -119,9 +132,8 @@ public enum AsioSupport implements SignalSource {
 				@Override
 				public void resetRequest() {
 					/*
-					 * This thread will attempt to shut down the ASIO driver.
-					 * However, it will block on the AsioDriver object at least
-					 * until the current method has returned.
+					 * This thread will attempt to shut down the ASIO driver. However, it will block on the AsioDriver
+					 * object at least until the current method has returned.
 					 */
 					new Thread() {
 						@Override
@@ -173,8 +185,7 @@ public enum AsioSupport implements SignalSource {
 	}
 
 	/**
-	 * Called from the Context, but this only happens when multi-threading is
-	 * enabled.
+	 * Called from the Context, but this only happens when multi-threading is enabled.
 	 */
 	@SuppressWarnings("unused")
 	@Override
