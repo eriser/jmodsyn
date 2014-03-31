@@ -19,7 +19,8 @@ public interface Context {
 
 	/**
 	 * Register a SignalSource instance. Calling this method should normally be the responsibility of SignalSource
-	 * classes themselves.
+	 * classes themselves, and should be done when the SignalSource is completely initialized (typically at the end of
+	 * the constructor).
 	 * 
 	 * @param sg
 	 */
@@ -28,7 +29,8 @@ public interface Context {
 	/**
 	 * Register a SignalSource instance that acts as a 'master', i.e. something at the end of the chain such as an
 	 * object that outputs the signal to the audio hardware. Calling this method should normally be the responsibility
-	 * of SignalSource classes themselves (that act as a 'master').
+	 * of SignalSource classes themselves (that act as a 'master'), and should be done when the SignalSource is
+	 * completely initialized (typically at the end of the constructor).
 	 * 
 	 * @param master
 	 */

@@ -8,8 +8,7 @@ import org.modsyn.SignalOutput;
 import org.modsyn.SignalSource;
 
 /**
- * Envelope generator of with Attack, Decay, Sustain and Release stages. You can
- * attach multiple devices to it.
+ * Envelope generator of with Attack, Decay, Sustain and Release stages. You can attach multiple devices to it.
  * 
  * @author Erik Duijs
  */
@@ -19,8 +18,7 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 	 * 
 	 * | level | 1 | / D | A 2-S-2 |/ R 0___________\3___ time
 	 * 
-	 * levels 0 = attack level 1 = decay level 2 = sustain level 3 = release
-	 * level
+	 * levels 0 = attack level 1 = decay level 2 = sustain level 3 = release level
 	 * 
 	 * times 0 = start 1 = attack time 2 = decay time 3 = release time
 	 */
@@ -119,7 +117,6 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 		controlInputs = new SignalInput[32];
 		curControlInput = 0;
 
-		context.addSignalSource(this);
 		scale = 1.0f;
 		sampRateDiv1 = 1.0f / context.getSampleRate();
 		times[SUSTAIN_TIME] = Float.MAX_VALUE;
@@ -131,6 +128,7 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 		controls[4] = new DeviceControl("Attack Time", ctrlAtkTime, 0.1f, 0, 5);
 		controls[5] = new DeviceControl("Decay Time", ctrlDcyTime, 0.2f, 0, 5);
 		controls[6] = new DeviceControl("Release Time", ctrlRlsTime, 0.1f, 0, 5);
+		context.addSignalSource(this);
 	}
 
 	public synchronized void trigger(boolean b) {

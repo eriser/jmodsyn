@@ -12,7 +12,6 @@ public class Mix extends DefaultSignalOutput implements SignalSource {
 	private float buffer;
 
 	public Mix(Context c, int channels) {
-		c.addSignalSource(this);
 		inputs = new SignalInput[channels];
 		for (int i = 0; i < channels; i++) {
 			inputs[i] = new SignalInput() {
@@ -22,6 +21,7 @@ public class Mix extends DefaultSignalOutput implements SignalSource {
 				}
 			};
 		}
+		c.addSignalSource(this);
 	}
 
 	@Override

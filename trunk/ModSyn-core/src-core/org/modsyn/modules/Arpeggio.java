@@ -42,11 +42,11 @@ public class Arpeggio implements SignalSource {
 	int curChannel;
 
 	public Arpeggio(Context c, int channels) {
-		c.addSignalSource(this);
 		this.channels = new Channel[channels];
 		for (int i = 0; i < channels; i++) {
 			this.channels[i] = new Channel(this);
 		}
+		c.addSignalSource(this);
 	}
 
 	@Override
