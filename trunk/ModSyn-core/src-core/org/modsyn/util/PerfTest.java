@@ -21,6 +21,7 @@ import org.modsyn.modules.LPF;
 import org.modsyn.modules.Mix;
 import org.modsyn.modules.MoogVCF;
 import org.modsyn.modules.MultiSplitter;
+import org.modsyn.modules.Noise;
 import org.modsyn.modules.Octaver;
 import org.modsyn.modules.Oscillator;
 import org.modsyn.modules.OscillatorHQ;
@@ -71,6 +72,9 @@ public class PerfTest {
 		ohq = new OscillatorHQ(c);
 		ohq.ctrlOversampling.set(8);
 		testUpdate(c, ohq);
+
+		c.clear();
+		testUpdate(c, new Noise(c));
 
 		c.clear();
 		testUpdate(c, new KarplusStrong(c));
