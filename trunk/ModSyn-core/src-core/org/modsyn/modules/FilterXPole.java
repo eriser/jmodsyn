@@ -16,6 +16,15 @@ public class FilterXPole extends DefaultSignalOutput implements SignalInsert {
 	public static final int MODE_BPF = 1;
 	public static final int MODE_HPF = 2;
 
+	public FilterXPole() {
+		super();
+	}
+
+	public FilterXPole(int poles) {
+		super();
+		this.poles = poles;
+	}
+
 	public final SignalInput ctrlPoles = new SignalInput() {
 		@Override
 		public void set(float signal) {

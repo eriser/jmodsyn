@@ -44,6 +44,11 @@ public interface Context {
 	void remove(SignalSource source);
 
 	/**
+	 * Clear all registered DspObjects
+	 */
+	void clear();
+
+	/**
 	 * Update all the registered SignalSource instances for the given amount of seconds.
 	 * 
 	 * @param seconds

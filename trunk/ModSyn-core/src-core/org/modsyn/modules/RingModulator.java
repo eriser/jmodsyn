@@ -7,14 +7,15 @@
 package org.modsyn.modules;
 
 import org.modsyn.Context;
+import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalSource;
 
 /**
  * @author Erik Duijs
  * 
- *         To change the template for this generated type comment go to Window -
- *         Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window - Preferences - Java - Code Generation -
+ *         Code and Comments
  */
 public class RingModulator implements SignalSource, SignalInput {
 
@@ -27,7 +28,7 @@ public class RingModulator implements SignalSource, SignalInput {
 
 	public final SignalInput modInput = new RingMod();
 
-	private SignalInput connectedDevice;
+	private SignalInput connectedDevice = NullInput.INSTANCE;
 
 	private float modulation = 0.5f;
 	private float buffer;
