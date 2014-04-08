@@ -70,7 +70,7 @@ public class PerfTest {
 
 		c.clear();
 		ohq = new OscillatorHQ(c);
-		ohq.ctrlOversampling.set(8);
+		ohq.ctrlOversampling.set(16);
 		testUpdate(c, ohq);
 
 		c.clear();
