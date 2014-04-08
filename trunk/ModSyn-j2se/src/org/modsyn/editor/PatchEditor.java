@@ -52,6 +52,7 @@ public class PatchEditor {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						JFileChooser fc = new JFileChooser(FileSys.dirPatches);
+						fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 						fc.setFileFilter(new FileFilter() {
 
 							@Override
@@ -61,7 +62,7 @@ public class PatchEditor {
 
 							@Override
 							public boolean accept(File f) {
-								return f.getName().endsWith(".dsp-patch");
+								return f.getName().endsWith(".dsp-patch") || f.isDirectory();
 							}
 						});
 						int response = fc.showOpenDialog(cmpPatch);

@@ -182,17 +182,17 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		int height;
-		if (h == -1) {
-			int ch;
-			if (model.getInputs().size() > 0) {
-				ch = inputList.getCellBounds(0, 0).height;
-			} else {
-				ch = outputList.getCellBounds(0, 0).height;
-			}
-			height = 20 + (Math.max(model.getInputs().size(), model.getOutputs().size()) * ch);
+		// if (h == -1) {
+		int ch;
+		if (model.getInputs().size() > 0) {
+			ch = inputList.getCellBounds(0, 0).height;
 		} else {
-			height = h;
+			ch = outputList.getCellBounds(0, 0).height;
 		}
+		height = 18 + (Math.max(model.getInputs().size(), model.getOutputs().size()) * ch);
+		// } else {
+		// height = h;
+		// }
 
 		setBounds(x, y, w, height);
 		setSelected(false);

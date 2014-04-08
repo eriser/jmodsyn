@@ -16,7 +16,7 @@ public class OutputModel {
 	private final DspBlockModel<?> soundBlockModel;
 	private final SignalOutput output;
 	private InputModel target;
-	private final String name;
+	private String name;
 
 	public OutputModel(DspBlockModel<?> soundBlockModel, SignalOutput output, String name) {
 		super();
@@ -54,6 +54,10 @@ public class OutputModel {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public DspBlockModel<?> getSoundBlockModel() {

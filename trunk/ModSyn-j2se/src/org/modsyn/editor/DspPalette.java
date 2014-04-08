@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import org.modsyn.Context;
+import org.modsyn.editor.blocks.ADRModel;
 import org.modsyn.editor.blocks.ADSRModel;
 import org.modsyn.editor.blocks.APFModel;
 import org.modsyn.editor.blocks.AbsoluteModel;
@@ -40,9 +41,12 @@ import org.modsyn.editor.blocks.PanPotModel;
 import org.modsyn.editor.blocks.PhaserModel;
 import org.modsyn.editor.blocks.PitcherModel;
 import org.modsyn.editor.blocks.SoftClipModel;
+import org.modsyn.editor.blocks.TipScaleModel;
 import org.modsyn.editor.blocks.VUMeterModel;
+import org.modsyn.editor.blocks.VeloSensModel;
 import org.modsyn.editor.blocks.VocoderModel;
 import org.modsyn.gui.JKnob;
+import org.modsyn.modules.ADR;
 import org.modsyn.modules.Compressor;
 import org.modsyn.modules.Tracker;
 import org.modsyn.modules.ctrl.ADSREnvelope;
@@ -73,7 +77,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new MixerModel(c, getChannelsOrAsk(channels, "channels", 2, 16)), pm);
+			return new DspBlockComponent(new MixerModel(c, getChannelsOrAsk(channels, "channels", 2, 32)), pm);
 		}
 	},
 	Add("Basics") {
@@ -172,6 +176,17 @@ public enum DspPalette {
 			return new DspBlockComponent(new ArpeggioModel(c, channels), pm);
 		}
 	},
+	ADR("Dynamics") {
+		@Override
+		public String getModelName() {
+			return ADRModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(new ADRModel(new ADR(c)), pm);
+		}
+	},
 	ADSR("Dynamics") {
 		@Override
 		public String getModelName() {
@@ -192,6 +207,28 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(new EnvelopeFollowerModel(new Tracker()), pm);
+		}
+	},
+	TipScale("Dynamics") {
+		@Override
+		public String getModelName() {
+			return TipScaleModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(new TipScaleModel(), pm);
+		}
+	},
+	VeloSens("Dynamics") {
+		@Override
+		public String getModelName() {
+			return VeloSensModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(new VeloSensModel(), pm);
 		}
 	},
 	Compressor("Dynamics") {

@@ -18,7 +18,7 @@ public class InputModel {
 	private float value;
 	private float min;
 	private float max;
-	private final String name;
+	private String name;
 	private int decimals;
 
 	public InputModel(DspBlockModel<?> soundBlockModel, SignalInput input, String name, float value, float min, float max) {
@@ -131,6 +131,10 @@ public class InputModel {
 
 	protected void fireChangeEvent() {
 		pcs.firePropertyChange(INPUT_CHANGED_EVENT);
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
