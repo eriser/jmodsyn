@@ -9,6 +9,8 @@ import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.TransferHandler;
 
+import org.modsyn.Context;
+
 /**
  * Drag-and-drop support for DspConnections
  * 
@@ -18,6 +20,7 @@ public class DndConnection {
 
 	public static final DataFlavor FLAVOR_OUTPUTMODEL = new DataFlavor(OutputModel.class, "OutputModel");
 	public static final DataFlavor FLAVOR_INPUTMODEL = new DataFlavor(InputModel.class, "InputModel");
+	public static final DataFlavor FLAVOR_DSPPALETTE = new DataFlavor(DspPalette.class, "DspPalette");
 
 	public static class OutTransferable implements Transferable {
 		OutputModel data;
@@ -45,6 +48,32 @@ public class DndConnection {
 		}
 	}
 
+	public static class DspPaletteTransferable implements Transferable {
+		DspPalette data;
+
+		public DspPaletteTransferable(DspPalette object) {
+			this.data = object;
+		}
+
+		@Override
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+			if (!isDataFlavorSupported(flavor)) {
+				throw new UnsupportedFlavorException(flavor);
+			}
+			return data;
+		}
+
+		@Override
+		public DataFlavor[] getTransferDataFlavors() {
+			return new DataFlavor[] { FLAVOR_DSPPALETTE };
+		}
+
+		@Override
+		public boolean isDataFlavorSupported(DataFlavor flavor) {
+			return (FLAVOR_DSPPALETTE.equals(flavor));
+		}
+	}
+
 	public static class ListTransferHandler extends TransferHandler {
 
 		/**
@@ -52,14 +81,16 @@ public class DndConnection {
 		 */
 		private static final long serialVersionUID = -4208048654650933678L;
 		private final DspPatchModel model;
+		private final Context context;
 
-		public ListTransferHandler(DspPatchModel model) {
+		public ListTransferHandler(Context context, DspPatchModel model) {
+			this.context = context;
 			this.model = model;
 		}
 
 		@Override
 		public boolean canImport(TransferHandler.TransferSupport info) {
-			return info.isDataFlavorSupported(FLAVOR_OUTPUTMODEL);
+			return info.isDataFlavorSupported(FLAVOR_OUTPUTMODEL) || info.isDataFlavorSupported(FLAVOR_DSPPALETTE);
 		}
 
 		/**
@@ -73,6 +104,10 @@ public class DndConnection {
 
 			if (o instanceof OutputModel) {
 				return new OutTransferable((OutputModel) o);
+			}
+
+			if (o instanceof DspPalette) {
+				return new DspPaletteTransferable((DspPalette) o);
 			}
 
 			return null;
@@ -97,13 +132,33 @@ public class DndConnection {
 			}
 
 			if (!(info.getComponent() instanceof JList<?>)) {
-				// disconnect
-				try {
-					model.removeDspConnection((OutputModel) info.getTransferable().getTransferData(FLAVOR_OUTPUTMODEL));
-					return true;
-				} catch (Exception e) {
-					e.printStackTrace();
-					return false;
+
+				if (info.getTransferable().isDataFlavorSupported(FLAVOR_OUTPUTMODEL)) {
+					// disconnect
+					try {
+						model.removeDspConnection((OutputModel) info.getTransferable().getTransferData(FLAVOR_OUTPUTMODEL));
+						return true;
+					} catch (Exception e) {
+						e.printStackTrace();
+						return false;
+					}
+				}
+
+				if (info.getTransferable().isDataFlavorSupported(FLAVOR_DSPPALETTE)) {
+
+					try {
+						DspPalette pal = (DspPalette) info.getTransferable().getTransferData(FLAVOR_DSPPALETTE);
+						DspBlockComponent dbc = pal.create(context, model, -1);
+						dbc.setLocation(info.getDropLocation().getDropPoint().x, info.getDropLocation().getDropPoint().y);
+						dbc.snapToGrid();
+
+						model.addDspComponent(dbc);
+
+						return true;
+					} catch (Exception e) {
+						e.printStackTrace();
+						return false;
+					}
 				}
 			}
 
