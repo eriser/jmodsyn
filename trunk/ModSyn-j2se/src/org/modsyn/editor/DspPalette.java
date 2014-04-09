@@ -432,7 +432,7 @@ public enum DspPalette {
 				}
 			});
 
-			return new DspBlockComponent(c, km, pm, 0, 0, 80, 80) {
+			DspBlockComponent dbc = new DspBlockComponent(c, km, pm, 0, 0, 80, 80) {
 				private static final long serialVersionUID = 603933338049577236L;
 
 				@Override
@@ -440,6 +440,9 @@ public enum DspPalette {
 					return knob;
 				}
 			};
+
+			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 80);
+			return dbc;
 		}
 	},
 	Meter("Misc") {
@@ -451,7 +454,7 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			final VUMeterModel vmm = new VUMeterModel();
-			return new DspBlockComponent(c, vmm, pm, 0, 0, 80, 80) {
+			DspBlockComponent dbc = new DspBlockComponent(c, vmm, pm, 0, 0, 80, 80) {
 				private static final long serialVersionUID = -8093488546616747252L;
 
 				@Override
@@ -485,6 +488,8 @@ public enum DspPalette {
 					return c;
 				}
 			};
+			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 80);
+			return dbc;
 		}
 	},
 	Keyboard("Misc") {

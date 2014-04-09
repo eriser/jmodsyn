@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
  * Utility class to easily transfer resources. For example copying or
  * downloading files.
  * 
- * @author ed83897
+ * @author Erik Duijs
  */
 public class IOTransferTool {
 
