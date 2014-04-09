@@ -81,7 +81,7 @@ public class XmlImportMeta {
 			Rectangle r = new Rectangle(Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]), Integer.parseInt(b[3]));
 			dbc.setBounds(r);
 
-			pm.addDspComponent(dbc, r.x, r.y);
+			pm.addDspComponent(dbc);
 
 			NodeList nlInputs = e.getElementsByTagName("input");
 			for (int j = 0; j < nlInputs.getLength(); j++) {
@@ -169,7 +169,7 @@ public class XmlImportMeta {
 			metaModel.addMetaOutput(new OutputModel(metaModel, target.getOutput(), name));
 		}
 
-		this.importedMetaBlock = new DspBlockComponent(metaModel, pm, 0, 0, 100, -1);
-		pm.addDspComponent(importedMetaBlock, 0, 0);
+		this.importedMetaBlock = new DspBlockComponent(c, metaModel, pm, 0, 0, 100, -1);
+		pm.addDspComponent(importedMetaBlock);
 	}
 }

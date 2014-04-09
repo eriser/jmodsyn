@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
 import org.modsyn.Context;
@@ -67,7 +68,12 @@ public class DspPaletteComponent extends JPanel {
 			lbl.setFont(lbl.getFont().deriveFont(lbl.getFont().getSize2D() + 2));
 			lbl.setOpaque(true);
 
+			TransferHandler th = new DndConnection.ListTransferHandler(c, patchModel);
+
 			final JList<DspPalette> list = new JList<DspPalette>(pal);
+			list.setDragEnabled(true);
+			list.setTransferHandler(th);
+
 			gbc.gridy++;
 			add(lbl, gbc);
 			gbc.gridy++;
@@ -77,7 +83,7 @@ public class DspPaletteComponent extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() == 2 && list.getSelectedIndex() >= 0) {
-						patchModel.addDspComponent(list.getSelectedValue().create(c, patchModel, -1), 0, 0);
+						patchModel.addDspComponent(list.getSelectedValue().create(c, patchModel, -1));
 					}
 
 				}

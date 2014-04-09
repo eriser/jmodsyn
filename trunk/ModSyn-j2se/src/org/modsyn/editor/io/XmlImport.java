@@ -64,7 +64,7 @@ public class XmlImport {
 			Rectangle r = new Rectangle(Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]), Integer.parseInt(b[3]));
 			dbc.setBounds(r);
 
-			pm.addDspComponent(dbc, r.x, r.y);
+			pm.addDspComponent(dbc);
 
 			NodeList nlInputs = e.getElementsByTagName("input");
 			for (int j = 0; j < nlInputs.getLength(); j++) {

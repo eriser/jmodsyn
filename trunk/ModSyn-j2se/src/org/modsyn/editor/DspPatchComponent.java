@@ -22,6 +22,8 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
+import org.modsyn.Context;
+
 public class DspPatchComponent extends JPanel implements PropertyChangeListener {
 
 	/**
@@ -166,11 +168,11 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		}
 	}
 
-	public DspPatchComponent(DspPatchModel model) {
+	public DspPatchComponent(Context c, DspPatchModel model) {
 		super(null);
 		this.model = model;
 		model.addListener(this);
-		TransferHandler th = new DndConnection.ListTransferHandler(model);
+		TransferHandler th = new DndConnection.ListTransferHandler(c, model);
 		setTransferHandler(th);
 		// add(ve);
 

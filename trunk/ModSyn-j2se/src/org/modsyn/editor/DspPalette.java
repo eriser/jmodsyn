@@ -66,7 +66,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new AmplifierModel(), pm);
+			return new DspBlockComponent(c, new AmplifierModel(), pm);
 		}
 	},
 	Mix("Basics") {
@@ -77,7 +77,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new MixerModel(c, getChannelsOrAsk(channels, "channels", 2, 32)), pm);
+			return new DspBlockComponent(c, new MixerModel(c, getChannelsOrAsk(channels, "channels", 2, 32)), pm);
 		}
 	},
 	Add("Basics") {
@@ -88,7 +88,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new AdderModel(), pm);
+			return new DspBlockComponent(c, new AdderModel(), pm);
 		}
 	},
 	Split("Basics") {
@@ -99,16 +99,9 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new MultiSplitterModel(getChannelsOrAsk(channels, "channels", 2, 16)), pm);
+			return new DspBlockComponent(c, new MultiSplitterModel(getChannelsOrAsk(channels, "channels", 2, 16)), pm);
 		}
-	}/*
-	 * , Split2("Basics") {
-	 * 
-	 * @Override public String getModelName() { return SplitterModel.class.getName(); }
-	 * 
-	 * @Override public DspBlockComponent create(Context c, DspPatchModel pm, int channels) { return new
-	 * DspBlockComponent(new SplitterModel(), pm); } }
-	 */,
+	},
 	Pan("Basics") {
 		@Override
 		public String getModelName() {
@@ -117,7 +110,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new PanPotModel(), pm);
+			return new DspBlockComponent(c, new PanPotModel(), pm);
 		}
 	},
 	Osc("Oscillators") {
@@ -128,7 +121,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new OscillatorModel(c), pm);
+			return new DspBlockComponent(c, new OscillatorModel(c), pm);
 		}
 	},
 	Osc__HQ("Oscillators") {
@@ -139,7 +132,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new OscillatorHQModel(c), pm);
+			return new DspBlockComponent(c, new OscillatorHQModel(c), pm);
 		}
 	},
 	Noise("Oscillators") {
@@ -150,7 +143,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new NoiseModel(c), pm);
+			return new DspBlockComponent(c, new NoiseModel(c), pm);
 		}
 	},
 	K__Str("Oscillators") {
@@ -161,7 +154,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new KarplusStrongModel(c), pm);
+			return new DspBlockComponent(c, new KarplusStrongModel(c), pm);
 		}
 	},
 	Arpeggio("Oscillators") {
@@ -173,7 +166,7 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			channels = getChannelsOrAsk(channels, "voices", 2, 16);
-			return new DspBlockComponent(new ArpeggioModel(c, channels), pm);
+			return new DspBlockComponent(c, new ArpeggioModel(c, channels), pm);
 		}
 	},
 	ADR("Dynamics") {
@@ -184,7 +177,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new ADRModel(new ADR(c)), pm);
+			return new DspBlockComponent(c, new ADRModel(new ADR(c)), pm);
 		}
 	},
 	ADSR("Dynamics") {
@@ -195,7 +188,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new ADSRModel(new ADSREnvelope(c)), pm);
+			return new DspBlockComponent(c, new ADSRModel(new ADSREnvelope(c)), pm);
 		}
 	},
 	Tracker("Dynamics") {
@@ -206,7 +199,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new EnvelopeFollowerModel(new Tracker()), pm);
+			return new DspBlockComponent(c, new EnvelopeFollowerModel(new Tracker()), pm);
 		}
 	},
 	TipScale("Dynamics") {
@@ -217,7 +210,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new TipScaleModel(), pm);
+			return new DspBlockComponent(c, new TipScaleModel(), pm);
 		}
 	},
 	VeloSens("Dynamics") {
@@ -228,7 +221,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new VeloSensModel(), pm);
+			return new DspBlockComponent(c, new VeloSensModel(), pm);
 		}
 	},
 	Compressor("Dynamics") {
@@ -239,7 +232,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new CompressorModel(new Compressor()), pm);
+			return new DspBlockComponent(c, new CompressorModel(new Compressor()), pm);
 		}
 	},
 	xxx4__Pole("Filters") {
@@ -250,7 +243,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new Filter4PoleModel(c), pm);
+			return new DspBlockComponent(c, new Filter4PoleModel(c), pm);
 		}
 	},
 	xxx8__Pole("Filters") {
@@ -261,7 +254,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new Filter8PoleModel(c), pm);
+			return new DspBlockComponent(c, new Filter8PoleModel(c), pm);
 		}
 	},
 	X__Pole("Filters") {
@@ -272,7 +265,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new FilterXPoleModel(c), pm);
+			return new DspBlockComponent(c, new FilterXPoleModel(c), pm);
 		}
 	},
 	MoogVCF("Filters") {
@@ -283,7 +276,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new MoogVCFModel(c), pm);
+			return new DspBlockComponent(c, new MoogVCFModel(c), pm);
 		}
 	},
 	LPF("Filters") {
@@ -294,7 +287,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new LPFModel(c), pm);
+			return new DspBlockComponent(c, new LPFModel(c), pm);
 		}
 	},
 	Resonator("Filters") {
@@ -305,7 +298,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new Karlsen24dBModel(c), pm);
+			return new DspBlockComponent(c, new Karlsen24dBModel(c), pm);
 		}
 	},
 	APF("Filters") {
@@ -316,7 +309,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new APFModel(c), pm);
+			return new DspBlockComponent(c, new APFModel(c), pm);
 		}
 	},
 	Vocoder("Filters") {
@@ -327,7 +320,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new VocoderModel(), pm);
+			return new DspBlockComponent(c, new VocoderModel(), pm);
 		}
 	},
 	SoftClip("Shape") {
@@ -338,7 +331,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new SoftClipModel(), pm);
+			return new DspBlockComponent(c, new SoftClipModel(), pm);
 		}
 	},
 	Absolute("Shape") {
@@ -349,7 +342,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new AbsoluteModel(), pm);
+			return new DspBlockComponent(c, new AbsoluteModel(), pm);
 		}
 	},
 	Chorus("FX") {
@@ -360,7 +353,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new ChorusModel(c), pm);
+			return new DspBlockComponent(c, new ChorusModel(c), pm);
 		}
 	},
 	Phaser("FX") {
@@ -371,7 +364,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new PhaserModel(c), pm);
+			return new DspBlockComponent(c, new PhaserModel(c), pm);
 		}
 	},
 	Octaver("FX") {
@@ -382,7 +375,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new OctaverModel(), pm);
+			return new DspBlockComponent(c, new OctaverModel(), pm);
 		}
 	},
 	PitchShift("FX") {
@@ -393,7 +386,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new PitcherModel(), pm);
+			return new DspBlockComponent(c, new PitcherModel(), pm);
 		}
 	},
 	Binaural("FX") {
@@ -404,7 +397,7 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(new BinauralModel(c), pm);
+			return new DspBlockComponent(c, new BinauralModel(c), pm);
 		}
 	},
 
@@ -439,7 +432,7 @@ public enum DspPalette {
 				}
 			});
 
-			return new DspBlockComponent(km, pm, 0, 0, 80, 80) {
+			return new DspBlockComponent(c, km, pm, 0, 0, 80, 80) {
 				private static final long serialVersionUID = 603933338049577236L;
 
 				@Override
@@ -458,7 +451,7 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			final VUMeterModel vmm = new VUMeterModel();
-			return new DspBlockComponent(vmm, pm, 0, 0, 80, 80) {
+			return new DspBlockComponent(c, vmm, pm, 0, 0, 80, 80) {
 				private static final long serialVersionUID = -8093488546616747252L;
 
 				@Override
@@ -505,7 +498,7 @@ public enum DspPalette {
 			Keyboard2Adapter dsp = new Keyboard2Adapter();
 			Keyboard2 kb2 = new Keyboard2(dsp);
 			Keyboard2Model model = new Keyboard2Model(dsp);
-			DspBlockComponent block = new DspBlockComponent(model, pm);
+			DspBlockComponent block = new DspBlockComponent(c, model, pm);
 			block.button.addKeyListener(kb2);
 			return block;
 		}
@@ -519,7 +512,7 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			channels = getChannelsOrAsk(channels, "polyphony", 1, 16);
-			return new DspBlockComponent(new FromMidiPolyModel(new MidiVoicePolyAdapter(channels)), pm);
+			return new DspBlockComponent(c, new FromMidiPolyModel(new MidiVoicePolyAdapter(channels)), pm);
 		}
 	},
 	Audio_IN("EXT") {

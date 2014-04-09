@@ -26,6 +26,7 @@ import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.modsyn.Context;
 import org.modsyn.editor.blocks.MetaModel;
 
 public class DspBlockComponent extends JPanel implements PropertyChangeListener {
@@ -49,11 +50,11 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 
 	private final static Font font = new Font("Arial", Font.BOLD, 9);
 
-	public DspBlockComponent(DspBlockModel<?> model, DspPatchModel patchModel) {
-		this(model, patchModel, 0, 0, 80, -1);
+	public DspBlockComponent(Context c, DspBlockModel<?> model, DspPatchModel patchModel) {
+		this(c, model, patchModel, 0, 0, 80, -1);
 	}
 
-	public DspBlockComponent(DspBlockModel<?> model, final DspPatchModel patchModel, int x, int y, int w, int h) {
+	public DspBlockComponent(Context c, DspBlockModel<?> model, final DspPatchModel patchModel, int x, int y, int w, int h) {
 		super(new BorderLayout());
 
 		this.patchModel = patchModel;
@@ -121,7 +122,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		add(top, BorderLayout.NORTH);
 		add(createCenterComponent(), BorderLayout.CENTER);
 
-		TransferHandler th = new DndConnection.ListTransferHandler(patchModel);
+		TransferHandler th = new DndConnection.ListTransferHandler(c, patchModel);
 		if (model.getInputs().size() > 0) {
 			ListModel<InputModel> lm = new AbstractListModel<InputModel>() {
 				private static final long serialVersionUID = -8027752702985618699L;

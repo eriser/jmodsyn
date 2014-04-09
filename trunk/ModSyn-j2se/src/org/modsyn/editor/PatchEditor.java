@@ -41,7 +41,7 @@ public class PatchEditor {
 				final Context context = ContextFactory.create();
 
 				final DspPatchModel model = new DspPatchModel(context);
-				final DspPatchComponent cmpPatch = new DspPatchComponent(model);
+				final DspPatchComponent cmpPatch = new DspPatchComponent(context, model);
 
 				DspPaletteComponent cmpPalette = new DspPaletteComponent(context, model);
 

@@ -18,9 +18,9 @@ public class AudioInSupport {
 
 	public static synchronized DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 		if (AsioSupport.INSTANCE.isSupported()) {
-			return new DspBlockComponent(new FromAsioModel(c, AsioSupport.INSTANCE), pm);
+			return new DspBlockComponent(c, new FromAsioModel(c, AsioSupport.INSTANCE), pm);
 		} else {
-			return new DspBlockComponent(new FromJavaSoundModel(c), pm);
+			return new DspBlockComponent(c, new FromJavaSoundModel(c), pm);
 		}
 	}
 }

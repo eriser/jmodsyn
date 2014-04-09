@@ -72,8 +72,7 @@ public class DspPatchModel {
 		return result;
 	}
 
-	public void addDspComponent(final DspBlockComponent dspBlockComponent, int x, int y) {
-		// dspBlockComponent.setBounds(x, y, 100, 100);
+	public void addDspComponent(final DspBlockComponent dspBlockComponent) {
 		if (!dspBlockComponent.getModel().isSubModel()) {
 			dspBlocks.add(dspBlockComponent);
 			addListener(dspBlockComponent);
