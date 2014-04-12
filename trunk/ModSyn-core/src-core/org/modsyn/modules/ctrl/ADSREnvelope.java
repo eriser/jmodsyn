@@ -131,7 +131,7 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 		context.addSignalSource(this);
 	}
 
-	public synchronized void trigger(boolean b) {
+	public void trigger(boolean b) {
 		if (b) {
 			running = true;
 			if (!triggered) {
@@ -148,7 +148,7 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 	/**
 	 * @param ATTACK_STAGE
 	 */
-	private synchronized void setStage(int stage) {
+	private void setStage(int stage) {
 		curStage = stage;
 		stageTime = times[stage];
 
@@ -173,7 +173,7 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 	 * @see org.modsyn.ControlSource#updateControl()
 	 */
 	@Override
-	public synchronized void updateSignal() {
+	public void updateSignal() {
 		if (running) {
 			runningTime += sampRateDiv1;
 			curLevel += curLevelStep;
@@ -194,7 +194,7 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 		}
 	}
 
-	public synchronized float process() {
+	public float process() {
 		if (running) {
 			runningTime += sampRateDiv1;
 			curLevel += curLevelStep;
@@ -224,9 +224,8 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 	 * @param value
 	 *            level
 	 */
-	public synchronized void setLevel(int level_id, float value) {
+	public void setLevel(int level_id, float value) {
 		levels[level_id] = value;
-		// System.out.println("ADSR Level " + level_id + "=" + value);
 		if (level_id == SUSTAIN_LEVEL) {
 			levels[SUSTAIN_LEVEL2] = value;
 		}
@@ -240,11 +239,11 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 	 * @param value
 	 *            time in sec
 	 */
-	public synchronized void setTime(int id, float value) {
+	public void setTime(int id, float value) {
 		times[id] = value;
 	}
 
-	public synchronized void setScale(float perc) {
+	public void setScale(float perc) {
 		this.scale = perc / 100f;
 	}
 
@@ -254,7 +253,7 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 	 * @see org.modsyn.ControlOutput#connectTo(org.modsyn.SignalInput)
 	 */
 	@Override
-	public synchronized void connectTo(SignalInput input) {
+	public void connectTo(SignalInput input) {
 		controlInputs[curControlInput++] = input;
 		// connectedDevices.add(input);
 	}
@@ -262,19 +261,19 @@ public class ADSREnvelope implements SignalOutput, SignalSource, Device {
 	/**
 	 * This updates all attached Control inputs
 	 */
-	private synchronized void toControllers(float f) {
+	private void toControllers(float f) {
 		for (int i = 0; i < curControlInput; i++) {
 			controlInputs[i].set(f);
 		}
 	}
 
 	@Override
-	public synchronized String getName() {
+	public String getName() {
 		return name;
 	}
 
 	@Override
-	public synchronized DeviceControl[] getDeviceControls() {
+	public DeviceControl[] getDeviceControls() {
 		return controls;
 	}
 

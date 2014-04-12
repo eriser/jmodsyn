@@ -17,8 +17,8 @@ import org.modsyn.modules.ctrl.ADSREnvelope;
 /**
  * @author edy
  * 
- *         To change the template for this generated type comment go to Window -
- *         Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window - Preferences - Java - Code Generation -
+ *         Code and Comments
  */
 public class FMOperator implements SignalInput, SignalSource, Device {
 
@@ -127,18 +127,15 @@ public class FMOperator implements SignalInput, SignalSource, Device {
 	public void setFrequency(float frequency) {
 		this.basefreq = frequency;
 		this.frequency = frequency * freqScale * detuneFactor;
-		//System.out.println("freq=" + frequency);
 	}
 
 	public void setFreqScale(float scale) {
-		//System.out.println("freqscale=" + scale);
 		this.freqScale = scale;
 		setFrequency(basefreq);
 	}
 
 	public void setDetune(float scale) {
 		this.detuneFactor = scale;
-		//step = ((frequency * detuneFactor) * wave.length) / (float) Sys.sampleRate;
 	}
 
 	/**

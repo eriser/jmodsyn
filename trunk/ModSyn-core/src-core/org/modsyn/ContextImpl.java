@@ -50,16 +50,12 @@ class ContextImpl implements Context {
 
 	@Override
 	public void addSignalSource(SignalSource sg) {
-		// System.out.println("Added " + sg);
-
 		updatedSignals[iUpdatedSignals] = (sg);
 		iUpdatedSignals++;
 	}
 
 	@Override
 	public void addMaster(SignalSource master) {
-		// System.out.println("Added " + master);
-
 		masters[iMasters] = (master);
 		iMasters++;
 	}
@@ -73,7 +69,7 @@ class ContextImpl implements Context {
 	}
 
 	@Override
-	public synchronized void update() {
+	public void update() {
 		for (int i = 0; i < iUpdatedSignals; i++) {
 			updatedSignals[i].updateSignal();
 		}

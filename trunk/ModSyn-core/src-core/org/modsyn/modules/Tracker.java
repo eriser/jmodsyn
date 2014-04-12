@@ -54,7 +54,7 @@ public class Tracker implements SignalInsert, DspObject {
 	 * @see org.modsyn.SoundInput#write(byte[])
 	 */
 	@Override
-	public synchronized void set(float data) {
+	public void set(float data) {
 		data = Math.abs(data);
 		buffer[index] = data;
 		buffered += data;
@@ -71,7 +71,7 @@ public class Tracker implements SignalInsert, DspObject {
 	 * @param level
 	 * 
 	 */
-	public synchronized void setSpeed(float level) {
+	public void setSpeed(float level) {
 		this.size = (int) level;
 	}
 
@@ -81,7 +81,7 @@ public class Tracker implements SignalInsert, DspObject {
 	 * @see org.modsyn.SoundOutput#connectTo(org.modsyn.SoundInput)
 	 */
 	@Override
-	public synchronized void connectTo(SignalInput input) {
+	public void connectTo(SignalInput input) {
 		connectedDevice = input;
 	}
 

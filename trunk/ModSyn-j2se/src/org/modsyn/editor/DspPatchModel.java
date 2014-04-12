@@ -87,7 +87,6 @@ public class DspPatchModel {
 	}
 
 	public void removeDspComponent(DspBlockComponent dspBlockComponent) {
-		System.out.println("removeDspComponent " + dspBlockComponent);
 		checkRemove(dspBlockComponent);
 		dspBlocks.remove(dspBlockComponent);
 		for (int i = dspConnections.size() - 1; i >= 0; i--) {
@@ -144,14 +143,12 @@ public class DspPatchModel {
 	}
 
 	public void removeDspConnection(DspConnection connection) {
-		System.out.println("removeDspConnection " + connection.fromSignal + " - " + connection.toSignal);
 		connection.fromSignal.disconnect();
 		dspConnections.remove(connection);
 		pcs.firePropertyChange(EVENT_REMOVE_CONNECTION, null, connection);
 	}
 
 	public void addDspConnection(DspConnection connection) {
-		System.out.println("addDspConnection " + connection.fromSignal + " - " + connection.toSignal);
 		if (!connection.isInMeta()) {
 			checkToRemove(connection);
 			dspConnections.add(connection);
@@ -172,13 +169,10 @@ public class DspPatchModel {
 			}
 		}
 		if (toRemove1 != null) {
-			System.out.println("REMOVING " + toRemove1.fromSignal + " - " + toRemove1.toSignal);
-			// toRemove1.fromSignal.
 			toRemove1.fromSignal.disconnect();
 			dspConnections.remove(toRemove1);
 		}
 		if (toRemove2 != null) {
-			System.out.println("REMOVING " + toRemove2.fromSignal + " - " + toRemove2.toSignal);
 			toRemove2.fromSignal.disconnect();
 			dspConnections.remove(toRemove2);
 		}

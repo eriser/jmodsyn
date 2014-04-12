@@ -25,7 +25,7 @@ public class MultiAdder extends DefaultSignalOutput implements SignalInsert, Dsp
 	}
 
 	@Override
-	public synchronized void set(float data) {
+	public void set(float data) {
 		for (int i = 0; i < channels; i++) {
 			data += add[i].value;
 		}

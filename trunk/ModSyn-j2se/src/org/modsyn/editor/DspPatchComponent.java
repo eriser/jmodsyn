@@ -182,7 +182,6 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				System.out.println(e);
 				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 					for (DspBlockComponent c : sl.selComponents) {
 						getModel().removeDspComponent(c);

@@ -53,8 +53,6 @@ public class XmlImport {
 			}
 			// ../legacy
 
-			System.out.println(type);
-
 			int channels = -1;
 			if (ochannels != null && ochannels.length() > 0) {
 				channels = Integer.parseInt(ochannels);

@@ -15,7 +15,6 @@ public class ADR extends DefaultSignalOutput implements SignalSource {
 	private int state;
 	private float attack = 1.01f, decay = 0.99f, release = 0.5f;
 	private float signal;
-	private final int sr;
 	private float amp;
 
 	public final SignalInput trigger = new SignalInput() {
@@ -60,12 +59,11 @@ public class ADR extends DefaultSignalOutput implements SignalSource {
 	};
 
 	public ADR(Context c) {
-		this.sr = c.getSampleRate();
 		c.addSignalSource(this);
 	}
 
 	@Override
-	public synchronized void updateSignal() {
+	public void updateSignal() {
 
 		switch (state) {
 		case STATE_ATTACK:

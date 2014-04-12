@@ -73,15 +73,12 @@ public class Arpeggio implements SignalSource {
 
 			if (count > 0) {
 				curChannel = (curChannel + 1) % count;
-				// System.out.println(count);
+
 				int c = -1;
 				for (int i = 0; i < channels.length; i++) {
-					// System.out.println(i + " - " + channels[i].velo.value);
 					if (channels[i].velo.value > 0) {
 
 						c++;
-						// System.out.println("  " + c + " (" + curChannel +
-						// ")");
 						if (curChannel == c) {
 							freqOut.connectedInput.set(channels[i].freq.value);
 							return;
@@ -89,7 +86,6 @@ public class Arpeggio implements SignalSource {
 					}
 				}
 				if (c >= 0 && c < channels.length) {
-					System.out.println(c);
 					curChannel = c;
 					freqOut.connectedInput.set(channels[c].freq.value);
 				}

@@ -14,9 +14,8 @@ import org.modsyn.SignalSource;
 import org.modsyn.util.WaveTables;
 
 /**
- * A simple oscillator class using pre-calculated waveforms. There is no
- * band-limiting here, so expect heavy aliasing at higher frequencies with rich
- * waveforms.
+ * A simple oscillator class using pre-calculated waveforms. There is no band-limiting here, so expect heavy aliasing at
+ * higher frequencies with rich waveforms.
  * 
  * @author Erik Duijs
  */
@@ -38,7 +37,7 @@ public class Oscillator implements SignalSource, DspObject {
 	};
 	public final SignalInput ctrPWM = new SignalInput() {
 		@Override
-		public synchronized void set(float data) {
+		public void set(float data) {
 			setPWM(data);
 		}
 	};
@@ -74,21 +73,21 @@ public class Oscillator implements SignalSource, DspObject {
 		context.addSignalSource(this);
 	}
 
-	public synchronized void setFrequency(float freq) {
+	public void setFrequency(float freq) {
 		frequency = freq;
 		step = ((frequency * detuneFactor) * wave.length) / context.getSampleRate();
 	}
 
-	public synchronized void setPWM(float pwm) {
+	public void setPWM(float pwm) {
 		this.pwm = pwm % 100;
 		this.pwm50 = false;
 	}
 
-	public synchronized void setShape(float[] waveTable) {
+	public void setShape(float[] waveTable) {
 		this.wave = waveTable;
 	}
 
-	public synchronized void setDetune(float scale) {
+	public void setDetune(float scale) {
 		this.detuneFactor = 1 + scale;
 		step = ((frequency * detuneFactor) * wave.length) / context.getSampleRate();
 	}
@@ -99,7 +98,7 @@ public class Oscillator implements SignalSource, DspObject {
 	 * @see org.modsyn.SoundSource#updateSound()
 	 */
 	@Override
-	public synchronized void updateSignal() {
+	public void updateSignal() {
 		float sample;
 
 		if (pwm50) {
@@ -119,7 +118,7 @@ public class Oscillator implements SignalSource, DspObject {
 		input.set(buffer);
 	}
 
-	public synchronized float process() {
+	public float process() {
 		float sample;
 
 		// if (pwm50) {
@@ -137,7 +136,7 @@ public class Oscillator implements SignalSource, DspObject {
 		return sample;
 	}
 
-	public synchronized float processNoPWM() {
+	public float processNoPWM() {
 		float sample = wave[(int) index];
 		index = (index + step) % wave.length;
 		return sample;
@@ -149,7 +148,7 @@ public class Oscillator implements SignalSource, DspObject {
 	 * @see org.modsyn.SoundOutput#connectTo(org.modsyn.SoundInput)
 	 */
 	@Override
-	public synchronized void connectTo(SignalInput input) {
+	public void connectTo(SignalInput input) {
 		this.input = input;
 	}
 }

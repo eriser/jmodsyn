@@ -94,8 +94,7 @@ public class DndConnection {
 		}
 
 		/**
-		 * Bundle up the selected items in a single list for export. Each line
-		 * is separated by a newline.
+		 * Bundle up the selected items in a single list for export. Each line is separated by a newline.
 		 */
 		@Override
 		protected Transferable createTransferable(JComponent c) {
@@ -178,7 +177,6 @@ public class DndConnection {
 					System.err.println("CAN'T CONNECT TO SELF");
 					return false;
 				}
-				System.out.println("CREATE CONNECTION " + outputModel + " to " + inputModel);
 
 				model.addDspConnection(new DspConnection(outputModel.getSoundBlockModel().component, outputModel.getSoundBlockModel().outputs
 						.indexOf(outputModel), inputModel.getSoundBlockModel().component, index));

@@ -8,7 +8,7 @@ package org.modsyn.modules;
 
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.DspObject;
-import org.modsyn.SignalInputValue;
+import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
 /**
@@ -16,12 +16,19 @@ import org.modsyn.SignalInsert;
  * 
  *         Amplifier of an audio signal.
  */
-public class Amplifier extends DefaultSignalOutput implements SignalInsert, DspObject {
+public final class Amplifier extends DefaultSignalOutput implements SignalInsert, DspObject {
 
-	public final SignalInputValue control = new SignalInputValue(1);
+	public final SignalInput control = new SignalInput() {
+		@Override
+		public void set(float signal) {
+			amp = signal;
+		}
+	};
+
+	private float amp = 1;
 
 	@Override
-	public synchronized void set(float data) {
-		connectedInput.set(data * control.value);
+	public void set(float data) {
+		connectedInput.set(data * amp);
 	}
 }
