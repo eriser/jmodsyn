@@ -58,11 +58,13 @@ public class XmlExportMeta extends XmlExport {
 				if (!im.isConnected() || !im.getSource().getSoundBlockModel().component.isSelected()) {
 					InputModel metaInput = cmi.createInputModel(block, im);
 
-					Element eInput = dom.createElement("input");
-					eInputs.appendChild(eInput);
-					setAttributes(metaInput, eInput, metaInput.getName());
+					if (metaInput != null) {
+						Element eInput = dom.createElement("input");
+						eInputs.appendChild(eInput);
+						setAttributes(metaInput, eInput, metaInput.getName());
 
-					inputs.add(metaInput);
+						inputs.add(metaInput);
+					}
 				}
 			}
 			// TODO: export meta-inputs
@@ -73,11 +75,13 @@ public class XmlExportMeta extends XmlExport {
 				if (target == null || (target.getInput() instanceof NullInput) || !target.getSoundBlockModel().component.isSelected()) {
 					OutputModel metaOutput = cmo.createOutputModel(block, output);
 
-					Element eOutput = dom.createElement("output");
-					eOutputs.appendChild(eOutput);
-					setAttributes(metaOutput, eOutput, metaOutput.getName());
+					if (metaOutput != null) {
+						Element eOutput = dom.createElement("output");
+						eOutputs.appendChild(eOutput);
+						setAttributes(metaOutput, eOutput, metaOutput.getName());
 
-					outputs.add(metaOutput);
+						outputs.add(metaOutput);
+					}
 				}
 
 			}

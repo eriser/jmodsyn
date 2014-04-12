@@ -16,6 +16,7 @@ import org.modsyn.editor.DspConnection;
 import org.modsyn.editor.DspPatchModel;
 import org.modsyn.editor.InputModel;
 import org.modsyn.editor.OutputModel;
+import org.modsyn.editor.blocks.MetaModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -50,6 +51,7 @@ public class XmlImport {
 				type = "org.modsyn.editor.blocks.FromMidiPolyModel";
 				ochannels = "4";
 			}
+			// ../legacy
 
 			System.out.println(type);
 
@@ -64,7 +66,10 @@ public class XmlImport {
 			Rectangle r = new Rectangle(Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]), Integer.parseInt(b[3]));
 			dbc.setBounds(r);
 
-			pm.addDspComponent(dbc);
+			if (!(dbc.getModel() instanceof MetaModel)) {
+				// meta import already adds a meta model
+				pm.addDspComponent(dbc);
+			}
 
 			NodeList nlInputs = e.getElementsByTagName("input");
 			for (int j = 0; j < nlInputs.getLength(); j++) {

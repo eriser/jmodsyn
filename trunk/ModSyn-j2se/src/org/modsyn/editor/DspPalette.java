@@ -40,6 +40,7 @@ import org.modsyn.editor.blocks.OscillatorModel;
 import org.modsyn.editor.blocks.PanPotModel;
 import org.modsyn.editor.blocks.PhaserModel;
 import org.modsyn.editor.blocks.PitcherModel;
+import org.modsyn.editor.blocks.RingModulatorModel;
 import org.modsyn.editor.blocks.SoftClipModel;
 import org.modsyn.editor.blocks.TipScaleModel;
 import org.modsyn.editor.blocks.VUMeterModel;
@@ -387,6 +388,17 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(c, new PitcherModel(), pm);
+		}
+	},
+	RingMod("FX") {
+		@Override
+		public String getModelName() {
+			return RingModulatorModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new RingModulatorModel(c), pm);
 		}
 	},
 	Binaural("FX") {
