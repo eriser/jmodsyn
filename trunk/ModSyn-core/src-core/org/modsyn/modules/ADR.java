@@ -75,12 +75,15 @@ public class ADR extends DefaultSignalOutput implements SignalSource {
 			break;
 		case STATE_RELEASE:
 			signal *= release;
-			if (signal < 0) {
+			if (signal < MIN_NORMAL) {
 				signal = 0;
 			}
 			break;
 		case STATE_DECAY:
 			signal *= decay;
+			if (signal < MIN_NORMAL) {
+				signal = 0;
+			}
 		}
 
 		connectedInput.set(signal * amp);

@@ -58,8 +58,6 @@ public enum MidiSupport {
 			int type = status & 0xf0;
 			int channel = status & 0x0f;
 
-			// System.out.println("Status: " + status + " " + channel);
-
 			MidiListener listener = listeners[channel + 1];
 			if (listener == null || type == 0xf0) {
 				// no listener or SYSEX message

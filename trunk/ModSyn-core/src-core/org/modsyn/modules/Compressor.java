@@ -5,10 +5,6 @@ import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
 public class Compressor extends DefaultSignalOutput implements SignalInsert {
-	/**
-	 * Offset to prevent de-normalisation.
-	 */
-	private static final float DC_OFFSET = 10e-30f;
 
 	public final SignalInput ctrlThreshold = new SignalInput() {
 		@Override
@@ -74,7 +70,7 @@ public class Compressor extends DefaultSignalOutput implements SignalInsert {
 
 	@Override
 	public void set(float signal) {
-		float abs = Math.abs(signal) + DC_OFFSET;
+		float abs = Math.abs(signal) + MIN_NORMAL;
 
 		envelope = abs >= envelope ? abs : abs + envelopeDecay * (envelope - abs);
 

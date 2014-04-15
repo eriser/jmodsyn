@@ -26,7 +26,6 @@ public class Oscillator implements SignalSource, DspObject {
 	private float index;
 
 	private float pwm = 50;
-	private boolean pwm50 = false;
 
 	public final SignalInput ctrFreq = new SignalInput() {
 
@@ -54,6 +53,32 @@ public class Oscillator implements SignalSource, DspObject {
 		}
 	};
 
+	private final Runnable noPWM = new Runnable() {
+		@Override
+		public void run() {
+			buffer = wave[(int) index];
+
+			index = (index + step) % wave.length;
+			input.set(buffer);
+		}
+	};
+	private final Runnable withPWM = new Runnable() {
+		@Override
+		public void run() {
+			float phase = (index / wave.length) * 100;
+			if (phase > pwm) {
+				phase = 50 + ((phase - pwm) % 50);
+			}
+			phase = (phase / 100f) * wave.length;
+
+			buffer = wave[(int) phase & (wave.length - 1)];
+
+			index = (index + step) % wave.length;
+			input.set(buffer);
+		}
+	};
+	private Runnable updater = noPWM;
+
 	private SignalInput input = NullInput.INSTANCE;
 	private float step = 0;
 
@@ -80,7 +105,11 @@ public class Oscillator implements SignalSource, DspObject {
 
 	public void setPWM(float pwm) {
 		this.pwm = pwm % 100;
-		this.pwm50 = false;
+		if (pwm == 50) {
+			updater = noPWM;
+		} else {
+			updater = withPWM;
+		}
 	}
 
 	public void setShape(float[] waveTable) {
@@ -99,23 +128,7 @@ public class Oscillator implements SignalSource, DspObject {
 	 */
 	@Override
 	public void updateSignal() {
-		float sample;
-
-		if (pwm50) {
-			sample = wave[(int) index];
-		} else {
-			float phase = (index / wave.length) * 100;
-			if (phase > pwm) {
-				phase = 50 + ((phase - pwm) % 50);
-			}
-			phase = (phase / 100f) * wave.length;
-			sample = wave[(int) phase & (wave.length - 1)];
-		}
-
-		buffer = sample;
-
-		index = (index + step) % wave.length;
-		input.set(buffer);
+		updater.run();
 	}
 
 	public float process() {

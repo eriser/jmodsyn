@@ -96,9 +96,13 @@ public enum AsioSupport implements SignalSource {
 			inputBuffer = new float[bufferSize];
 
 			asio.addAsioDriverListener(new AsioDriverListener() {
+				double lowest = Double.MAX_VALUE;
+				double highest = 0;
+
 				@Override
 				public void bufferSwitch(long systemTime, long samplePosition, Set<AsioChannel> channels) {
 
+					long start = System.nanoTime();
 					int i = 0;
 					for (AsioChannel asioChannel : channels) {
 						if (asioChannel.isInput()) {
@@ -121,6 +125,18 @@ public enum AsioSupport implements SignalSource {
 							bufferIndex++;
 						}
 						bufferIndex = 0;
+					}
+
+					double perc = ((System.nanoTime() - start) / 2902494.33106575963718820861678) * 100;
+					if (perc > 100) {
+						// System.out.println(perc + "%");
+					}
+					if (perc > highest) {
+						highest = perc;
+						System.out.println("HIGHEST: " + perc + "%");
+					} else if (perc < lowest) {
+						lowest = perc;
+						System.out.println("LOWEST: " + perc + "%");
 					}
 				}
 
