@@ -2,6 +2,9 @@ package org.modsyn.editor;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -61,18 +64,35 @@ public class DspPaletteComponent extends JPanel {
 			DspPalette[] pal = new DspPalette[l.size()];
 			pal = l.toArray(pal);
 
-			JLabel lbl = new JLabel(key);
+			@SuppressWarnings("serial")
+			JLabel lbl = new JLabel(key) {
+				@Override
+				public void paintComponent(Graphics g) {
+					Graphics2D g2d = (Graphics2D) g;
+					g2d.setPaint(new GradientPaint(0, 0, Color.BLACK, 0, getHeight(), new Color(0xff404040)));
+					g2d.fillRect(0, 0, getWidth(), getHeight());
+					super.paintComponent(g);
+				}
+			};
+
 			lbl.setHorizontalAlignment(SwingConstants.CENTER);
 			lbl.setForeground(bg);
-			lbl.setBackground(Color.black);
+			// lbl.setBackground(Color.black);
 			lbl.setFont(lbl.getFont().deriveFont(lbl.getFont().getSize2D() + 2));
-			lbl.setOpaque(true);
+			lbl.setOpaque(false);
 
 			TransferHandler th = new DndConnection.ListTransferHandler(c, patchModel);
 
 			final JList<DspPalette> list = new JList<DspPalette>(pal);
 			list.setDragEnabled(true);
 			list.setTransferHandler(th);
+
+			lbl.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					list.setVisible(!list.isVisible());
+				}
+			});
 
 			gbc.gridy++;
 			add(lbl, gbc);
