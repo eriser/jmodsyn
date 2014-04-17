@@ -44,6 +44,7 @@ import org.modsyn.editor.blocks.RingModulatorModel;
 import org.modsyn.editor.blocks.ScopeModel;
 import org.modsyn.editor.blocks.ScopeModel.Scope;
 import org.modsyn.editor.blocks.SoftClipModel;
+import org.modsyn.editor.blocks.SpeakerModel;
 import org.modsyn.editor.blocks.TipScaleModel;
 import org.modsyn.editor.blocks.VUMeterModel;
 import org.modsyn.editor.blocks.VeloSensModel;
@@ -326,6 +327,17 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new VocoderModel(), pm);
 		}
 	},
+	Speaker("Filters") {
+		@Override
+		public String getModelName() {
+			return SpeakerModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new SpeakerModel(), pm);
+		}
+	},
 	SoftClip("Shape") {
 		@Override
 		public String getModelName() {
@@ -524,12 +536,16 @@ public enum DspPalette {
 					JComponent c = new JComponent() {
 						private static final long serialVersionUID = 6430783866717213954L;
 						final Color bg = new Color(0x000080);
+						final Color bgl = new Color(0x0000e0);
+						final Color bgp = new Color(0x0000b0);
+						int prev;
 
 						@Override
 						public void paintComponent(Graphics g) {
 							final int h = getHeight();
 							final int w = getWidth();
 							final int c = h / 2;
+							final int p1 = (int) (c * wv.amp);
 
 							int p = wv.ptr - w;
 							while (p < 0) {
@@ -537,6 +553,12 @@ public enum DspPalette {
 							}
 							g.setColor(bg);
 							g.fillRect(0, 0, w, h);
+							g.setColor(bgl);
+							g.fillRect(0, c, w, 1);
+							g.setColor(bgp);
+							g.fillRect(0, c - p1, w, 1);
+							g.fillRect(0, c + p1, w, 1);
+
 							g.setColor(Color.GREEN);
 
 							// System.out.println("P=" + p);
@@ -544,11 +566,17 @@ public enum DspPalette {
 								float signal = wv.wave[p++];
 								p %= wv.wave.length;
 								int u = (int) (signal * wv.amp * c);
-								if (u < 0) {
-									g.fillRect(i, c + u, 1, -u);
-								} else {
-									g.fillRect(i, c, 1, u + 1);
-								}
+
+								g.drawLine(i - 1, prev, i, c + u);
+								prev = c + u;
+
+								// g.fillRect(i, c + u, 1, 1);
+
+								// if (u < 0) {
+								// g.fillRect(i, c + u, 1, -u);
+								// } else {
+								// g.fillRect(i, c, 1, u + 1);
+								// }
 							}
 							// System.out.println("...P=" + p);
 						}
