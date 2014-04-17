@@ -34,7 +34,6 @@ public class DspPaletteComponent extends JPanel {
 		super(new GridBagLayout());
 
 		Color bg = (Color) UIManager.get("TabbedPane.tabAreaBackground");
-		// Color bg = (Color) UIManager.get("TabbedPane.selected");
 
 		setOpaque(true);
 		setMinimumSize(new Dimension(120, 100));
@@ -77,7 +76,6 @@ public class DspPaletteComponent extends JPanel {
 
 			lbl.setHorizontalAlignment(SwingConstants.CENTER);
 			lbl.setForeground(bg);
-			// lbl.setBackground(Color.black);
 			lbl.setFont(lbl.getFont().deriveFont(lbl.getFont().getSize2D() + 2));
 			lbl.setOpaque(false);
 
