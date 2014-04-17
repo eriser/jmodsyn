@@ -41,6 +41,8 @@ import org.modsyn.editor.blocks.PanPotModel;
 import org.modsyn.editor.blocks.PhaserModel;
 import org.modsyn.editor.blocks.PitcherModel;
 import org.modsyn.editor.blocks.RingModulatorModel;
+import org.modsyn.editor.blocks.ScopeModel;
+import org.modsyn.editor.blocks.ScopeModel.Scope;
 import org.modsyn.editor.blocks.SoftClipModel;
 import org.modsyn.editor.blocks.TipScaleModel;
 import org.modsyn.editor.blocks.VUMeterModel;
@@ -501,6 +503,60 @@ public enum DspPalette {
 				}
 			};
 			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 80);
+			return dbc;
+		}
+	},
+	Scope("Misc") {
+		@Override
+		public String getModelName() {
+			return ScopeModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			final ScopeModel vmm = new ScopeModel();
+			final Scope wv = vmm.getDspObject();
+			DspBlockComponent dbc = new DspBlockComponent(c, vmm, pm, 0, 0, 240, 240) {
+				private static final long serialVersionUID = -8093488546616747252L;
+
+				@Override
+				public Component createCenterComponent() {
+					JComponent c = new JComponent() {
+						private static final long serialVersionUID = 6430783866717213954L;
+						final Color bg = new Color(0x000080);
+
+						@Override
+						public void paintComponent(Graphics g) {
+							final int h = getHeight();
+							final int w = getWidth();
+							final int c = h / 2;
+
+							int p = wv.ptr - w;
+							while (p < 0) {
+								p += wv.wave.length;
+							}
+							g.setColor(bg);
+							g.fillRect(0, 0, w, h);
+							g.setColor(Color.GREEN);
+
+							// System.out.println("P=" + p);
+							for (int i = 0; i < w; i++) {
+								float signal = wv.wave[p++];
+								p %= wv.wave.length;
+								int u = (int) (signal * wv.amp * c);
+								if (u < 0) {
+									g.fillRect(i, c + u, 1, -u);
+								} else {
+									g.fillRect(i, c, 1, u + 1);
+								}
+							}
+							// System.out.println("...P=" + p);
+						}
+					};
+					return c;
+				}
+			};
+			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 240);
 			return dbc;
 		}
 	},
