@@ -18,8 +18,10 @@ import org.modsyn.editor.blocks.AdderModel;
 import org.modsyn.editor.blocks.AmplifierModel;
 import org.modsyn.editor.blocks.ArpeggioModel;
 import org.modsyn.editor.blocks.BinauralModel;
+import org.modsyn.editor.blocks.Butterworth24dbModel;
 import org.modsyn.editor.blocks.ChorusModel;
 import org.modsyn.editor.blocks.CompressorModel;
+import org.modsyn.editor.blocks.EnvelopeFollower2Model;
 import org.modsyn.editor.blocks.EnvelopeFollowerModel;
 import org.modsyn.editor.blocks.Filter4PoleModel;
 import org.modsyn.editor.blocks.Filter8PoleModel;
@@ -206,6 +208,17 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new EnvelopeFollowerModel(new Tracker()), pm);
 		}
 	},
+	Tracker2("Dynamics") {
+		@Override
+		public String getModelName() {
+			return EnvelopeFollower2Model.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new EnvelopeFollower2Model(c), pm);
+		}
+	},
 	TipScale("Dynamics") {
 		@Override
 		public String getModelName() {
@@ -281,6 +294,17 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(c, new MoogVCFModel(c), pm);
+		}
+	},
+	Butterworth("Filters") {
+		@Override
+		public String getModelName() {
+			return Butterworth24dbModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new Butterworth24dbModel(c), pm);
 		}
 	},
 	LPF("Filters") {

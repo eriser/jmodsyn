@@ -2,17 +2,33 @@ package org.modsyn.modules;
 
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
+import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
 public class Butterworth24db extends DefaultSignalOutput implements SignalInsert {
 
 	private static final float Q_SCALE = 6.f;
 
+	public final SignalInput ctrlCutoff = new SignalInput() {
+		@Override
+		public void set(float signal) {
+			Butterworth24db.this.set(signal, q);
+		}
+	};
+
+	public final SignalInput ctrlQ = new SignalInput() {
+		@Override
+		public void set(float signal) {
+			Butterworth24db.this.set(cutoff, signal);
+		}
+	};
+
 	private float t0, t1, t2, t3;
 	private float coef0, coef1, coef2, coef3;
 	private float history1, history2, history3, history4;
 	private float gain;
 	private float min_cutoff, max_cutoff;
+	private float cutoff, q;
 
 	public Butterworth24db(Context c) {
 		setSampleRate(c.getSampleRate());
@@ -37,10 +53,14 @@ public class Butterworth24db extends DefaultSignalOutput implements SignalInsert
 		else if (cutoff > this.max_cutoff)
 			cutoff = this.max_cutoff;
 
+		this.cutoff = cutoff;
+
 		if (q < 0.f)
 			q = 0.f;
 		else if (q > 1.f)
 			q = 1.f;
+
+		this.q = q;
 
 		float wp = (float) (this.t2 * Math.tan(this.t3 * cutoff));
 		float bd, bd_tmp, b1, b2;
