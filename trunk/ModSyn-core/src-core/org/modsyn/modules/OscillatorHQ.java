@@ -99,23 +99,6 @@ public class OscillatorHQ implements SignalSource {
 		ostep = step / ctrlOversampling.value;
 	}
 
-	private final Runnable updateNoPWM2 = new Runnable() {
-
-		@Override
-		public void run() {
-			float buffer = 0;
-
-			float sample = wave[(int) index];
-			for (int i = 0; i < ctrlOversampling.value; i++) {
-				sample = filter(cutoffFactor, sample);
-				buffer += sample;
-			}
-
-			index = (index + step) % wave.length;
-			input.set(buffer / ctrlOversampling.value);
-		}
-	};
-
 	private final Runnable updateNoPWM = new Runnable() {
 
 		@Override
