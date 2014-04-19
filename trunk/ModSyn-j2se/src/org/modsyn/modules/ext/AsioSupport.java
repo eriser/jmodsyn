@@ -81,8 +81,9 @@ public enum AsioSupport implements SignalSource {
 			}
 
 			System.out.println(AsioDriver.getDriverNames());
-			System.out.println("selected ASIO driver = " + AsioDriver.getDriverNames().get(AsioDriver.getDriverNames().size() - 1));
-			this.asio = AsioDriver.getDriver(AsioDriver.getDriverNames().get(AsioDriver.getDriverNames().size() - 1));
+			int select = Integer.getInteger("asio.driver", AsioDriver.getDriverNames().size() - 1);
+			System.out.println("selected ASIO driver = " + AsioDriver.getDriverNames().get(select));
+			this.asio = AsioDriver.getDriver(AsioDriver.getDriverNames().get(select));
 
 			activeChannels = new HashSet<AsioChannel>();
 			activeChannels.add(asio.getChannelOutput(0));
@@ -90,7 +91,7 @@ public enum AsioSupport implements SignalSource {
 			activeChannels.add(asio.getChannelInput(0));
 
 			bufferSize = asio.getBufferPreferredSize();
-			System.out.println("buffer size = " + bufferSize + " (" + asio.getBufferMinSize() + "," + asio.getBufferMaxSize());
+			System.out.println("buffer size = " + bufferSize + " (" + asio.getBufferMinSize() + "," + asio.getBufferMaxSize() + ")");
 
 			outputBuffers = new float[2][bufferSize];
 			inputBuffer = new float[bufferSize];
