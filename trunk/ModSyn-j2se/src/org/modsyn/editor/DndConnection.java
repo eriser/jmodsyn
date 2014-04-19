@@ -12,7 +12,7 @@ import javax.swing.TransferHandler;
 import org.modsyn.Context;
 
 /**
- * Drag-and-drop support for DspConnections
+ * Drag-and-drop support
  * 
  * @author Erik Duijs
  */
@@ -174,15 +174,14 @@ public class DndConnection {
 				InputModel inputModel = (InputModel) listModel.getElementAt(index);
 
 				if (outputModel.getSoundBlockModel() == inputModel.getSoundBlockModel()) {
-					System.err.println("CAN'T CONNECT TO SELF");
+					// Don't connect to itself
 					return false;
 				}
 
 				model.addDspConnection(new DspConnection(outputModel.getSoundBlockModel().component, outputModel.getSoundBlockModel().outputs
 						.indexOf(outputModel), inputModel.getSoundBlockModel().component, index));
-			} catch (Exception e) {
-				System.err.println("CAN'T DO: " + e.getMessage());
-				e.printStackTrace();
+			} catch (Exception ignore) {
+				// dropping where we can't drop
 				return false;
 			}
 
