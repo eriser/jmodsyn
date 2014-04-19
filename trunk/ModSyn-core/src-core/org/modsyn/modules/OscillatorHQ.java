@@ -25,7 +25,6 @@ public class OscillatorHQ implements SignalSource {
 	private float index;
 
 	private float pwm = 50;
-	private boolean pwm50 = false;
 
 	public final SignalInput ctrFreq = new SignalInput() {
 
@@ -62,6 +61,7 @@ public class OscillatorHQ implements SignalSource {
 
 	private SignalInput input = NullInput.INSTANCE;
 	private float step = 0;
+	private float ostep = 0;
 
 	private float detuneFactor;
 	private final Context context;
@@ -81,11 +81,12 @@ public class OscillatorHQ implements SignalSource {
 	public void setFrequency(float freq) {
 		frequency = freq;
 		step = ((frequency * detuneFactor) * wave.length) / context.getSampleRate();
+		ostep = step / ctrlOversampling.value;
 	}
 
 	public void setPWM(float pwm) {
 		this.pwm = pwm % 100;
-		this.pwm50 = false;
+		updater = pwm == 50 ? updateNoPWM : updatePWM;
 	}
 
 	public void setShape(float[] waveTable) {
@@ -95,10 +96,71 @@ public class OscillatorHQ implements SignalSource {
 	public void setDetune(float scale) {
 		this.detuneFactor = 1 + scale;
 		step = ((frequency * detuneFactor) * wave.length) / context.getSampleRate();
+		ostep = step / ctrlOversampling.value;
 	}
 
+	private final Runnable updateNoPWM2 = new Runnable() {
+
+		@Override
+		public void run() {
+			float buffer = 0;
+
+			float sample = wave[(int) index];
+			for (int i = 0; i < ctrlOversampling.value; i++) {
+				sample = filter(cutoffFactor, sample);
+				buffer += sample;
+			}
+
+			index = (index + step) % wave.length;
+			input.set(buffer / ctrlOversampling.value);
+		}
+	};
+
+	private final Runnable updateNoPWM = new Runnable() {
+
+		@Override
+		public void run() {
+
+			float buffer = 0;
+
+			for (int i = ctrlOversampling.value; i > 0; i--) {
+				buffer += filter(cutoffFactor, wave[(int) index]);
+				index = (index + ostep) % wave.length;
+			}
+
+			input.set(buffer / ctrlOversampling.value);
+		}
+	};
+
+	private final Runnable updatePWM = new Runnable() {
+
+		@Override
+		public void run() {
+
+			float buffer = 0;
+
+			float cutoffreq = cutoffFactor;// / ctrlOversampling.value;
+
+			for (int i = 0; i < ctrlOversampling.value; i++) {
+
+				float phase = (index / wave.length) * 100;
+				if (phase > pwm) {
+					phase = 50 + ((phase - pwm) % 50);
+				}
+				phase = (phase / 100f) * wave.length;
+
+				index = (index + ostep) % wave.length;
+
+				buffer += filter(cutoffreq, wave[(int) phase & (wave.length - 1)]);
+			}
+
+			input.set(buffer / ctrlOversampling.value);
+		}
+	};
 	private float cutoffFactor = 1f;
 	private float pole1, pole2, pole3, pole4, pole5, pole6, pole7, pole8;
+
+	private Runnable updater = updateNoPWM;
 
 	/*
 	 * (non-Javadoc)
@@ -107,36 +169,7 @@ public class OscillatorHQ implements SignalSource {
 	 */
 	@Override
 	public void updateSignal() {
-
-		float buffer = 0;
-
-		float step = this.step / ctrlOversampling.value;
-		float cutoffreq = cutoffFactor;// / ctrlOversampling.value;
-
-		for (int i = 0; i < ctrlOversampling.value; i++) {
-			float sample;
-
-			if (pwm50) {
-				sample = wave[(int) index];
-			} else {
-				float phase = (index / wave.length) * 100;
-				if (phase > pwm) {
-					phase = 50 + ((phase - pwm) % 50);
-				}
-				phase = (phase / 100f) * wave.length;
-				sample = wave[(int) phase & (wave.length - 1)];
-			}
-
-			{ // anti-alias filter
-				sample = filter(cutoffreq, sample);
-			}
-
-			index = (index + step) % wave.length;
-
-			buffer += sample;
-		}
-
-		input.set(buffer / ctrlOversampling.value);
+		updater.run();
 	}
 
 	private float filter(float cutoffreq, float sample) {
@@ -150,12 +183,6 @@ public class OscillatorHQ implements SignalSource {
 		pole8 += ((-pole8 + pole7) * cutoffreq);
 
 		sample = pole8;
-		return sample;
-	}
-
-	public float processNoPWM() {
-		float sample = wave[(int) index];
-		index = (index + step) % wave.length;
 		return sample;
 	}
 
