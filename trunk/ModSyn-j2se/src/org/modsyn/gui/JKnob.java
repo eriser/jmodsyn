@@ -28,7 +28,7 @@ import javax.swing.event.DocumentListener;
 
 public class JKnob extends JComponent {
 
-	private static final float SENSITIVITY = 10000f;
+	private static final float SENSITIVITY = 500f;
 	/**
 	 * 
 	 */
@@ -183,7 +183,7 @@ public class JKnob extends JComponent {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			startX = e.getX();
-			prevX = 0;
+			prevX = startX;
 			dirx = 0;
 		}
 
@@ -199,7 +199,8 @@ public class JKnob extends JComponent {
 			float range = max - min;
 
 			int dx = e.getX() - prevX;
-			int _dirx = (dx > startX ? 1 : dx < 0 ? -1 : 0);
+
+			int _dirx = (e.getX() > startX ? 1 : dx < 0 ? -1 : 0);
 			boolean directionChanged = _dirx != dirx;
 			dirx = _dirx;
 			if (directionChanged) {
@@ -207,7 +208,6 @@ public class JKnob extends JComponent {
 
 			}
 
-			dx = e.getX() - startX;
 			float val = getValue() + ((dx / SENSITIVITY) * range);
 
 			if (val > max) {
