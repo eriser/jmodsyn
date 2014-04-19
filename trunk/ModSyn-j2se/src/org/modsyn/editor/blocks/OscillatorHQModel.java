@@ -17,7 +17,7 @@ public class OscillatorHQModel extends DspBlockModel<OscillatorHQ> {
 		add(new InputModel(this, o.ctrDetune, "det", 1, 0.9f, 1.1f));
 		add(new InputModel(this, o.ctrShape, "shape", 0, 0, WaveTables.SHAPE_ID_MAX, 0));
 		add(new InputModel(this, o.ctrlOversampling, "o/s", 1, 1, 16, 0));
-		add(new InputModel(this, o.ctrFilter, "filter", 1, 0, 2));
+		add(new InputModel(this, o.ctrFilter, "filter", 1, 0.01f, 0.45f));
 
 		add(new OutputModel(this, o, "OUT"));
 	}

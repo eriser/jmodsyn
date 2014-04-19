@@ -54,10 +54,18 @@ public class OscillatorHQ implements SignalSource {
 	public final SignalInput ctrFilter = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			cutoffFactor = signal;
+			filter.set(signal * context.getSampleRate(), 0);
 		}
 	};
-	public final SignalInputIntValue ctrlOversampling = new SignalInputIntValue(4);
+	public final SignalInputIntValue ctrlOversampling = new SignalInputIntValue(4) {
+		@Override
+		public void set(float signal) {
+			super.set(signal);
+
+			filter.setSampleRate(context.getSampleRate() * this.value);
+			// bw.set(CUTOFF, 0);
+		}
+	};
 
 	private SignalInput input = NullInput.INSTANCE;
 	private float step = 0;
@@ -65,6 +73,7 @@ public class OscillatorHQ implements SignalSource {
 
 	private float detuneFactor;
 	private final Context context;
+	private final Butterworth24db filter;
 
 	public OscillatorHQ(Context context) {
 		this(context, WaveTables.SINUS);
@@ -76,6 +85,8 @@ public class OscillatorHQ implements SignalSource {
 		index = 0;
 		detuneFactor = 1;
 		context.addSignalSource(this);
+		this.filter = new Butterworth24db(context);
+		filter.set(12000, 0);
 	}
 
 	public void setFrequency(float freq) {
@@ -107,7 +118,7 @@ public class OscillatorHQ implements SignalSource {
 			float buffer = 0;
 
 			for (int i = ctrlOversampling.value; i > 0; i--) {
-				buffer += filter(cutoffFactor, wave[(int) index]);
+				buffer += filter.process(wave[(int) index]);
 				index = (index + ostep) % wave.length;
 			}
 
@@ -122,8 +133,6 @@ public class OscillatorHQ implements SignalSource {
 
 			float buffer = 0;
 
-			float cutoffreq = cutoffFactor;// / ctrlOversampling.value;
-
 			for (int i = 0; i < ctrlOversampling.value; i++) {
 
 				float phase = (index / wave.length) * 100;
@@ -134,14 +143,12 @@ public class OscillatorHQ implements SignalSource {
 
 				index = (index + ostep) % wave.length;
 
-				buffer += filter(cutoffreq, wave[(int) phase & (wave.length - 1)]);
+				buffer += filter.process(wave[(int) phase & (wave.length - 1)]);
 			}
 
 			input.set(buffer / ctrlOversampling.value);
 		}
 	};
-	private float cutoffFactor = 1f;
-	private float pole1, pole2, pole3, pole4, pole5, pole6, pole7, pole8;
 
 	private Runnable updater = updateNoPWM;
 
@@ -153,20 +160,6 @@ public class OscillatorHQ implements SignalSource {
 	@Override
 	public void updateSignal() {
 		updater.run();
-	}
-
-	private float filter(float cutoffreq, float sample) {
-		pole1 += ((-pole1 + sample) * cutoffreq);
-		pole2 += ((-pole2 + pole1) * cutoffreq);
-		pole3 += ((-pole3 + pole2) * cutoffreq);
-		pole4 += ((-pole4 + pole3) * cutoffreq);
-		pole5 += ((-pole5 + pole4) * cutoffreq);
-		pole6 += ((-pole6 + pole5) * cutoffreq);
-		pole7 += ((-pole7 + pole6) * cutoffreq);
-		pole8 += ((-pole8 + pole7) * cutoffreq);
-
-		sample = pole8;
-		return sample;
 	}
 
 	/*
