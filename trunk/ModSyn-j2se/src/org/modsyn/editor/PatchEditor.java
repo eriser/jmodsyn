@@ -216,7 +216,7 @@ public class PatchEditor {
 									f = new File(f.getAbsolutePath() + ".dsp-patch");
 								}
 
-								new IOTransferTool().saveString(new XmlExportMeta(model).toString(), "utf-8", f);
+								new IOTransferTool().saveString(new XmlExportMeta(model, true).toString(), "utf-8", f);
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

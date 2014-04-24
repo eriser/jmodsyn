@@ -34,12 +34,9 @@ public class XmlExportMeta extends XmlExport {
 		createMetaExport();
 	}
 
-	public XmlExportMeta(DspPatchModel model, MetaInputFactory cmi, MetaOutputFactory cmo) throws ParserConfigurationException {
-		this(model.getSelectedOrAllDspBlocks(), model.getSelectedOrAllDspConnections(), cmi, cmo);
-	}
-
-	public XmlExportMeta(DspPatchModel model) throws ParserConfigurationException {
-		this(model.getSelectedOrAllDspBlocks(), model.getSelectedOrAllDspConnections(), new MetaInOutFactory(), new MetaInOutFactory());
+	public XmlExportMeta(DspPatchModel model, boolean skipUnconnected) throws ParserConfigurationException {
+		this(model.getSelectedOrAllDspBlocks(), model.getSelectedOrAllDspConnections(), new MetaInOutFactory(skipUnconnected), new MetaInOutFactory(
+				skipUnconnected));
 	}
 
 	private void createMetaExport() {

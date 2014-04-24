@@ -11,10 +11,20 @@ import org.modsyn.editor.io.XmlExportMeta.MetaOutputFactory;
 
 public class MetaInOutFactory implements MetaInputFactory, MetaOutputFactory {
 
+	private final boolean skipUnconnected;
+
+	public MetaInOutFactory(boolean skipUnconnected) {
+		this.skipUnconnected = skipUnconnected;
+	}
+
 	@Override
 	public OutputModel createOutputModel(DspBlockComponent block, OutputModel source) {
-		String to = (source.getTarget() != null && source.getTarget().getInput() != NullInput.INSTANCE) ? " (to "
-				+ source.getTarget().getSoundBlockModel().getName() + "/" + source.getTarget().getName() + ")" : "";
+		boolean connected = source.getTarget() != null && source.getTarget().getInput() != NullInput.INSTANCE;
+		if (!connected && skipUnconnected) {
+			return null;
+		}
+
+		String to = connected ? " (to " + source.getTarget().getSoundBlockModel().getName() + "/" + source.getTarget().getName() + ")" : "";
 
 		String name = JOptionPane.showInputDialog("Rename output " + source.getSoundBlockModel().getName() + "/" + source.getName() + to, source.getName());
 		if (name == null) {
@@ -26,8 +36,14 @@ public class MetaInOutFactory implements MetaInputFactory, MetaOutputFactory {
 
 	@Override
 	public InputModel createInputModel(DspBlockComponent block, InputModel source) {
-		String from = (source.getSource() != null) ? " (from " + source.getSource().getName() + "/" + source.getSource().getName() + ")" : "";
-		String name = JOptionPane.showInputDialog("Rename input " + source.getSoundBlockModel().getName() + "/" + source.getName() + from, source.getName());
+		boolean connected = source.getSource() != null;
+		if (!connected && skipUnconnected) {
+			return null;
+		}
+
+		String from = connected ? " (from " + source.getSource().getName() + "/" + source.getSource().getName() + ")" : "";
+		String name = JOptionPane.showInputDialog("Rename input " + source.getSoundBlockModel().getName() + "/" + source.getName() + from, connected ? source
+				.getSource().getName() : source.getName());
 		if (name == null) {
 			return null;
 		}
