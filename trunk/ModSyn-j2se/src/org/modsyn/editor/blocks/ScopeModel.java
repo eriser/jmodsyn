@@ -22,8 +22,8 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 
 	public static class Scope implements SignalInsert {
 		SignalInput connected = NullInput.INSTANCE;
-		public final float[] wave = new float[5120];
-		private final float[] buffer = new float[5120];
+		public final float[] wave = new float[1000];
+		private final float[] buffer = new float[1000];
 		public int ptr = 0;
 		final int interval = 1000;
 		int count = 0;
