@@ -16,7 +16,14 @@ public class TipScale extends DefaultSignalOutput implements SignalInsert {
 	/**
 	 * The control signal, for example a frequency
 	 */
-	public final SignalInsertValue ctrl = new SignalInsertValue(440);
+	public final SignalInsertValue ctrl = new SignalInsertValue(440) {
+		@Override
+		public void set(float signal) {
+			if (signal != 0) {
+				super.set(signal);
+			}
+		}
+	};
 
 	/**
 	 * The tipping point for the scaling.
