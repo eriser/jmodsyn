@@ -279,6 +279,11 @@ public class JKnob extends JComponent {
 			final JTextField txtMax = new JTextField(7);
 			final JTextField txtDecimals = new JTextField(7);
 
+			txtValue.addFocusListener(new FocusSelectAll());
+			txtMin.addFocusListener(new FocusSelectAll());
+			txtMax.addFocusListener(new FocusSelectAll());
+			txtDecimals.addFocusListener(new FocusSelectAll());
+
 			txtValue.setText(String.format(format, getValue()));
 			txtMin.setText(String.format(format, getMin()));
 			txtMax.setText(String.format(format, getMax()));
