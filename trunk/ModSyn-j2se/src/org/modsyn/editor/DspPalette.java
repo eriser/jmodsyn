@@ -21,6 +21,7 @@ import org.modsyn.editor.blocks.BinauralModel;
 import org.modsyn.editor.blocks.Butterworth24dbModel;
 import org.modsyn.editor.blocks.ChorusModel;
 import org.modsyn.editor.blocks.CompressorModel;
+import org.modsyn.editor.blocks.CubicModel;
 import org.modsyn.editor.blocks.EnvelopeFollower2Model;
 import org.modsyn.editor.blocks.EnvelopeFollowerModel;
 import org.modsyn.editor.blocks.Filter4PoleModel;
@@ -48,6 +49,7 @@ import org.modsyn.editor.blocks.ScopeModel.Scope;
 import org.modsyn.editor.blocks.SoftClipModel;
 import org.modsyn.editor.blocks.SpeakerModel;
 import org.modsyn.editor.blocks.TipScaleModel;
+import org.modsyn.editor.blocks.TubeSimModel;
 import org.modsyn.editor.blocks.VUMeterModel;
 import org.modsyn.editor.blocks.VeloSensModel;
 import org.modsyn.editor.blocks.VocoderModel;
@@ -373,6 +375,28 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new SoftClipModel(), pm);
 		}
 	},
+	TubeSim("Shape") {
+		@Override
+		public String getModelName() {
+			return TubeSimModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new TubeSimModel(c), pm);
+		}
+	},
+	Cubic("Shape") {
+		@Override
+		public String getModelName() {
+			return CubicModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new CubicModel(), pm);
+		}
+	},
 	Absolute("Shape") {
 		@Override
 		public String getModelName() {
@@ -591,8 +615,8 @@ public enum DspPalette {
 								p %= wv.wave.length;
 								int u = (int) (signal * wv.amp * c);
 
-								g.drawLine(i - 1, prev, i, c + u);
-								prev = c + u;
+								g.drawLine(i - 1, prev, i, c - u);
+								prev = c - u;
 
 								// g.fillRect(i, c + u, 1, 1);
 
