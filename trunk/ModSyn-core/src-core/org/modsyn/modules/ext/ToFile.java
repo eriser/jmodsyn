@@ -2,50 +2,64 @@ package org.modsyn.modules.ext;
 
 import java.io.IOException;
 
+import org.modsyn.Context;
+import org.modsyn.DefaultSignalOutput;
+import org.modsyn.DspObject;
 import org.modsyn.SignalInput;
 import org.modsyn.util.WavWriter;
 
-public class ToFile {
-    
-    SignalInput connL, connR;
-    WavWriter wav;
+public class ToFile implements DspObject {
 
-    public SignalInput inL = new SignalInput() {
-        public void set(float sample) {
-            try {
-                wav.write(sample);
-                if (connL != null) connL.set(sample);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    };
+	private final WavWriter wav;
+	private String path;
 
-    public SignalInput inR = new SignalInput() {
-        public void set(float sample) {
-            try {
-                wav.write(sample);
-                if (connR != null) connR.set(sample);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            
-        }
-    };
-    
-    public ToFile(String path) throws IOException {
-        wav = new WavWriter();
-        wav.open(path);
-    }
-    
-    public void connectTo(SignalInput inputL, SignalInput inputR) {
-        connL = inputL;
-        connR = inputR;
-    }
-    
-    public void close() throws IOException {
-        wav.close();
-    }
-    
-    
+	public final SignalInput inL = new SignalInput() {
+		@Override
+		public void set(float sample) {
+			try {
+				wav.write(sample);
+				outL.connectedInput.set(sample);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	public final SignalInput inR = new SignalInput() {
+		@Override
+		public void set(float sample) {
+			try {
+				wav.write(sample);
+				outR.connectedInput.set(sample);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	};
+
+	public final DefaultSignalOutput outL = new DefaultSignalOutput();
+	public final DefaultSignalOutput outR = new DefaultSignalOutput();
+
+	public ToFile(Context c) {
+		wav = new WavWriter(c.getSampleRate(), 2);
+		path = "./default.wav";
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void start() throws IOException {
+		wav.open(path);
+	}
+
+	public void stop() throws IOException {
+		wav.close();
+	}
+
+	public void close() throws IOException {
+		wav.close();
+	}
+
 }

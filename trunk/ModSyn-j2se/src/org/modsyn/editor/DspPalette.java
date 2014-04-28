@@ -3,11 +3,17 @@ package org.modsyn.editor;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import org.modsyn.Context;
 import org.modsyn.editor.blocks.ADRModel;
@@ -62,6 +68,8 @@ import org.modsyn.modules.ctrl.ADSREnvelope;
 import org.modsyn.modules.ext.AudioInSupport;
 import org.modsyn.modules.ext.AudioOutSupport;
 import org.modsyn.modules.ext.MidiVoicePolyAdapter;
+import org.modsyn.modules.ext.ToFile;
+import org.modsyn.modules.ext.WavWriterModel;
 import org.modsyn.util.Keyboard2;
 import org.modsyn.util.Keyboard2Adapter;
 
@@ -696,6 +704,68 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return AudioOutSupport.create(c, pm, channels);
+		}
+	},
+	Wav_OUT("EXT") {
+		@Override
+		public String getModelName() {
+			return WavWriterModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			final WavWriterModel model = new WavWriterModel(c);
+			final DspBlockComponent block = new DspBlockComponent(c, model, pm);
+			final ToFile wav = model.getDspObject();
+
+			block.button.addActionListener(new ActionListener() {
+				boolean running;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (running) {
+						try {
+							wav.stop();
+							block.button.setBackground(null);
+							JOptionPane.showMessageDialog(null, "Recording ended");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+						JFileChooser fc = new JFileChooser(".");
+						fc.setSelectedFile(new File("default.wav"));
+						fc.setFileFilter(new FileFilter() {
+							@Override
+							public String getDescription() {
+								return "WAV file";
+							}
+
+							@Override
+							public boolean accept(File f) {
+								return f.getName().endsWith(".wav");
+							}
+						});
+						int response = fc.showSaveDialog(null);
+						if (response == JFileChooser.APPROVE_OPTION) {
+							File f = fc.getSelectedFile();
+							if (!f.getName().endsWith(".wav")) {
+								f = new File(f.getAbsolutePath() + ".wav");
+							}
+							wav.setPath(f.getAbsolutePath());
+							try {
+								wav.start();
+								running = true;
+								block.button.setBackground(Color.RED);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+
+				}
+			});
+
+			return block;
 		}
 	};
 
