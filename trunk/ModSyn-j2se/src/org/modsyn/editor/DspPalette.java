@@ -41,13 +41,14 @@ import org.modsyn.editor.blocks.OctaverModel;
 import org.modsyn.editor.blocks.OscillatorHQModel;
 import org.modsyn.editor.blocks.OscillatorModel;
 import org.modsyn.editor.blocks.PanPotModel;
-import org.modsyn.editor.blocks.PhaserModel;
 import org.modsyn.editor.blocks.PitcherModel;
+import org.modsyn.editor.blocks.Reverb242Model;
 import org.modsyn.editor.blocks.RingModulatorModel;
 import org.modsyn.editor.blocks.ScopeModel;
 import org.modsyn.editor.blocks.ScopeModel.Scope;
 import org.modsyn.editor.blocks.SoftClipModel;
 import org.modsyn.editor.blocks.SpeakerModel;
+import org.modsyn.editor.blocks.StereoEnvelopeDelayModel;
 import org.modsyn.editor.blocks.TipScaleModel;
 import org.modsyn.editor.blocks.TubeSimModel;
 import org.modsyn.editor.blocks.VUMeterModel;
@@ -419,17 +420,6 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new ChorusModel(c), pm);
 		}
 	},
-	Phaser("FX") {
-		@Override
-		public String getModelName() {
-			return PhaserModel.class.getName();
-		}
-
-		@Override
-		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new PhaserModel(c), pm);
-		}
-	},
 	Octaver("FX") {
 		@Override
 		public String getModelName() {
@@ -472,6 +462,28 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(c, new BinauralModel(c), pm);
+		}
+	},
+	Reverb242("FX") {
+		@Override
+		public String getModelName() {
+			return Reverb242Model.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new Reverb242Model(c), pm);
+		}
+	},
+	DimensionE("FX") {
+		@Override
+		public String getModelName() {
+			return StereoEnvelopeDelayModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new StereoEnvelopeDelayModel(c), pm);
 		}
 	},
 

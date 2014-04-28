@@ -10,7 +10,6 @@ import org.modsyn.modules.FxLoop;
 import org.modsyn.modules.KarplusStrong;
 import org.modsyn.modules.PanPot;
 import org.modsyn.modules.fx.Chorus;
-import org.modsyn.modules.fx.Phaser;
 import org.modsyn.modules.fx.Reverb242;
 
 /**
@@ -24,7 +23,6 @@ public class KarPluxx implements Synth, Device {
 	Reverb242 rev;
 	FxLoop fx1, fx2;
 	PanPot pan;
-	Phaser phaser;
 
 	SignalOutput[] outputs;
 	DeviceControl[] controls;
@@ -37,11 +35,11 @@ public class KarPluxx implements Synth, Device {
 		karplus = new KarplusStrong(context);
 		chorus = new Chorus(context);
 		rev = new Reverb242(context);
-		//phaser = new Phaser();
-		//rev1 = new Reverb(1,0.97f);
-		//rev2 = new Reverb(.95f,0.97f);
-		//fx1 = new FxLoop(rev1);
-		//fx2 = new FxLoop(rev2);
+		// phaser = new Phaser();
+		// rev1 = new Reverb(1,0.97f);
+		// rev2 = new Reverb(.95f,0.97f);
+		// fx1 = new FxLoop(rev1);
+		// fx2 = new FxLoop(rev2);
 		chorus.mix.setPanning(0.5f);
 		pan = new PanPot();
 

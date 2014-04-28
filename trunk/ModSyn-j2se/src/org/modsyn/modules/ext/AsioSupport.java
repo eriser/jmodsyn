@@ -105,6 +105,7 @@ public enum AsioSupport implements SignalSource {
 
 					long start = System.nanoTime();
 					int i = 0;
+
 					for (AsioChannel asioChannel : channels) {
 						if (asioChannel.isInput()) {
 							asioChannel.read(inputBuffer);
@@ -129,15 +130,14 @@ public enum AsioSupport implements SignalSource {
 					}
 
 					double perc = ((System.nanoTime() - start) / 2902494.33106575963718820861678) * 100;
-					if (perc > 100) {
-						// System.out.println(perc + "%");
-					}
 					if (perc > highest) {
 						highest = perc;
 						System.out.println("HIGHEST: " + perc + "%");
 					} else if (perc < lowest) {
 						lowest = perc;
 						System.out.println("LOWEST: " + perc + "%");
+					} else if (perc > 100) {
+						System.out.println("***: " + perc + "%");
 					}
 				}
 

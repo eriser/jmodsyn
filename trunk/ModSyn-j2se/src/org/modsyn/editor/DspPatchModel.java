@@ -44,6 +44,11 @@ public class DspPatchModel {
 		return dspConnections;
 	}
 
+	/**
+	 * Get either the selected DspBlockComponents, or all DspBlockComponents if there is no selection.
+	 * 
+	 * @return
+	 */
 	public List<DspBlockComponent> getSelectedOrAllDspBlocks() {
 		List<DspBlockComponent> result = new ArrayList<>();
 		for (DspBlockComponent b : dspBlocks) {
@@ -58,6 +63,11 @@ public class DspPatchModel {
 		return result;
 	}
 
+	/**
+	 * Get either the connections of all selected DspComponents, or all connections if there is no selection.
+	 * 
+	 * @return
+	 */
 	public List<DspConnection> getSelectedOrAllDspConnections() {
 		List<DspConnection> result = new ArrayList<>();
 		for (DspConnection b : dspConnections) {

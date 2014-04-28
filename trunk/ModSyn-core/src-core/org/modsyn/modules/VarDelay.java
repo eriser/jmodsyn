@@ -4,6 +4,7 @@ import org.modsyn.Context;
 import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
+import org.modsyn.util.Debug;
 
 /**
  * Delay with sub-sample accuracy and variable delay time. Use this for better precision and effects needing variable
@@ -77,6 +78,10 @@ public class VarDelay implements SignalInsert {
 		pointer = (pointer + 1) % buffer.length;
 
 		connectedDevice.set(delayed);// / (1f + feedback));
+
+		if (DEBUG) {
+			Debug.checkSignal(delayed);
+		}
 	}
 
 	/**
