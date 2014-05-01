@@ -19,6 +19,11 @@ public enum AsioSupport implements SignalSource {
 	INSTANCE;
 
 	/**
+	 * Profiling
+	 */
+	private final boolean PROFILE = false;
+
+	/**
 	 * Optional multi-threading support. In this case, the Context is updated from a different Thread. This is disabled
 	 * for now; The ASIO thread itself will update the Context.
 	 */
@@ -129,15 +134,17 @@ public enum AsioSupport implements SignalSource {
 						bufferIndex = 0;
 					}
 
-					double perc = ((System.nanoTime() - start) / 2902494.33106575963718820861678) * 100;
-					if (perc > highest) {
-						highest = perc;
-						System.out.println("HIGHEST: " + perc + "%");
-					} else if (perc < lowest) {
-						lowest = perc;
-						System.out.println("LOWEST: " + perc + "%");
-					} else if (perc > 100) {
-						System.out.println("***: " + perc + "%");
+					if (PROFILE) {
+						double perc = ((System.nanoTime() - start) / 2902494.33106575963718820861678) * 100;
+						if (perc > highest) {
+							highest = perc;
+							System.out.println("HIGHEST: " + perc + "%");
+						} else if (perc < lowest) {
+							lowest = perc;
+							System.out.println("LOWEST: " + perc + "%");
+						} else if (perc > 100) {
+							System.out.println("***: " + perc + "%");
+						}
 					}
 				}
 

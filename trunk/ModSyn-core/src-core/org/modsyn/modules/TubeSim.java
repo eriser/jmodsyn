@@ -99,6 +99,7 @@ public class TubeSim extends DefaultSignalOutput implements SignalInsert {
 	}
 
 	public final float process(float signal, float gain, float thresholdTop, float thresholdBottom) {
+
 		// input gain
 		signal *= gain;
 
@@ -131,6 +132,15 @@ public class TubeSim extends DefaultSignalOutput implements SignalInsert {
 		}
 		signal *= -1;
 
+		final float input = signal;
+
+		// signal = input - input_buf + 0.995f * output_buf;
+
+		input_buf = input;
+		output_buf = signal;
+
 		return signal;
 	}
+
+	float input_buf, output_buf;
 }

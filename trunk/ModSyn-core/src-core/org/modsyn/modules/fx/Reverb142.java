@@ -4,7 +4,7 @@ import org.modsyn.Context;
 import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
-import org.modsyn.modules.AllPassFilter;
+import org.modsyn.modules.AllPassDelay;
 import org.modsyn.modules.Delay;
 
 /**
@@ -19,7 +19,7 @@ import org.modsyn.modules.Delay;
 public class Reverb142 implements SignalInsert {
 	private SignalInput connectedDevice = NullInput.INSTANCE;
 	Delay delay0, delay1, delay2, delay3;
-	AllPassFilter apf0, apf1;
+	AllPassDelay apf0, apf1;
 	float dry, wet;
 
 	float time, decay1, decay2;
@@ -45,8 +45,8 @@ public class Reverb142 implements SignalInsert {
 		delay1 = new Delay(context, (1188f / 44100f) * time, fbDelay);
 		delay2 = new Delay(context, (1277f / 44100f) * time, fbDelay);
 		delay3 = new Delay(context, (1356f / 44100f) * time, fbDelay);
-		apf0 = new AllPassFilter(context, (556f / 44100f) * time, fbAPF);
-		apf1 = new AllPassFilter(context, (441f / 44100f) * time, fbAPF);
+		apf0 = new AllPassDelay(context, (556f / 44100f) * time, fbAPF);
+		apf1 = new AllPassDelay(context, (441f / 44100f) * time, fbAPF);
 	}
 
 	public void setDryWet(float dry_wet) {

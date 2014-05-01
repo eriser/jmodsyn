@@ -11,7 +11,10 @@ import java.util.List;
 import javax.swing.event.SwingPropertyChangeSupport;
 
 import org.modsyn.Context;
+import org.modsyn.DspObject;
+import org.modsyn.MetaDspObject;
 import org.modsyn.SignalSource;
+import org.modsyn.editor.blocks.MetaModel;
 import org.modsyn.modules.ext.FromJavaSound;
 import org.modsyn.modules.ext.ToJavaSound;
 
@@ -108,6 +111,16 @@ public class DspPatchModel {
 		if (dspBlockComponent.getModel().getDspObject() instanceof SignalSource) {
 			context.remove((SignalSource) dspBlockComponent.getModel().getDspObject());
 		}
+
+		if (dspBlockComponent.getModel() instanceof MetaModel) {
+			MetaDspObject mm = (MetaDspObject) dspBlockComponent.getModel().getDspObject();
+			for (DspObject dsp : mm) {
+				if (dsp instanceof SignalSource) {
+					context.remove((SignalSource) dsp);
+				}
+			}
+		}
+
 		for (DspBlockComponent dsp : dspBlocks) {
 			if (dsp.getModel().getDspObject() instanceof ToJavaSound) {
 				((ToJavaSound) dsp.getModel().getDspObject()).reset();
@@ -118,14 +131,24 @@ public class DspPatchModel {
 
 	public void clear() {
 		for (DspBlockComponent dspBlockComponent : dspBlocks) {
+
 			if (dspBlockComponent.getModel().getDspObject() instanceof SignalSource) {
 				context.remove((SignalSource) dspBlockComponent.getModel().getDspObject());
+			}
+			if (dspBlockComponent.getModel() instanceof MetaModel) {
+				MetaDspObject mm = (MetaDspObject) dspBlockComponent.getModel().getDspObject();
+				for (DspObject dsp : mm) {
+					if (dsp instanceof SignalSource) {
+						context.remove((SignalSource) dsp);
+					}
+				}
 			}
 			pcs.firePropertyChange(EVENT_REMOVE_BLOCK, null, dspBlockComponent);
 			checkRemove(dspBlockComponent);
 		}
 		dspConnections.clear();
 		dspBlocks.clear();
+		context.clear();
 		pcs.firePropertyChange(EVENT_REMOVE_ALL, null, this);
 	}
 

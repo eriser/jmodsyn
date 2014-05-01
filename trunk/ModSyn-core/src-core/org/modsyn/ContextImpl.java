@@ -7,6 +7,8 @@ package org.modsyn;
  */
 class ContextImpl implements Context {
 
+	private static final boolean DEBUG = true;
+
 	private final int sampleRate;
 	private final SignalSource[] updatedSignals = new SignalSource[1024];
 	private final SignalSource[] masters = new SignalSource[32];
@@ -25,6 +27,9 @@ class ContextImpl implements Context {
 
 	@Override
 	public void remove(SignalSource source) {
+		if (DEBUG) {
+			System.out.println("Removing " + source + " from context (" + iUpdatedSignals + "/" + iMasters + ")");
+		}
 		for (int i = 0; i < iUpdatedSignals; i++) {
 			if (updatedSignals[i] == source) {
 				iUpdatedSignals--;
@@ -45,6 +50,10 @@ class ContextImpl implements Context {
 				}
 				return;
 			}
+		}
+
+		if (DEBUG) {
+			System.out.println("Could not remove " + source);
 		}
 	}
 

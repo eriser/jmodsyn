@@ -5,8 +5,7 @@ import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
 /**
- * An all-pass filter implementation, typically used for Reverb, Phaser,
- * Karplus-Strong and other stuff.<br/>
+ * An all-pass filter implementation, typically used for Reverb<br/>
  * <code>
  *   >--->--------->---------->---->  -1 feed forward
  *   |     ______    _______       |
@@ -17,7 +16,7 @@ import org.modsyn.SignalInsert;
  * 
  * @author Erik Duijs
  */
-public class AllPassFilter implements SignalInsert {
+public class AllPassDelay implements SignalInsert {
 	int delay;
 	float gain;
 	int pointer;
@@ -25,7 +24,7 @@ public class AllPassFilter implements SignalInsert {
 
 	SignalInput connectedDevice;
 
-	public AllPassFilter(Context context, float time, float gain) {
+	public AllPassDelay(Context context, float time, float gain) {
 		this.delay = (int) (time * context.getSampleRate());
 		this.gain = gain;
 		this.pointer = 0;

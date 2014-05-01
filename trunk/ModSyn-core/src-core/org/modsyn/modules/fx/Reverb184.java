@@ -3,7 +3,7 @@ package org.modsyn.modules.fx;
 import org.modsyn.Context;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
-import org.modsyn.modules.AllPassFilter;
+import org.modsyn.modules.AllPassDelay;
 import org.modsyn.modules.Delay;
 import org.modsyn.modules.LPF;
 
@@ -52,7 +52,7 @@ import org.modsyn.modules.LPF;
 public class Reverb184 implements SignalInsert {
     private SignalInput connectedDevice;
     Delay delay0, delay1, delay2, delay3, delay4, delay5, delay6, delay7;
-    AllPassFilter apf0, apf1, apf2, apf3;
+    AllPassDelay apf0, apf1, apf2, apf3;
     LPF lpf;
     float dry, wet;
     
@@ -78,10 +78,10 @@ public class Reverb184 implements SignalInsert {
         delay5 = new Delay(context, (1491f / 44100f) * time, fbDelay);
         delay6 = new Delay(context, (1557f / 44100f) * time, fbDelay);
         delay7 = new Delay(context, (1617f / 44100f) * time, fbDelay);
-        apf0 = new AllPassFilter(context, (556f / 44100f) * time, fbAPF);
-        apf1 = new AllPassFilter(context, (441f / 44100f) * time, fbAPF);
-        apf2 = new AllPassFilter(context, (341f / 44100f) * time, fbAPF);
-        apf3 = new AllPassFilter(context, (225f / 44100f) * time, fbAPF);
+        apf0 = new AllPassDelay(context, (556f / 44100f) * time, fbAPF);
+        apf1 = new AllPassDelay(context, (441f / 44100f) * time, fbAPF);
+        apf2 = new AllPassDelay(context, (341f / 44100f) * time, fbAPF);
+        apf3 = new AllPassDelay(context, (225f / 44100f) * time, fbAPF);
         
         lpf = new LPF(context);
         lpf.setCutOff(4000);

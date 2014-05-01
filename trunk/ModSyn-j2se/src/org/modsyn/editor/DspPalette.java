@@ -47,6 +47,7 @@ import org.modsyn.editor.blocks.OctaverModel;
 import org.modsyn.editor.blocks.OscillatorHQModel;
 import org.modsyn.editor.blocks.OscillatorModel;
 import org.modsyn.editor.blocks.PanPotModel;
+import org.modsyn.editor.blocks.PhaserModel;
 import org.modsyn.editor.blocks.PitcherModel;
 import org.modsyn.editor.blocks.Reverb242Model;
 import org.modsyn.editor.blocks.RingModulatorModel;
@@ -426,6 +427,17 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(c, new ChorusModel(c), pm);
+		}
+	},
+	Phaser("FX") {
+		@Override
+		public String getModelName() {
+			return PhaserModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new PhaserModel(c), pm);
 		}
 	},
 	Octaver("FX") {
