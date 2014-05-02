@@ -689,8 +689,8 @@ public enum DspPalette {
 
 							// System.out.println("P=" + p);
 							for (int i = 0; i < w; i++) {
-								float signal = wv.wave[p++];
 								p %= wv.wave.length;
+								float signal = wv.wave[p++];
 								int u = (int) (signal * wv.amp * c);
 
 								g.drawLine(i - 1, prev, i, c - u);

@@ -22,10 +22,11 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 
 	public static class Scope implements SignalInsert {
 		SignalInput connected = NullInput.INSTANCE;
-		public final float[] wave = new float[1000];
-		private final float[] buffer = new float[1000];
+		public final float[] wave = new float[250];
+		private final float[] buffer = new float[wave.length * 8];
 		public int ptr = 0;
-		final int interval = 1000;
+		private int startIdx = 0;
+		final int interval = buffer.length;
 		int count = 0;
 		public float amp = 1;
 
@@ -40,14 +41,20 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 
 		@Override
 		public void set(float signal) {
+			ptr %= buffer.length;
 			if (count == 0) {
 				count = interval;
-				System.arraycopy(buffer, 0, wave, 0, wave.length);
+
+				try {
+					System.arraycopy(buffer, startIdx, wave, 0, wave.length);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				startIdx = ptr;
 				SwingUtilities.invokeLater(model.updater);
 			}
 			count--;
 
-			ptr %= buffer.length;
 			buffer[ptr++] = signal;
 
 			connected.set(signal);
