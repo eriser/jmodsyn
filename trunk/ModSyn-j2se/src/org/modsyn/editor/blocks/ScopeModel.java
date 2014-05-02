@@ -47,8 +47,8 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 			}
 			count--;
 
-			buffer[ptr++] = signal;
 			ptr %= buffer.length;
+			buffer[ptr++] = signal;
 
 			connected.set(signal);
 		}

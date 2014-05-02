@@ -2,6 +2,7 @@ package org.modsyn.editor;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ import org.modsyn.editor.blocks.CompressorModel;
 import org.modsyn.editor.blocks.CubicModel;
 import org.modsyn.editor.blocks.EnvelopeFollower2Model;
 import org.modsyn.editor.blocks.EnvelopeFollowerModel;
+import org.modsyn.editor.blocks.FFTModel;
 import org.modsyn.editor.blocks.Filter4PoleModel;
 import org.modsyn.editor.blocks.Filter8PoleModel;
 import org.modsyn.editor.blocks.FilterXPoleModel;
@@ -595,6 +597,50 @@ public enum DspPalette {
 				}
 			};
 			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 80);
+			return dbc;
+		}
+	},
+	FFT("Misc") {
+		@Override
+		public String getModelName() {
+			return FFTModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			final FFTModel vmm = new FFTModel(c);
+			DspBlockComponent dbc = new DspBlockComponent(c, vmm, pm, 0, 0, 280, 160) {
+				private static final long serialVersionUID = -8093488546616747252L;
+
+				@Override
+				public Component createCenterComponent() {
+					JComponent c = new JComponent() {
+						private static final long serialVersionUID = 6430783866717213954L;
+						final Color bg = new Color(0x000080);
+
+						@Override
+						public void paintComponent(Graphics g) {
+							double[] result = vmm.getDspObject().result;
+							double scale = 1.0 / vmm.getDspObject().max;
+							final int h = getHeight();
+							final int w = getWidth();
+							g.setColor(bg);
+							g.fillRect(0, 0, w, h);
+							g.setColor(Color.GREEN);
+
+							for (int x = 0; x < w; x++) {
+								int idx = (int) ((x / (double) w) * result.length);
+								int a = (int) (result[idx] * h * scale);
+								g.fillRect(x, h - a, 1, a);
+							}
+
+						}
+					};
+					c.setMinimumSize(new Dimension(256, 128));
+					return c;
+				}
+			};
+			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 160);
 			return dbc;
 		}
 	},
