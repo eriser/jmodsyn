@@ -609,7 +609,7 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			final FFTModel vmm = new FFTModel(c);
-			DspBlockComponent dbc = new DspBlockComponent(c, vmm, pm, 0, 0, 280, 160) {
+			DspBlockComponent dbc = new DspBlockComponent(c, vmm, pm, 0, 0, 280, 256) {
 				private static final long serialVersionUID = -8093488546616747252L;
 
 				@Override
@@ -617,6 +617,7 @@ public enum DspPalette {
 					JComponent c = new JComponent() {
 						private static final long serialVersionUID = 6430783866717213954L;
 						final Color bg = new Color(0x000080);
+						final Color bgl = new Color(0x0000e0);
 
 						@Override
 						public void paintComponent(Graphics g) {
@@ -624,8 +625,12 @@ public enum DspPalette {
 							double scale = 1.0 / vmm.getDspObject().max;
 							final int h = getHeight();
 							final int w = getWidth();
+
 							g.setColor(bg);
 							g.fillRect(0, 0, w, h);
+							g.setColor(bgl);
+							g.fillRect(0, (int) (scale * h), w, 1);
+
 							g.setColor(Color.GREEN);
 
 							for (int x = 0; x < w; x++) {
@@ -640,7 +645,7 @@ public enum DspPalette {
 					return c;
 				}
 			};
-			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 160);
+			dbc.setBounds(dbc.getX(), dbc.getY(), dbc.getWidth(), 256);
 			return dbc;
 		}
 	},
@@ -664,7 +669,6 @@ public enum DspPalette {
 						final Color bg = new Color(0x000080);
 						final Color bgl = new Color(0x0000e0);
 						final Color bgp = new Color(0x0000b0);
-						int prev;
 
 						@Override
 						public void paintComponent(Graphics g) {
@@ -673,10 +677,6 @@ public enum DspPalette {
 							final int c = h / 2;
 							final int p1 = (int) (c * wv.amp);
 
-							int p = wv.ptr - w;
-							while (p < 0) {
-								p += wv.wave.length;
-							}
 							g.setColor(bg);
 							g.fillRect(0, 0, w, h);
 							g.setColor(bgl);
@@ -687,24 +687,13 @@ public enum DspPalette {
 
 							g.setColor(Color.GREEN);
 
-							// System.out.println("P=" + p);
-							for (int i = 0; i < w; i++) {
-								p %= wv.wave.length;
-								float signal = wv.wave[p++];
-								int u = (int) (signal * wv.amp * c);
+							int prev = c - (int) (wv.wave[0] * wv.amp * c);
+							for (int i = 1; i < w; i++) {
+								int u = (int) (wv.wave[i] * wv.amp * c);
 
 								g.drawLine(i - 1, prev, i, c - u);
 								prev = c - u;
-
-								// g.fillRect(i, c + u, 1, 1);
-
-								// if (u < 0) {
-								// g.fillRect(i, c + u, 1, -u);
-								// } else {
-								// g.fillRect(i, c, 1, u + 1);
-								// }
 							}
-							// System.out.println("...P=" + p);
 						}
 					};
 					return c;

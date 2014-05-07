@@ -58,6 +58,8 @@ public class DspPaletteComponent extends JPanel {
 			list.add(pal);
 		}
 
+		final ArrayList<JList<DspPalette>> jLists = new ArrayList<>();
+
 		for (String key : lists.keySet()) {
 			List<DspPalette> l = lists.get(key);
 			DspPalette[] pal = new DspPalette[l.size()];
@@ -90,6 +92,17 @@ public class DspPaletteComponent extends JPanel {
 				public void mouseClicked(MouseEvent arg0) {
 					list.setVisible(!list.isVisible());
 				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if (list.isVisible()) {
+						list.setVisible(false);
+					} else {
+						for (int i = 0; i < jLists.size(); i++) {
+							jLists.get(i).setVisible(jLists.get(i) == list);
+						}
+					}
+				}
 			});
 
 			gbc.gridy++;
@@ -103,9 +116,10 @@ public class DspPaletteComponent extends JPanel {
 					if (e.getClickCount() == 2 && list.getSelectedIndex() >= 0) {
 						patchModel.addDspComponent(list.getSelectedValue().create(c, patchModel, -1));
 					}
-
 				}
 			});
+			list.setVisible(false);
+			jLists.add(list);
 		}
 
 		gbc.gridy++;

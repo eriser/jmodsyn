@@ -54,6 +54,7 @@ public class OscillatorHQ implements SignalSource {
 	public final SignalInput ctrFilter = new SignalInput() {
 		@Override
 		public void set(float signal) {
+			filterFreq = signal;
 			filter.set(signal * context.getSampleRate(), 0);
 		}
 	};
@@ -63,7 +64,8 @@ public class OscillatorHQ implements SignalSource {
 			super.set(signal);
 
 			filter.setSampleRate(context.getSampleRate() * this.value);
-			// bw.set(CUTOFF, 0);
+			setFrequency(frequency);
+			ctrFilter.set(filterFreq);
 		}
 	};
 
@@ -74,6 +76,7 @@ public class OscillatorHQ implements SignalSource {
 	private float detuneFactor;
 	private final Context context;
 	private final Butterworth24db filter;
+	private float filterFreq;
 
 	public OscillatorHQ(Context context) {
 		this(context, WaveTables.SINUS);
@@ -84,9 +87,9 @@ public class OscillatorHQ implements SignalSource {
 		setShape(waveTable);
 		index = 0;
 		detuneFactor = 1;
-		context.addSignalSource(this);
 		this.filter = new Butterworth24db(context);
 		filter.set(12000, 0);
+		context.addSignalSource(this);
 	}
 
 	public void setFrequency(float freq) {

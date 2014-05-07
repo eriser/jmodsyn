@@ -24,8 +24,8 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 		SignalInput connected = NullInput.INSTANCE;
 		public final float[] wave = new float[250];
 		private final float[] buffer = new float[wave.length * 8];
+		private final int startIdx = buffer.length - wave.length;
 		public int ptr = 0;
-		private int startIdx = 0;
 		final int interval = buffer.length;
 		int count = 0;
 		public float amp = 1;
@@ -50,7 +50,6 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				startIdx = ptr;
 				SwingUtilities.invokeLater(model.updater);
 			}
 			count--;

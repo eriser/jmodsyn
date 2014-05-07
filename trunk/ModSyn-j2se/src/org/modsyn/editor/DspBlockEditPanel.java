@@ -84,10 +84,15 @@ public class DspBlockEditPanel extends JPanel implements PropertyChangeListener 
 						knob.addPropertyChangeListener(new PropertyChangeListener() {
 							@Override
 							public void propertyChange(PropertyChangeEvent evt) {
-								input.setValue(knob.getValue());
-								input.setMin(knob.getMin());
-								input.setMax(knob.getMax());
-								input.setDecimals(knob.getDecimals());
+								if ("value".equals(evt.getPropertyName())) {
+									input.setValue(knob.getValue());
+								} else if ("min".equals(evt.getPropertyName())) {
+									input.setMin(knob.getMin());
+								} else if ("max".equals(evt.getPropertyName())) {
+									input.setMax(knob.getMax());
+								} else if ("decimals".equals(evt.getPropertyName())) {
+									input.setDecimals(knob.getDecimals());
+								}
 							}
 						});
 

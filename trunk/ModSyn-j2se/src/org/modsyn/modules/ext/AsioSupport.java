@@ -8,6 +8,7 @@ import org.modsyn.Context;
 import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalSource;
+import org.modsyn.util.Debug;
 
 import com.synthbot.jasiohost.AsioChannel;
 import com.synthbot.jasiohost.AsioDriver;
@@ -42,6 +43,9 @@ public enum AsioSupport implements SignalSource {
 	public final SignalInput inputL = new SignalInput() {
 		@Override
 		public void set(float data) {
+			if (DEBUG) {
+				Debug.checkSignal(data);
+			}
 			outputBuffers[0][bufferIndex] = data;
 		}
 	};
@@ -49,6 +53,9 @@ public enum AsioSupport implements SignalSource {
 	public final SignalInput inputR = new SignalInput() {
 		@Override
 		public void set(float data) {
+			if (DEBUG) {
+				Debug.checkSignal(data);
+			}
 			outputBuffers[1][bufferIndex] = data;
 		}
 	};

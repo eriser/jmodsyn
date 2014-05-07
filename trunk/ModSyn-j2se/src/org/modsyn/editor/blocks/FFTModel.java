@@ -29,10 +29,12 @@ public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 		private final FFT fft;
 		private final int fftSize;
 
-		private final double[] buffer;
+		private final double[] buffer, render;
 		public final double[] result;
 		public double max = 1;
 		private int index;
+
+		private final double[] winFunc;
 
 		/**
 		 * 
@@ -42,9 +44,22 @@ public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 		 *            Size of the result
 		 */
 		public FFTAnalysis(Context c, int size) {
-			this.fftSize = size * 2;
-			this.buffer = new double[fftSize * 2];
+			this.fftSize = size * 2; // we need twice the size as the FFT class generates the result in 2 values per
+										// result index
+			this.buffer = new double[fftSize * 2]; // the 2nd half produced by the FFT will be disregarded (negative
+													// frequencies)
+			this.render = new double[buffer.length];
+			this.winFunc = new double[fftSize];
+
+			for (int i = 0; i < fftSize; i++) {
+				double r = Math.PI / size;
+				for (int n = -size; n < size; n++) {
+					winFunc[size + n] = 0.54f + 0.46f * Math.cos(n * r);
+				}
+			}
+
 			this.result = new double[size];
+
 			this.fft = new FFT(fftSize, -1);
 		}
 
@@ -57,24 +72,26 @@ public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 			}
 
 			buffer[index++] = signal;
+			buffer[index++] = 0;
 
 			connectedInput.set(signal);
 		}
 
 		/**
 		 * Get the frequency intensities.
-		 * 
-		 * @param wave
-		 *            amplitudes of the signal
-		 * @return intensities of each frequency unit:
-		 *         mag[frequency_unit]=intensity
 		 */
 		private void transform() {
-			fft.transform(buffer);
+			System.arraycopy(buffer, 0, render, 0, render.length);
+
+			// for (int i = 0; i < render.length; i++) {
+			// render[i] *= winFunc[i % winFunc.length];
+			// }
+
+			fft.transform(render);
 
 			max = 1;
 			for (int i = 0; i < fftSize; i += 2) {
-				double a = Math.sqrt(buffer[i] * buffer[i] + buffer[i + 1] * buffer[i + 1]);
+				double a = Math.sqrt(render[i] * render[i] + render[i + 1] * render[i + 1]);
 				if (a > max) {
 					max = a;
 				}

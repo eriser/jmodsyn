@@ -34,7 +34,7 @@ public class Butterworth24db extends DefaultSignalOutput implements SignalInsert
 		setSampleRate(c.getSampleRate());
 	}
 
-	public void setSampleRate(int sampleRate) {
+	public synchronized void setSampleRate(int sampleRate) {
 		float fs = sampleRate;
 		float pi = (float) (4.f * Math.atan(1.f));
 
@@ -47,7 +47,7 @@ public class Butterworth24db extends DefaultSignalOutput implements SignalInsert
 		this.max_cutoff = fs * 0.45f;
 	}
 
-	public void set(float cutoff, float q) {
+	public synchronized void set(float cutoff, float q) {
 		if (cutoff < this.min_cutoff)
 			cutoff = this.min_cutoff;
 		else if (cutoff > this.max_cutoff)
@@ -96,7 +96,7 @@ public class Butterworth24db extends DefaultSignalOutput implements SignalInsert
 		connectedInput.set(process(signal));
 	}
 
-	public float process(float input) {
+	public synchronized float process(float input) {
 		float output = input * this.gain;
 		float new_hist;
 
