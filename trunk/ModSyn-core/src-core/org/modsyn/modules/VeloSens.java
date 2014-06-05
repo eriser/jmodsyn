@@ -1,5 +1,7 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.pow;
+
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInputValue;
@@ -15,7 +17,7 @@ public class VeloSens extends DefaultSignalOutput {
 		@Override
 		public void set(float signal) {
 			if (signal != 0) { // ignore key-off events
-				connectedInput.set((float) (Math.pow(signal, pow.value) * (sens.value + bias.value)));
+				connectedInput.set((float) (pow(signal, pow.value) * (sens.value + bias.value)));
 			}
 		}
 	};

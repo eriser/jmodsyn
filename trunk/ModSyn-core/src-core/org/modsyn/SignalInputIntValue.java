@@ -1,5 +1,7 @@
 package org.modsyn;
 
+import static java.lang.Math.round;
+
 /**
  * Convenience class or a SignalInput that simply sets an Integer value.
  * 
@@ -8,8 +10,7 @@ package org.modsyn;
 public class SignalInputIntValue implements SignalInput {
 
 	/**
-	 * The value of this signal is public for convenience, but should normally
-	 * never be written to.
+	 * The value of this signal is public for convenience, but should normally never be written to.
 	 */
 	public int value;
 
@@ -35,6 +36,6 @@ public class SignalInputIntValue implements SignalInput {
 	 */
 	@Override
 	public void set(float signal) {
-		value = Math.round(signal);
+		value = round(signal);
 	}
 }

@@ -1,5 +1,7 @@
 package org.modsyn.util;
 
+import static java.lang.Math.abs;
+
 import org.modsyn.DspObject;
 
 public class Debug implements DspObject {
@@ -11,7 +13,7 @@ public class Debug implements DspObject {
 	 * @param signal
 	 */
 	public static void checkSignal(float signal) {
-		if (signal != 0 && Math.abs(signal) < MIN_NORMAL) {
+		if (signal != 0 && abs(signal) < MIN_NORMAL) {
 			new Throwable("Denormal: " + signal).printStackTrace();
 		}
 

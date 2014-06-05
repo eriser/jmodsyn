@@ -6,17 +6,19 @@
  */
 package org.modsyn.util;
 
+import static java.lang.Math.pow;
+
 public class Tools {
 
-    public static final float[] FREQUENCY = new float[128];
+	public static final float[] FREQUENCY = new float[128];
 
-    static {
-        for (int key = 0; key < 128; key++) {
-            FREQUENCY[key] = (float) (440f * Math.pow(2, (key - 69) / 12f));
-        }
-    }
+	static {
+		for (int key = 0; key < 128; key++) {
+			FREQUENCY[key] = (float) (440f * pow(2, (key - 69) / 12f));
+		}
+	}
 
-    public static float getFreq(int MIDInote) {
-        return FREQUENCY[MIDInote];
-    }
+	public static float getFreq(int MIDInote) {
+		return FREQUENCY[MIDInote];
+	}
 }

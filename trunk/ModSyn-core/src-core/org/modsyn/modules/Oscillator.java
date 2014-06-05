@@ -6,6 +6,8 @@
  */
 package org.modsyn.modules;
 
+import static java.lang.Math.round;
+
 import org.modsyn.Context;
 import org.modsyn.DspObject;
 import org.modsyn.NullInput;
@@ -49,7 +51,7 @@ public class Oscillator implements SignalSource, DspObject {
 	public final SignalInput ctrShape = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			setShape(WaveTables.getWaveForm(Math.round(signal)));
+			setShape(WaveTables.getWaveForm(round(signal)));
 		}
 	};
 

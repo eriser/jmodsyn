@@ -1,0 +1,32 @@
+-------- TEST SignalSources -----------
+               Oscillator - updates/ms:  14389 - max:    326
+             OscillatorHQ - updates/ms:   7913 - max:    179
+             OscillatorHQ - updates/ms:   2123 - max:     48
+             OscillatorHQ - updates/ms:    545 - max:     12
+                    Noise - updates/ms:  48738 - max:   1105
+            KarplusStrong - updates/ms:  13990 - max:    317
+                 Arpeggio - updates/ms:  66654 - max:   1511
+                      Mix - updates/ms: 139048 - max:   3153
+            RingModulator - updates/ms: 122588 - max:   2779
+
+-------- TEST SignalInputss -----------
+                    Adder - updates/ms:  68100 - max:   1544
+                Amplifier - updates/ms:  61186 - max:   1387
+                 Splitter - updates/ms:  70874 - max:   1607
+                 Binaural - updates/ms:   3080 - max:     69
+            MultiSplitter - updates/ms:  64246 - max:   1456
+                  Octaver - updates/ms:  42123 - max:    955
+             PitchShifter - updates/ms:  11161 - max:    253
+              Filter4Pole - updates/ms:  42104 - max:    954
+              Filter8Pole - updates/ms:  23097 - max:    523
+              FilterXPole - updates/ms:  32069 - max:    727
+              FilterXPole - updates/ms:  19610 - max:    444
+              FilterXPole - updates/ms:  11138 - max:    252
+                      LPF - updates/ms:  65512 - max:   1485
+              Karlsen24dB - updates/ms:  21352 - max:    484
+                  MoogVCF - updates/ms:  16016 - max:    363
+                  Tracker - updates/ms:  53821 - max:   1220
+               Compressor - updates/ms:  52884 - max:   1199
+                    Delay - updates/ms:  61733 - max:   1399
+               VarDelayHQ - updates/ms:  15573 - max:    353
+                          - updates/ms:   3861 - max:     87

@@ -1,5 +1,7 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.abs;
+
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInputValue;
@@ -32,7 +34,7 @@ public class PitchShifter extends DefaultSignalOutput implements SignalInput {
 		idxW %= len;
 
 		float ph = (idxW - idxRU0) / ring.length;
-		int idxMU = (int) (Math.abs(ph) * WaveTables.WAVE_LENGTH);
+		int idxMU = (int) (abs(ph) * WaveTables.WAVE_LENGTH);
 		final float mixU = (1 - mixtable[idxMU]) / 2f;
 
 		final float pitched = (octU0 * mixU + octU1 * (1 - mixU));

@@ -6,6 +6,9 @@
  */
 package org.modsyn.modules;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.tanh;
+
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
@@ -44,14 +47,14 @@ public class SoftClip extends DefaultSignalOutput implements SignalInsert {
 	}
 
 	public final float saturate(float signal, float threshold) {
-		if (Math.abs(signal) < threshold) {
+		if (abs(signal) < threshold) {
 			return signal;
 		} else {
 			double t1 = 1.0 - threshold;
 			if (signal > 0.f) {
-				return (float) (threshold + t1 * Math.tanh((signal - threshold) / t1));
+				return (float) (threshold + t1 * tanh((signal - threshold) / t1));
 			} else {
-				return (float) -(threshold + t1 * Math.tanh((-signal - threshold) / t1));
+				return (float) -(threshold + t1 * tanh((-signal - threshold) / t1));
 			}
 		}
 	}

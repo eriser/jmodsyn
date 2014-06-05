@@ -1,5 +1,8 @@
 package org.modsyn.modules.fx;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.sin;
+
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
@@ -9,7 +12,7 @@ import org.modsyn.SignalInsert;
 import org.modsyn.modules.AllPass1stOrderFilter;
 
 public class Phaser extends DefaultSignalOutput implements SignalInsert {
-	private static final float PI2 = (float) (Math.PI * 2.);
+	private static final float PI2 = (float) (PI * 2.);
 
 	private final int sr;
 	private final AllPass1stOrderFilter[] stages = new AllPass1stOrderFilter[32];
@@ -77,7 +80,7 @@ public class Phaser extends DefaultSignalOutput implements SignalInsert {
 	public void set(float input) {
 		this.input = input; // save input to mix with output later in 'toOut'
 
-		float dLfo = (float) (range * (((Math.sin(lfoPhase) * ctrlLfoDepth.value) + 1.f) / 2.f));
+		float dLfo = (float) (range * (((sin(lfoPhase) * ctrlLfoDepth.value) + 1.f) / 2.f));
 		float dIn = range * ctrlInput.value;
 
 		for (int i = 0; i < stages.length; i++) {

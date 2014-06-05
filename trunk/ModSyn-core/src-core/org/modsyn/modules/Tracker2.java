@@ -1,5 +1,8 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.exp;
+
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
@@ -47,16 +50,16 @@ public class Tracker2 extends DefaultSignalOutput implements SignalInsert {
 	}
 
 	public void setAttackMillis(float attackMillis) {
-		attack = (float) Math.exp(Math.log(0.01) / (attackMillis * sampleRate * 0.001));
+		attack = (float) exp(Math.log(0.01) / (attackMillis * sampleRate * 0.001));
 	}
 
 	public void setReleaseMillis(float releaseMillis) {
-		release = (float) Math.exp(Math.log(0.01) / (releaseMillis * sampleRate * 0.001));
+		release = (float) exp(Math.log(0.01) / (releaseMillis * sampleRate * 0.001));
 	}
 
 	@Override
 	public void set(float in) {
-		float abs = Math.abs(in);
+		float abs = abs(in);
 		if (abs > envelope) {
 			envelope = attack * (envelope - abs) + abs;
 		} else {

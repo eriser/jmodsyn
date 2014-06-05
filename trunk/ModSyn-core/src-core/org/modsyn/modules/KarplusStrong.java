@@ -3,6 +3,8 @@
  */
 package org.modsyn.modules;
 
+import static java.lang.Math.PI;
+
 import java.util.Random;
 
 import org.modsyn.Context;
@@ -17,10 +19,9 @@ import org.modsyn.util.WaveTables;
 /**
  * @author DU1381
  * 
- *         Simulates plucked string sounds using the Karplus-Strong algorithm,
- *         which is a simple physical modelling algorithm. The ControlInput is
- *         the frequency control. The Triggered interface initiates the 'pluck',
- *         thus the start of the sound.
+ *         Simulates plucked string sounds using the Karplus-Strong algorithm, which is a simple physical modelling
+ *         algorithm. The ControlInput is the frequency control. The Triggered interface initiates the 'pluck', thus the
+ *         start of the sound.
  */
 public class KarplusStrong extends DefaultSignalOutput implements SignalSource, Device {
 
@@ -81,7 +82,7 @@ public class KarplusStrong extends DefaultSignalOutput implements SignalSource, 
 	float feedback;
 
 	// low pass filter
-	final float pi = (float) Math.PI;
+	final float pi = (float) PI;
 	final float pi2 = pi * 2f;
 	float vibrapos = 0;
 	float vibraspeed = 0;

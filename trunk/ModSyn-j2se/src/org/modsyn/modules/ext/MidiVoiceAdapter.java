@@ -1,5 +1,7 @@
 package org.modsyn.modules.ext;
 
+import static java.lang.Math.round;
+
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.DspObject;
 import org.modsyn.SignalInput;
@@ -22,14 +24,14 @@ public class MidiVoiceAdapter implements MidiListener, DspObject {
 	public final SignalInput cBendRange = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			bendRange = Math.round(signal);
+			bendRange = round(signal);
 		}
 	};
 
 	public final SignalInput ctrl1nr = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			c1nr = Math.round(signal);
+			c1nr = round(signal);
 		}
 	};
 

@@ -6,6 +6,11 @@
  */
 package org.modsyn.modules;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.exp;
+import static java.lang.Math.log;
+import static java.lang.Math.tanh;
+
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
@@ -81,11 +86,11 @@ public class TubeSim extends DefaultSignalOutput implements SignalInsert {
 	};
 
 	public void setAttackMillis(float attackMillis) {
-		attack = (float) Math.exp(Math.log(0.01) / (attackMillis * sampleRate * 0.001));
+		attack = (float) exp(log(0.01) / (attackMillis * sampleRate * 0.001));
 	}
 
 	public void setReleaseMillis(float releaseMillis) {
-		release = (float) Math.exp(Math.log(0.01) / (releaseMillis * sampleRate * 0.001));
+		release = (float) exp(log(0.01) / (releaseMillis * sampleRate * 0.001));
 	}
 
 	/*
@@ -104,7 +109,7 @@ public class TubeSim extends DefaultSignalOutput implements SignalInsert {
 		signal *= gain;
 
 		// Envelope follower
-		float abs = Math.abs(signal);
+		float abs = abs(signal);
 		if (abs > envelope) {
 			envelope = attack * (envelope - abs) + abs;
 		} else {
@@ -121,14 +126,14 @@ public class TubeSim extends DefaultSignalOutput implements SignalInsert {
 		// Positive soft-clipping
 		if (signal > thresholdTop) {
 			double t1 = 1.0 - thresholdTop;
-			signal = (float) (thresholdTop + t1 * Math.tanh((signal - thresholdTop) / t1));
+			signal = (float) (thresholdTop + t1 * tanh((signal - thresholdTop) / t1));
 		}
 
 		// Negative soft-clipping
 		signal *= -1;
 		if (signal > thresholdBottom) {
 			double t1 = 1.0 - thresholdBottom;
-			signal = (float) (thresholdBottom + t1 * Math.tanh((signal - thresholdBottom) / t1));
+			signal = (float) (thresholdBottom + t1 * tanh((signal - thresholdBottom) / t1));
 		}
 		signal *= -1;
 

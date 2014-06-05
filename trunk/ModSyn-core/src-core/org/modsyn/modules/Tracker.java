@@ -6,6 +6,8 @@
  */
 package org.modsyn.modules;
 
+import static java.lang.Math.abs;
+
 import org.modsyn.DspObject;
 import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
@@ -55,7 +57,7 @@ public class Tracker implements SignalInsert, DspObject {
 	 */
 	@Override
 	public void set(float data) {
-		data = Math.abs(data);
+		data = abs(data);
 		buffer[index] = data;
 		buffered += data;
 

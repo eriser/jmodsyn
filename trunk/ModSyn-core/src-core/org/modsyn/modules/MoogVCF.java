@@ -1,13 +1,16 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.round;
+import static java.lang.Math.sin;
+
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
 /**
- * Based on code posted here:
- * http://www.musicdsp.org/showArchiveComment.php?ArchiveID=24
+ * Based on code posted here: http://www.musicdsp.org/showArchiveComment.php?ArchiveID=24
  * 
  * @author Erik Duijs
  */
@@ -33,7 +36,7 @@ public class MoogVCF extends DefaultSignalOutput implements SignalInsert {
 	public final SignalInput ctrlMode = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			int i = Math.round(signal);
+			int i = round(signal);
 			switch (i) {
 			case MODE_LPF:
 				filterMode = modeLPF;
@@ -131,7 +134,7 @@ public class MoogVCF extends DefaultSignalOutput implements SignalInsert {
 		p = cutoff * (1.8 - 0.8 * cutoff);
 		// k = p + p - 1.0;
 		// A much better tuning seems to be:
-		k = (2.0 * Math.sin(cutoff * Math.PI * 0.5) - 1.0);
+		k = (2.0 * sin(cutoff * PI * 0.5) - 1.0);
 
 		double t1 = (1.0 - p) * 1.386249f;
 		double t2 = 12.0 + t1 * t1;

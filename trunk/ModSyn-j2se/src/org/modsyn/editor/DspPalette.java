@@ -31,6 +31,7 @@ import org.modsyn.editor.blocks.CompressorModel;
 import org.modsyn.editor.blocks.CubicModel;
 import org.modsyn.editor.blocks.EnvelopeFollower2Model;
 import org.modsyn.editor.blocks.EnvelopeFollowerModel;
+import org.modsyn.editor.blocks.ExciterModel;
 import org.modsyn.editor.blocks.FFTModel;
 import org.modsyn.editor.blocks.Filter4PoleModel;
 import org.modsyn.editor.blocks.Filter8PoleModel;
@@ -70,8 +71,10 @@ import org.modsyn.modules.Tracker;
 import org.modsyn.modules.ctrl.ADSREnvelope;
 import org.modsyn.modules.ext.AudioInSupport;
 import org.modsyn.modules.ext.AudioOutSupport;
+import org.modsyn.modules.ext.FromFile;
 import org.modsyn.modules.ext.MidiVoicePolyAdapter;
 import org.modsyn.modules.ext.ToFile;
+import org.modsyn.modules.ext.WavReaderModel;
 import org.modsyn.modules.ext.WavWriterModel;
 import org.modsyn.util.Keyboard2;
 import org.modsyn.util.Keyboard2Adapter;
@@ -508,6 +511,17 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new StereoEnvelopeDelayModel(c), pm);
 		}
 	},
+	Exciter("FX") {
+		@Override
+		public String getModelName() {
+			return ExciterModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new ExciterModel(c), pm);
+		}
+	},
 
 	Knob("Misc") {
 		@Override
@@ -751,6 +765,56 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return AudioOutSupport.create(c, pm, channels);
+		}
+	},
+	Wav_IN("EXT") {
+		@Override
+		public String getModelName() {
+			return WavReaderModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			final WavReaderModel model = new WavReaderModel(c);
+			final DspBlockComponent block = new DspBlockComponent(c, model, pm);
+			final FromFile wav = model.getDspObject();
+
+			block.button.addActionListener(new ActionListener() {
+				boolean running;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					JFileChooser fc = new JFileChooser(".");
+					fc.setSelectedFile(new File("default.wav"));
+					fc.setFileFilter(new FileFilter() {
+						@Override
+						public String getDescription() {
+							return "WAV file";
+						}
+
+						@Override
+						public boolean accept(File f) {
+							return f.getName().endsWith(".wav");
+						}
+					});
+					int response = fc.showSaveDialog(null);
+					if (response == JFileChooser.APPROVE_OPTION) {
+						File f = fc.getSelectedFile();
+						if (!f.getName().endsWith(".wav")) {
+							f = new File(f.getAbsolutePath() + ".wav");
+						}
+						try {
+							wav.open(f, true);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				}
+			});
+
+			return block;
 		}
 	},
 	Wav_OUT("EXT") {

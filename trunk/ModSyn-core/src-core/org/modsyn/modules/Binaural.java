@@ -1,5 +1,10 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.asin;
+import static java.lang.Math.max;
+import static java.lang.Math.sqrt;
+
 import org.modsyn.Context;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInputValue;
@@ -50,18 +55,18 @@ public class Binaural implements SignalInput {
 			float x = b.posX.value + xoffs;
 			float y = b.posY.value;
 
-			float dist = (float) Math.sqrt((x * x) + (y * y));
+			float dist = (float) sqrt((x * x) + (y * y));
 			delay.setDelayTime(dist / Context.SPEED_OF_SOUND_MPS);
 
-			float limDist = Math.max(nearest, dist);
+			float limDist = max(nearest, dist);
 			float vol = 1f / (limDist);
 			amp.control.set(vol);
 
 			// Calculate filtering based on relative position.
 			// This could be much refined; now it simply filters most when the source is exactly behind you and doesn't
 			// filter when it's exactly in front.
-			float angle = (float) Math.asin(x / dist);
-			float fAmount = (float) (angle / (Math.PI * 2));
+			float angle = (float) asin(x / dist);
+			float fAmount = (float) (angle / (PI * 2));
 			if (y < 0) {
 				fAmount = 0.5f - fAmount;
 			}

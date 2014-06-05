@@ -6,6 +6,8 @@
  */
 package org.modsyn.modules;
 
+import static java.lang.Math.round;
+
 import org.modsyn.Context;
 import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
@@ -48,7 +50,7 @@ public class OscillatorHQ implements SignalSource {
 	public final SignalInput ctrShape = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			setShape(WaveTables.getWaveForm(Math.round(signal)));
+			setShape(WaveTables.getWaveForm(round(signal)));
 		}
 	};
 	public final SignalInput ctrFilter = new SignalInput() {

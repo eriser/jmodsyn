@@ -1,5 +1,9 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.exp;
+import static java.lang.Math.pow;
+
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
@@ -10,7 +14,7 @@ public class Compressor extends DefaultSignalOutput implements SignalInsert {
 		@Override
 		public void set(float signal) {
 			threshold = signal;
-			transferB = (float) (output * Math.pow(threshold, -transferA));
+			transferB = (float) (output * pow(threshold, -transferA));
 		}
 	};
 
@@ -18,22 +22,22 @@ public class Compressor extends DefaultSignalOutput implements SignalInsert {
 		@Override
 		public void set(float signal) {
 			transferA = signal - 1.f;
-			transferB = (float) (output * Math.pow(threshold, -transferA));
+			transferB = (float) (output * pow(threshold, -transferA));
 		}
 	};
 
 	public final SignalInput ctrlAttack = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			attack = (float) Math.exp(-1.f / signal);
+			attack = (float) exp(-1.f / signal);
 		}
 	};
 
 	public final SignalInput ctrlRelease = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			release = (float) Math.exp(-1.f / signal);
-			envelopeDecay = (float) Math.exp(-4.f / signal);
+			release = (float) exp(-1.f / signal);
+			envelopeDecay = (float) exp(-4.f / signal);
 
 		}
 	};
@@ -42,7 +46,7 @@ public class Compressor extends DefaultSignalOutput implements SignalInsert {
 		@Override
 		public void set(float signal) {
 			output = signal;
-			transferB = (float) (output * Math.pow(threshold, -transferA));
+			transferB = (float) (output * pow(threshold, -transferA));
 		}
 	};
 
@@ -70,11 +74,11 @@ public class Compressor extends DefaultSignalOutput implements SignalInsert {
 
 	@Override
 	public void set(float signal) {
-		float abs = Math.abs(signal) + MIN_NORMAL;
+		float abs = abs(signal) + MIN_NORMAL;
 
 		envelope = abs >= envelope ? abs : abs + envelopeDecay * (envelope - abs);
 
-		float transferGain = (float) (envelope > threshold ? Math.pow(envelope, transferA) * transferB : output);
+		float transferGain = (float) (envelope > threshold ? pow(envelope, transferA) * transferB : output);
 
 		gain = transferGain < gain ? transferGain + attack * (gain - transferGain) : transferGain + release * (gain - transferGain);
 

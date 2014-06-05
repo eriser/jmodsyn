@@ -6,6 +6,8 @@
  */
 package org.modsyn.modules.ext;
 
+import static java.lang.Math.abs;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
@@ -151,7 +153,7 @@ public class ToJavaSound implements SignalSource, DspObject {
 	private void convertMono() {
 		for (int i = 0, ii = 0; i < fbuffer1.length; i++) {
 			int sample = (int) (fbuffer1[i] * gain);
-			float abs = Math.abs(sample);
+			float abs = abs(sample);
 			if (abs > 32767) {
 				sample -= (abs - sample);
 			}

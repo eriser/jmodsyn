@@ -1,5 +1,8 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.atan;
+import static java.lang.Math.tan;
+
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
@@ -36,7 +39,7 @@ public class Butterworth24db extends DefaultSignalOutput implements SignalInsert
 
 	public synchronized void setSampleRate(int sampleRate) {
 		float fs = sampleRate;
-		float pi = (float) (4.f * Math.atan(1.f));
+		float pi = (float) (4.f * atan(1.f));
 
 		this.t0 = 4.f * fs * fs;
 		this.t1 = 8.f * fs * fs;
@@ -62,7 +65,7 @@ public class Butterworth24db extends DefaultSignalOutput implements SignalInsert
 
 		this.q = q;
 
-		float wp = (float) (this.t2 * Math.tan(this.t3 * cutoff));
+		float wp = (float) (this.t2 * tan(this.t3 * cutoff));
 		float bd, bd_tmp, b1, b2;
 
 		q *= Q_SCALE;

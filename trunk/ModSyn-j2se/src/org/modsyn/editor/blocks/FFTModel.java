@@ -1,5 +1,9 @@
 package org.modsyn.editor.blocks;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sqrt;
+
 import javax.swing.SwingUtilities;
 
 import org.modsyn.Context;
@@ -52,9 +56,9 @@ public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 			this.winFunc = new double[fftSize];
 
 			for (int i = 0; i < fftSize; i++) {
-				double r = Math.PI / size;
+				double r = PI / size;
 				for (int n = -size; n < size; n++) {
-					winFunc[size + n] = 0.54f + 0.46f * Math.cos(n * r);
+					winFunc[size + n] = 0.54f + 0.46f * cos(n * r);
 				}
 			}
 
@@ -91,7 +95,7 @@ public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 
 			max = 1;
 			for (int i = 0; i < fftSize; i += 2) {
-				double a = Math.sqrt(render[i] * render[i] + render[i + 1] * render[i + 1]);
+				double a = sqrt(render[i] * render[i] + render[i + 1] * render[i + 1]);
 				if (a > max) {
 					max = a;
 				}

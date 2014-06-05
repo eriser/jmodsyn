@@ -3,6 +3,8 @@
  */
 package org.modsyn.modules;
 
+import static java.lang.Math.PI;
+
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
@@ -17,7 +19,7 @@ public class LPF extends DefaultSignalOutput implements SignalInsert {
 	public static final int ORDER_12DB = 1;
 	public static final int ORDER_24DB = 2;
 
-	private final float pi = (float) Math.PI;
+	private final float pi = (float) PI;
 	private final float pi2 = pi * 2f;
 	private float vibrapos = 0;
 	private float vibraspeed = 0;

@@ -1,5 +1,7 @@
 package org.modsyn.modules;
 
+import static java.lang.Math.round;
+
 import org.modsyn.DefaultSignalOutput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
@@ -28,7 +30,7 @@ public class FilterXPole extends DefaultSignalOutput implements SignalInsert {
 	public final SignalInput ctrlPoles = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			int i = Math.round(signal);
+			int i = round(signal);
 			if (i >= 1 && i <= 16) {
 				if (i < poles) {
 					for (int j = i; j < poles; j++) {
@@ -65,7 +67,7 @@ public class FilterXPole extends DefaultSignalOutput implements SignalInsert {
 	public final SignalInput ctrlMode = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			int i = Math.round(signal);
+			int i = round(signal);
 			switch (i) {
 			case MODE_LPF:
 				filterMode = modeLPF;

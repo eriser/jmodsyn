@@ -1,5 +1,7 @@
 package org.modsyn.editor;
 
+import static java.lang.Math.max;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -190,7 +192,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		} else {
 			ch = outputList.getCellBounds(0, 0).height;
 		}
-		height = 18 + (Math.max(model.getInputs().size(), model.getOutputs().size()) * ch);
+		height = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
 		// } else {
 		// height = h;
 		// }

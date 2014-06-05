@@ -1,5 +1,10 @@
 package org.modsyn.gui;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.max;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -134,10 +139,10 @@ public class JKnob extends JComponent {
 		g.fillOval((w - wk) / 2, (h - hk) / 2, wk, hk);
 
 		double angle = a_min + (a_max - a_min) * ((value - min) / (max - min));
-		int x = (int) (((w / 2) + Math.cos(Math.toRadians(angle)) * (wk / 3)));
-		int y = (int) (((h / 2) + Math.sin(Math.toRadians(angle)) * (hk / 3)));
-		int sx = Math.max(2, w / 10);
-		int sy = Math.max(2, h / 10);
+		int x = (int) (((w / 2) + cos(toRadians(angle)) * (wk / 3)));
+		int y = (int) (((h / 2) + sin(toRadians(angle)) * (hk / 3)));
+		int sx = max(2, w / 10);
+		int sy = max(2, h / 10);
 		g.setColor(Color.WHITE);
 		g.fillOval(x - sx / 2, y - sy / 2, sx, sy);
 

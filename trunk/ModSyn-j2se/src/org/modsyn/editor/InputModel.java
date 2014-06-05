@@ -1,5 +1,8 @@
 package org.modsyn.editor;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -32,7 +35,7 @@ public class InputModel {
 
 		int dmin = 5 - Integer.toString((int) min).length();
 		int dmax = 5 - Integer.toString((int) max).length();
-		this.decimals = Math.max(2, Math.min(dmin, dmax));
+		this.decimals = max(2, min(dmin, dmax));
 
 		input.set(value);
 	}
