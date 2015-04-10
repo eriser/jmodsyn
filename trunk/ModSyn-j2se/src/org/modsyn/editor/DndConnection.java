@@ -94,7 +94,8 @@ public class DndConnection {
 		}
 
 		/**
-		 * Bundle up the selected items in a single list for export. Each line is separated by a newline.
+		 * Bundle up the selected items in a single list for export. Each line
+		 * is separated by a newline.
 		 */
 		@Override
 		protected Transferable createTransferable(JComponent c) {
@@ -178,8 +179,9 @@ public class DndConnection {
 					return false;
 				}
 
-				model.addDspConnection(new DspConnection(outputModel.getSoundBlockModel().component, outputModel.getSoundBlockModel().outputs
-						.indexOf(outputModel), inputModel.getSoundBlockModel().component, index));
+				model.addDspConnection(
+						new DspConnection(outputModel.getSoundBlockModel().component, outputModel.getSoundBlockModel().outputs.indexOf(outputModel), inputModel
+								.getSoundBlockModel().component, index), true);
 			} catch (Exception ignore) {
 				// dropping where we can't drop
 				return false;

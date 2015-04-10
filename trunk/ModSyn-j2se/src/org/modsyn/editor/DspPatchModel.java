@@ -35,8 +35,19 @@ public class DspPatchModel {
 	final List<DspConnection> dspConnections = new ArrayList<DspConnection>();
 	private final Context context;
 
+	public final String name;
+	public final boolean isMainModel;
+
 	public DspPatchModel(Context context) {
 		this.context = context;
+		this.name = "MAIN";
+		this.isMainModel = true;
+	}
+
+	public DspPatchModel(Context c, String name) {
+		this.context = c;
+		this.name = name;
+		this.isMainModel = false;
 	}
 
 	public List<DspBlockComponent> getDspBlocks() {
@@ -48,7 +59,8 @@ public class DspPatchModel {
 	}
 
 	/**
-	 * Get either the selected DspBlockComponents, or all DspBlockComponents if there is no selection.
+	 * Get either the selected DspBlockComponents, or all DspBlockComponents if
+	 * there is no selection.
 	 * 
 	 * @return
 	 */
@@ -67,7 +79,8 @@ public class DspPatchModel {
 	}
 
 	/**
-	 * Get either the connections of all selected DspComponents, or all connections if there is no selection.
+	 * Get either the connections of all selected DspComponents, or all
+	 * connections if there is no selection.
 	 * 
 	 * @return
 	 */
@@ -86,17 +99,17 @@ public class DspPatchModel {
 	}
 
 	public void addDspComponent(final DspBlockComponent dspBlockComponent) {
-		if (!dspBlockComponent.getModel().isSubModel()) {
-			dspBlocks.add(dspBlockComponent);
-			addListener(dspBlockComponent);
-			dspBlockComponent.addCloseButtonListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					removeDspComponent(dspBlockComponent);
-				}
-			});
-			pcs.firePropertyChange(EVENT_ADD_BLOCK, null, dspBlockComponent);
-		}
+		// if (!dspBlockComponent.getModel().isSubModel()) {
+		dspBlocks.add(dspBlockComponent);
+		addListener(dspBlockComponent);
+		dspBlockComponent.addCloseButtonListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				removeDspComponent(dspBlockComponent);
+			}
+		});
+		pcs.firePropertyChange(EVENT_ADD_BLOCK, null, dspBlockComponent);
+		// }
 	}
 
 	public void removeDspComponent(DspBlockComponent dspBlockComponent) {
@@ -181,12 +194,13 @@ public class DspPatchModel {
 		pcs.firePropertyChange(EVENT_REMOVE_CONNECTION, null, connection);
 	}
 
-	public void addDspConnection(DspConnection connection) {
-		if (!connection.isInMeta()) {
+	public void addDspConnection(DspConnection connection, boolean visible) {
+		// if (!connection.isInMeta()) {
+		if (visible) {
 			checkToRemove(connection);
 			dspConnections.add(connection);
 		}
-		connection.fromSignal.connectTo(connection.toSignal);
+		// connection.fromSignal.connectTo(connection.toSignal);
 		pcs.firePropertyChange(EVENT_ADD_CONNECTION, null, connection);
 	}
 

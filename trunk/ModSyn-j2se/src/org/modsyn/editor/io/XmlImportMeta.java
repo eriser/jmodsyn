@@ -27,7 +27,17 @@ public class XmlImportMeta {
 	private final Document doc;
 	public final DspBlockComponent importedMetaBlock;
 
-	public XmlImportMeta(File f, Context c, DspPatchModel pm) throws Exception {
+	/**
+	 * 
+	 * @param f
+	 * @param c
+	 * @param pm
+	 *            The model to add the Meta object into
+	 * @param newModel
+	 *            The model that shows the components inside the Meta object
+	 * @throws Exception
+	 */
+	public XmlImportMeta(File f, Context c, DspPatchModel pm, DspPatchModel newModel) throws Exception {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		this.doc = dBuilder.parse(f);
@@ -69,7 +79,7 @@ public class XmlImportMeta {
 				channels = Integer.parseInt(ochannels);
 			}
 
-			DspBlockComponent dbc = create(type, oname, c, pm, channels);
+			DspBlockComponent dbc = create(type, oname, c, newModel != null ? newModel : pm, channels);
 			dbc.getModel().setSubModel(true);
 
 			metaDsp.add(dbc.getModel().getDspObject());
@@ -78,7 +88,10 @@ public class XmlImportMeta {
 			Rectangle r = new Rectangle(Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]), Integer.parseInt(b[3]));
 			dbc.setBounds(r);
 
-			pm.addDspComponent(dbc);
+			if (newModel != null) {
+				newModel.addDspComponent(dbc);
+			}
+			// pm.addDspComponent(dbc);
 
 			NodeList nlInputs = e.getElementsByTagName("input");
 			for (int j = 0; j < nlInputs.getLength(); j++) {
@@ -133,8 +146,13 @@ public class XmlImportMeta {
 				DspBlockModel<?> from = mapOutputs.get(fromId).getSoundBlockModel();
 				DspBlockModel<?> to = mapInputs.get(toId).getSoundBlockModel();
 
-				pm.addDspConnection(new DspConnection(from.component, from.getOutputs().indexOf(mapOutputs.get(fromId)), to.component, to.getInputs().indexOf(
-						mapInputs.get(toId))));
+				DspConnection connection = new DspConnection(from.component, from.getOutputs().indexOf(mapOutputs.get(fromId)), to.component, to.getInputs()
+						.indexOf(mapInputs.get(toId)));
+
+				pm.addDspConnection(connection, false);
+				if (newModel != null) {
+					newModel.addDspConnection(connection, true);
+				}
 			} catch (NullPointerException npe) {
 				// ignore -> dangling connection
 			}
@@ -173,7 +191,10 @@ public class XmlImportMeta {
 	private DspBlockComponent create(String className, String name, Context c, DspPatchModel pm, int channels) {
 		if (className.equals(MetaModel.class.getName())) {
 			try {
-				XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, pm);
+				DspPatchModel newModel = new DspPatchModel(c, name);
+				// model.addSubModel(newModel);
+
+				XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, pm, newModel);
 				return im.importedMetaBlock;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

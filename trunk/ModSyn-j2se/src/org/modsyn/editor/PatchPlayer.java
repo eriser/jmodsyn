@@ -34,7 +34,7 @@ public class PatchPlayer {
 
 				final Context context = ContextFactory.create();
 
-				final DspPatchModel model = new DspPatchModel(context);
+				final DspPatchCombinationModel model = new DspPatchCombinationModel(context);
 
 				JPanel p = new JPanel(new GridLayout(2, 4));
 				for (final String patch : patches) {

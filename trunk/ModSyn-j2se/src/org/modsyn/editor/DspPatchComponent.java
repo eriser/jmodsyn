@@ -33,8 +33,6 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 
 	private final DspPatchModel model;
 
-	// private final ValueEditor ve = new ValueEditor();
-
 	private final SelectionListener sl;
 
 	class SelectionListener implements MouseListener, MouseMotionListener {

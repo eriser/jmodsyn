@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.CubicCurve2D;
 
 public class DspConnection {
-	private static final boolean render_squared = true;
 
 	private static final BasicStroke selected = new BasicStroke(2.0f);
 	private static final BasicStroke normal = new BasicStroke(1);
@@ -22,18 +21,10 @@ public class DspConnection {
 		this.to = to;
 		this.fromSignal = from.getModel().outputs.get(idxFrom);
 		this.toSignal = to.getModel().inputs.get(idxTo);
-	}
-
-	public boolean isInMeta() {
-		return from.getModel().isSubModel() || to.getModel().isSubModel();
+		fromSignal.connectTo(toSignal);
 	}
 
 	public void render(Graphics g) {
-		if (isInMeta()) {
-			// don't draw connections that are inside a meta-component
-			return;
-		}
-
 		int idx0 = from.getModel().getOutputs().indexOf(fromSignal);
 		int idx1 = to.getModel().getInputs().indexOf(toSignal);
 		int y0 = from.getY() + 23 + from.outputList.getCellBounds(idx0, idx0).y;
@@ -60,31 +51,14 @@ public class DspConnection {
 		g.fillRect(x0, y0 - 2, 4, 5);
 
 		if (x01 < x11) {
-			// g.drawLine(x01, y0, x11, y1); // draw directly from out-to-in
 			CubicCurve2D curve = new CubicCurve2D.Double();
 			curve.setCurve(x01, y0, x01 + (x11 - x01) / 3, y0, x11 - (x11 - x01) / 3, y1, x11, y1);
 			g2d.draw(curve);
 		} else {
-			if (render_squared) {
-				int yHalf = (from.getY() + from.getHeight() + to.getY()) / 2;
-				// int yHalfTop = from.getY() + from.getHeight();
-				// int yHalfBottom = to.getY();
-				CubicCurve2D curve = new CubicCurve2D.Double();
-				curve.setCurve(x01, y0, x01, yHalf, x11, yHalf, x11, y1);
-				g2d.draw(curve);
-
-				// g.drawLine(x01, y0, x01, yHalf);
-				// g.drawLine(x11, y1, x11, yHalf);
-				// g.drawLine(x01, yHalf, x11, yHalf);
-			} else {
-
-				int y01 = (y1 < y0) ? y0 - 16 : y0 + 16;
-				int y11 = (y1 < y0) ? y1 + 16 : y1 - 16;
-
-				g.drawLine(x01, y0, x01, y01);
-				g.drawLine(x11, y1, x11, y11);
-				g.drawLine(x01, y01, x11, y11);
-			}
+			int yHalf = (from.getY() + from.getHeight() + to.getY()) / 2;
+			CubicCurve2D curve = new CubicCurve2D.Double();
+			curve.setCurve(x01, y0, x01, yHalf, x11, yHalf, x11, y1);
+			g2d.draw(curve);
 		}
 	}
 }

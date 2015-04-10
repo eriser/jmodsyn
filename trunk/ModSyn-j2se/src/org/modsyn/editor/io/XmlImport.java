@@ -13,6 +13,7 @@ import org.modsyn.editor.DspBlockComponent;
 import org.modsyn.editor.DspBlockModel;
 import org.modsyn.editor.DspConnection;
 import org.modsyn.editor.DspPalette;
+import org.modsyn.editor.DspPatchCombinationModel;
 import org.modsyn.editor.DspPatchModel;
 import org.modsyn.editor.InputModel;
 import org.modsyn.editor.OutputModel;
@@ -24,8 +25,10 @@ import org.w3c.dom.NodeList;
 public class XmlImport {
 
 	private final Document doc;
+	private final DspPatchCombinationModel model;
 
-	public XmlImport(File f, Context c, DspPatchModel pm) throws Exception {
+	public XmlImport(File f, Context c, DspPatchCombinationModel pm) throws Exception {
+		this.model = pm;
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		this.doc = dBuilder.parse(f);
@@ -54,7 +57,7 @@ public class XmlImport {
 				channels = Integer.parseInt(ochannels);
 			}
 
-			DspBlockComponent dbc = create(type, oname, c, pm, channels);
+			DspBlockComponent dbc = create(type, oname, c, pm.getMainModel(), channels);
 
 			String[] b = e.getAttribute("bounds").split(",");
 			Rectangle r = new Rectangle(Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]), Integer.parseInt(b[3]));
@@ -62,7 +65,7 @@ public class XmlImport {
 
 			if (!(dbc.getModel() instanceof MetaModel)) {
 				// meta import already adds a meta model
-				pm.addDspComponent(dbc);
+				pm.getMainModel().addDspComponent(dbc);
 			}
 
 			NodeList nlInputs = e.getElementsByTagName("input");
@@ -118,24 +121,21 @@ public class XmlImport {
 				DspBlockModel<?> from = mapOutputs.get(fromId).getSoundBlockModel();
 				DspBlockModel<?> to = mapInputs.get(toId).getSoundBlockModel();
 
-				pm.addDspConnection(new DspConnection(from.component, from.getOutputs().indexOf(mapOutputs.get(fromId)), to.component, to.getInputs().indexOf(
-						mapInputs.get(toId))));
+				pm.getMainModel().addDspConnection(
+						new DspConnection(from.component, from.getOutputs().indexOf(mapOutputs.get(fromId)), to.component, to.getInputs().indexOf(
+								mapInputs.get(toId))), true);
 			} catch (NullPointerException npe) {
 				// ignore -> dangling connection
 			}
 		}
 	}
 
-	private DspBlockComponent create(String className, String name, Context c, DspPatchModel pm, int channels) {
+	private DspBlockComponent create(String className, String name, Context c, DspPatchModel pm, int channels) throws Exception {
 		if (className.equals(MetaModel.class.getName())) {
-			try {
-				XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, pm);
-				return im.importedMetaBlock;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
+			DspPatchModel newModel = new DspPatchModel(c, name);
+			model.addSubModel(newModel);
+			XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, pm, newModel);
+			return im.importedMetaBlock;
 		} else {
 			return DspPalette.createFromModelName(className, c, pm, channels);
 		}

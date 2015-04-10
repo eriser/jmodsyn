@@ -205,7 +205,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		return selected;
 	}
 
-	private static final Color META_COLOR = new Color(0x006000);
+	public static final Color META_COLOR = new Color(0x006000);
 
 	public void setSelected(boolean b) {
 		this.selected = b;

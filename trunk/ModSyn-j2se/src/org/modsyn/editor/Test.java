@@ -11,7 +11,7 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 		Context c = ContextFactory.create();
-		DspPatchModel pm = new DspPatchModel(c);
+		DspPatchCombinationModel pm = new DspPatchCombinationModel(c);
 		new XmlImport(new File(FileSys.dirPatches, "dirty-rhodes.dsp-patch"), c, pm);
 	}
 }

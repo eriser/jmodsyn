@@ -13,10 +13,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
 
 import org.modsyn.Context;
@@ -40,10 +38,8 @@ public class PatchEditor {
 
 				final Context context = ContextFactory.create();
 
-				final DspPatchModel model = new DspPatchModel(context);
-				final DspPatchComponent cmpPatch = new DspPatchComponent(context, model);
-
-				DspPaletteComponent cmpPalette = new DspPaletteComponent(context, model);
+				final DspPatchCombinationModel pcModel = new DspPatchCombinationModel(context);
+				final DspPatchCombinationComponent pcComponent = new DspPatchCombinationComponent(context, pcModel);
 
 				JToolBar toolBar = new JToolBar();
 				JButton btnLoad = new JButton("Load");
@@ -65,15 +61,15 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch") || f.isDirectory();
 							}
 						});
-						int response = fc.showOpenDialog(cmpPatch);
+						int response = fc.showOpenDialog(pcComponent);
 						if (response == JFileChooser.APPROVE_OPTION) {
-							model.clear();
+							pcModel.getMainModel().clear();
 							try {
 								File f = fc.getSelectedFile();
 								if (!f.getName().endsWith(".dsp-patch")) {
 									f = new File(f.getAbsolutePath() + ".dsp-patch");
 								}
-								new XmlImport(f, context, model);
+								new XmlImport(f, context, pcModel);
 								frame.setTitle("PatchEditor - " + f.getName());
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
@@ -100,14 +96,14 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showSaveDialog(cmpPatch);
+						int response = fc.showSaveDialog(pcComponent);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
 								if (!f.getName().endsWith(".dsp-patch")) {
 									f = new File(f.getAbsolutePath() + ".dsp-patch");
 								}
-								new IOTransferTool().saveString(new XmlExport(model).toString(), "utf-8", f);
+								new IOTransferTool().saveString(new XmlExport(pcModel.getMainModel()).toString(), "utf-8", f);
 								frame.setTitle("PatchEditor - " + f.getName());
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
@@ -120,7 +116,7 @@ public class PatchEditor {
 				btnClear.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						model.clear();
+						pcModel.clear();
 						frame.setTitle("PatchEditor");
 					}
 				});
@@ -141,7 +137,7 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showSaveDialog(cmpPatch);
+						int response = fc.showSaveDialog(pcComponent);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
@@ -149,7 +145,7 @@ public class PatchEditor {
 									f = new File(f.getAbsolutePath() + ".dsp-patch");
 								}
 
-								new IOTransferTool().saveString(new XmlExportMidi(model).toString(), "utf-8", f);
+								new IOTransferTool().saveString(new XmlExportMidi(pcModel.getMainModel()).toString(), "utf-8", f);
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -176,14 +172,14 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showOpenDialog(cmpPatch);
+						int response = fc.showOpenDialog(pcComponent);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
 								if (!f.getName().endsWith(".dsp-patch")) {
 									f = new File(f.getAbsolutePath() + ".dsp-patch");
 								}
-								new XmlImportMeta(f, context, model);
+								new XmlImportMeta(f, context, pcModel.getMainModel(), null);
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -208,7 +204,7 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showSaveDialog(cmpPatch);
+						int response = fc.showSaveDialog(pcComponent);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
@@ -216,7 +212,7 @@ public class PatchEditor {
 									f = new File(f.getAbsolutePath() + ".dsp-patch");
 								}
 
-								new IOTransferTool().saveString(new XmlExportMeta(model, true).toString(), "utf-8", f);
+								new IOTransferTool().saveString(new XmlExportMeta(pcModel.getMainModel(), true).toString(), "utf-8", f);
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -235,18 +231,8 @@ public class PatchEditor {
 				toolBar.add(btnImportMeta);
 				toolBar.add(btnExportMeta);
 
-				JScrollPane scrollC = new JScrollPane(cmpPatch, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-				scrollC.setBorder(new EmptyBorder(0, 0, 0, 0));
-				scrollC.getVerticalScrollBar().setUnitIncrement(16);
-				scrollC.getHorizontalScrollBar().setUnitIncrement(16);
-
-				JPanel pCenter = new JPanel(new BorderLayout());
-				pCenter.add(scrollC, BorderLayout.CENTER);
-				pCenter.add(new DspBlockEditPanel(cmpPatch), BorderLayout.SOUTH);
-
 				JPanel p = new JPanel(new BorderLayout());
-				p.add(cmpPalette, BorderLayout.WEST);
-				p.add(pCenter, BorderLayout.CENTER);
+				p.add(pcComponent, BorderLayout.CENTER);
 				p.add(toolBar, BorderLayout.NORTH);
 
 				frame.add(p);
