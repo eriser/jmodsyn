@@ -46,7 +46,7 @@ public class DspPatchCombinationComponent extends JPanel implements PropertyChan
 
 		JPanel pCenter = new JPanel(new BorderLayout());
 		pCenter.add(scrollC, BorderLayout.CENTER);
-		pCenter.add(new DspBlockEditPanel(cmpPatch), BorderLayout.SOUTH);
+		pCenter.add(new DspBlockEditPanel(cmpPatch, this.model), BorderLayout.SOUTH);
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(cmpPalette, BorderLayout.WEST);

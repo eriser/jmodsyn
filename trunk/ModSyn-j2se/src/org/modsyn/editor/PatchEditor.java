@@ -42,7 +42,7 @@ public class PatchEditor {
 				final DspPatchCombinationComponent pcComponent = new DspPatchCombinationComponent(context, pcModel);
 
 				JToolBar toolBar = new JToolBar();
-				JButton btnLoad = new JButton("Load");
+				final JButton btnLoad = new JButton("Load");
 				btnLoad.addActionListener(new ActionListener() {
 
 					@Override
@@ -61,7 +61,7 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch") || f.isDirectory();
 							}
 						});
-						int response = fc.showOpenDialog(pcComponent);
+						int response = fc.showOpenDialog(btnLoad);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							pcModel.getMainModel().clear();
 							try {
@@ -79,7 +79,7 @@ public class PatchEditor {
 					}
 				});
 
-				JButton btnSave = new JButton("Save");
+				final JButton btnSave = new JButton("Save");
 				btnSave.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -96,7 +96,7 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showSaveDialog(pcComponent);
+						int response = fc.showSaveDialog(btnSave);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
@@ -112,7 +112,7 @@ public class PatchEditor {
 						}
 					}
 				});
-				JButton btnClear = new JButton("Clear");
+				final JButton btnClear = new JButton("Clear");
 				btnClear.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -120,7 +120,7 @@ public class PatchEditor {
 						frame.setTitle("PatchEditor");
 					}
 				});
-				JButton btnExportMidi = new JButton("Export MIDI Voice");
+				final JButton btnExportMidi = new JButton("Export MIDI Voice");
 				btnExportMidi.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -137,7 +137,7 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showSaveDialog(pcComponent);
+						int response = fc.showSaveDialog(btnExportMidi);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
@@ -154,7 +154,7 @@ public class PatchEditor {
 					}
 				});
 
-				JButton btnImportMeta = new JButton("Import META");
+				final JButton btnImportMeta = new JButton("Import META");
 				btnImportMeta.addActionListener(new ActionListener() {
 
 					@Override
@@ -172,7 +172,7 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showOpenDialog(pcComponent);
+						int response = fc.showOpenDialog(btnImportMeta);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
@@ -187,7 +187,7 @@ public class PatchEditor {
 						}
 					}
 				});
-				JButton btnExportMeta = new JButton("Export META");
+				final JButton btnExportMeta = new JButton("Export META");
 				btnExportMeta.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -204,7 +204,7 @@ public class PatchEditor {
 								return f.getName().endsWith(".dsp-patch");
 							}
 						});
-						int response = fc.showSaveDialog(pcComponent);
+						int response = fc.showSaveDialog(btnExportMeta);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
