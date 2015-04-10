@@ -23,6 +23,11 @@ import javax.swing.UIManager;
 
 import org.modsyn.Context;
 
+/**
+ * Component that displays the categorized palette of DSP components.
+ * 
+ * @author Erik Duijs
+ */
 public class DspPaletteComponent extends JPanel {
 
 	/**
@@ -91,17 +96,6 @@ public class DspPaletteComponent extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					list.setVisible(!list.isVisible());
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					if (list.isVisible()) {
-						list.setVisible(false);
-					} else {
-						for (int i = 0; i < jLists.size(); i++) {
-							jLists.get(i).setVisible(jLists.get(i) == list);
-						}
-					}
 				}
 			});
 
