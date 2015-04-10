@@ -11,9 +11,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.modsyn.Context;
 import org.modsyn.MetaDspObject;
 import org.modsyn.editor.DspBlockComponent;
-import org.modsyn.editor.DspBlockComponentFactory;
 import org.modsyn.editor.DspBlockModel;
 import org.modsyn.editor.DspConnection;
+import org.modsyn.editor.DspPalette;
 import org.modsyn.editor.DspPatchModel;
 import org.modsyn.editor.InputModel;
 import org.modsyn.editor.OutputModel;
@@ -62,17 +62,14 @@ public class XmlImportMeta {
 				type = "org.modsyn.editor.blocks.MultiSplitterModel";
 				ochannels = "2";
 			}
-			if (type.equals("org.modsyn.editor.blocks.FromMidi4Model")) {
-				type = "org.modsyn.editor.blocks.FromMidiPolyModel";
-				ochannels = "4";
-			}
+			// ../legacy
 
 			int channels = -1;
 			if (ochannels != null && ochannels.length() > 0) {
 				channels = Integer.parseInt(ochannels);
 			}
 
-			DspBlockComponent dbc = DspBlockComponentFactory.create(type, oname, c, pm, channels);
+			DspBlockComponent dbc = create(type, oname, c, pm, channels);
 			dbc.getModel().setSubModel(true);
 
 			metaDsp.add(dbc.getModel().getDspObject());
@@ -171,5 +168,20 @@ public class XmlImportMeta {
 
 		this.importedMetaBlock = new DspBlockComponent(c, metaModel, pm, 0, 0, 100, -1);
 		pm.addDspComponent(importedMetaBlock);
+	}
+
+	private DspBlockComponent create(String className, String name, Context c, DspPatchModel pm, int channels) {
+		if (className.equals(MetaModel.class.getName())) {
+			try {
+				XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, pm);
+				return im.importedMetaBlock;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			return DspPalette.createFromModelName(className, c, pm, channels);
+		}
 	}
 }
