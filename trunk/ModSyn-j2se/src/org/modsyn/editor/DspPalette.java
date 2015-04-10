@@ -780,7 +780,6 @@ public enum DspPalette {
 			final FromFile wav = model.getDspObject();
 
 			block.button.addActionListener(new ActionListener() {
-				boolean running;
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
