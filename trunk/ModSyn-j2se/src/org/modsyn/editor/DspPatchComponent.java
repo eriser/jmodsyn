@@ -182,7 +182,7 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 					for (DspBlockComponent c : sl.selComponents) {
-						getModel().removeDspComponent(c);
+						getModel().ctrlRemoveDspComponent(c);
 					}
 					sl.clearSelectedComponents();
 				}

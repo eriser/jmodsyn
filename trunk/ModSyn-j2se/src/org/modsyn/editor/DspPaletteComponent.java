@@ -108,7 +108,13 @@ public class DspPaletteComponent extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() == 2 && list.getSelectedIndex() >= 0) {
-						patchModel.addDspComponent(list.getSelectedValue().create(c, patchModel, -1));
+						if (patchModel.isMainModel) {
+							patchModel.addDspComponent(list.getSelectedValue().create(c, patchModel, -1));
+						} else {
+							for (DspPatchModel m : patchModel.parent.getLinkedSubModels(patchModel.name)) {
+								m.addDspComponent(list.getSelectedValue().create(c, m, -1));
+							}
+						}
 					}
 				}
 			});

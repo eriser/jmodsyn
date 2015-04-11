@@ -14,6 +14,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -184,18 +185,13 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		}
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		int height;
-		// if (h == -1) {
 		int ch;
 		if (model.getInputs().size() > 0) {
 			ch = inputList.getCellBounds(0, 0).height;
 		} else {
 			ch = outputList.getCellBounds(0, 0).height;
 		}
-		height = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
-		// } else {
-		// height = h;
-		// }
+		int height = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
 
 		setBounds(x, y, w, height);
 		setSelected(false);
@@ -273,13 +269,25 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	}
 
 	public void snapToGrid() {
-		setLocation(getX() + 12, getY() + 12);
-		setLocation(getX() - (getX() % 25), getY() - (getY() % 25));
+		int x1 = getX() + 12;
+		int y1 = getY() + 12;
+		int x2 = getX() - (getX() % 25);
+		int y2 = getY() - (getY() % 25);
+
+		if (!patchModel.isMainModel) {
+			List<DspBlockComponent> linked = patchModel.parent.getLinkedBlockComponents(this);
+			for (DspBlockComponent dbc : linked) {
+				dbc.setLocation(x1, y1);
+				dbc.setLocation(x2, y2);
+			}
+		} else {
+			setLocation(x1, y1);
+			setLocation(x2, y2);
+		}
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		repaint();
-
 	};
 }

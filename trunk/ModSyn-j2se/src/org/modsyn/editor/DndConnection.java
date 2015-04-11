@@ -3,6 +3,7 @@ package org.modsyn.editor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JList;
@@ -94,8 +95,7 @@ public class DndConnection {
 		}
 
 		/**
-		 * Bundle up the selected items in a single list for export. Each line
-		 * is separated by a newline.
+		 * Bundle up the selected items in a single list for export. Each line is separated by a newline.
 		 */
 		@Override
 		protected Transferable createTransferable(JComponent c) {
@@ -136,7 +136,7 @@ public class DndConnection {
 				if (info.getTransferable().isDataFlavorSupported(FLAVOR_OUTPUTMODEL)) {
 					// disconnect
 					try {
-						model.removeDspConnection((OutputModel) info.getTransferable().getTransferData(FLAVOR_OUTPUTMODEL));
+						model.ctrlRemoveDspConnection((OutputModel) info.getTransferable().getTransferData(FLAVOR_OUTPUTMODEL));
 						return true;
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -148,11 +148,21 @@ public class DndConnection {
 
 					try {
 						DspPalette pal = (DspPalette) info.getTransferable().getTransferData(FLAVOR_DSPPALETTE);
-						DspBlockComponent dbc = pal.create(context, model, -1);
-						dbc.setLocation(info.getDropLocation().getDropPoint().x, info.getDropLocation().getDropPoint().y);
-						dbc.snapToGrid();
+						if (model.isMainModel) {
+							DspBlockComponent dbc = pal.create(context, model, -1);
+							dbc.setLocation(info.getDropLocation().getDropPoint().x, info.getDropLocation().getDropPoint().y);
+							dbc.snapToGrid();
 
-						model.addDspComponent(dbc);
+							model.addDspComponent(dbc);
+						} else {
+							for (DspPatchModel m : model.parent.getLinkedSubModels(model.name)) {
+								DspBlockComponent dbc = pal.create(context, m, -1);
+								dbc.setLocation(info.getDropLocation().getDropPoint().x, info.getDropLocation().getDropPoint().y);
+								dbc.snapToGrid();
+
+								m.addDspComponent(dbc);
+							}
+						}
 
 						return true;
 					} catch (Exception e) {
@@ -174,14 +184,27 @@ public class DndConnection {
 
 				InputModel inputModel = (InputModel) listModel.getElementAt(index);
 
-				if (outputModel.getSoundBlockModel() == inputModel.getSoundBlockModel()) {
+				DspBlockModel<?> outputBlockModel = outputModel.getSoundBlockModel();
+				DspBlockModel<?> inputBlockModel = inputModel.getSoundBlockModel();
+
+				if (outputBlockModel == inputBlockModel) {
 					// Don't connect to itself
 					return false;
 				}
 
-				model.addDspConnection(
-						new DspConnection(outputModel.getSoundBlockModel().component, outputModel.getSoundBlockModel().outputs.indexOf(outputModel), inputModel
-								.getSoundBlockModel().component, index), true);
+				if (model.isMainModel) {
+					model.addDspConnection(new DspConnection(outputBlockModel.component, outputBlockModel.outputs.indexOf(outputModel),
+							inputBlockModel.component, index), true);
+				} else {
+					List<DspBlockComponent> outComponents = model.parent.getLinkedBlockComponents(outputBlockModel.component);
+					List<DspBlockComponent> inComponents = model.parent.getLinkedBlockComponents(inputBlockModel.component);
+					List<DspPatchModel> subModels = model.parent.getLinkedSubModels(model.name);
+
+					for (int i = 0; i < subModels.size(); i++) {
+						subModels.get(i).addDspConnection(
+								new DspConnection(outComponents.get(i), outputBlockModel.outputs.indexOf(outputModel), inComponents.get(i), index), true);
+					}
+				}
 			} catch (Exception ignore) {
 				// dropping where we can't drop
 				return false;

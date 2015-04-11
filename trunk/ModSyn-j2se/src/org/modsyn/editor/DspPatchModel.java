@@ -37,17 +37,20 @@ public class DspPatchModel {
 
 	public final String name;
 	public final boolean isMainModel;
+	public final DspPatchCombinationModel parent;
 
-	public DspPatchModel(Context context) {
+	public DspPatchModel(Context context, DspPatchCombinationModel parent) {
 		this.context = context;
 		this.name = "MAIN";
 		this.isMainModel = true;
+		this.parent = parent;
 	}
 
-	public DspPatchModel(Context c, String name) {
+	public DspPatchModel(Context c, String name, DspPatchCombinationModel parent) {
 		this.context = c;
 		this.name = name;
 		this.isMainModel = false;
+		this.parent = parent;
 	}
 
 	public List<DspBlockComponent> getDspBlocks() {
@@ -59,8 +62,7 @@ public class DspPatchModel {
 	}
 
 	/**
-	 * Get either the selected DspBlockComponents, or all DspBlockComponents if
-	 * there is no selection.
+	 * Get either the selected DspBlockComponents, or all DspBlockComponents if there is no selection.
 	 * 
 	 * @return
 	 */
@@ -79,8 +81,7 @@ public class DspPatchModel {
 	}
 
 	/**
-	 * Get either the connections of all selected DspComponents, or all
-	 * connections if there is no selection.
+	 * Get either the connections of all selected DspComponents, or all connections if there is no selection.
 	 * 
 	 * @return
 	 */
@@ -99,17 +100,15 @@ public class DspPatchModel {
 	}
 
 	public void addDspComponent(final DspBlockComponent dspBlockComponent) {
-		// if (!dspBlockComponent.getModel().isSubModel()) {
 		dspBlocks.add(dspBlockComponent);
 		addListener(dspBlockComponent);
 		dspBlockComponent.addCloseButtonListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				removeDspComponent(dspBlockComponent);
+				ctrlRemoveDspComponent(dspBlockComponent);
 			}
 		});
 		pcs.firePropertyChange(EVENT_ADD_BLOCK, null, dspBlockComponent);
-		// }
 	}
 
 	public void removeDspComponent(DspBlockComponent dspBlockComponent) {
@@ -176,16 +175,13 @@ public class DspPatchModel {
 		 */
 	}
 
-	public void removeDspConnection(OutputModel output) {
-		DspConnection toRemove = null;
-		for (DspConnection c : dspConnections) {
-			if (output == c.fromSignal) {
-				toRemove = c;
-			}
+	public void addDspConnection(DspConnection connection, boolean visible) {
+		if (visible) {
+			checkToRemove(connection);
+			dspConnections.add(connection);
 		}
-		if (toRemove != null) {
-			removeDspConnection(toRemove);
-		}
+		connection.fromSignal.connectTo(connection.toSignal);
+		pcs.firePropertyChange(EVENT_ADD_CONNECTION, null, connection);
 	}
 
 	public void removeDspConnection(DspConnection connection) {
@@ -194,14 +190,40 @@ public class DspPatchModel {
 		pcs.firePropertyChange(EVENT_REMOVE_CONNECTION, null, connection);
 	}
 
-	public void addDspConnection(DspConnection connection, boolean visible) {
-		// if (!connection.isInMeta()) {
-		if (visible) {
-			checkToRemove(connection);
-			dspConnections.add(connection);
+	public void ctrlRemoveDspComponent(DspBlockComponent dspBlockComponent) {
+		if (isMainModel) {
+			removeDspComponent(dspBlockComponent);
+		} else {
+			List<DspBlockComponent> linked = parent.getLinkedBlockComponents(dspBlockComponent);
+			List<DspPatchModel> models = parent.getLinkedSubModels(name);
+			for (int i = 0; i < models.size(); i++) {
+				models.get(i).removeDspComponent(linked.get(i));
+			}
 		}
-		// connection.fromSignal.connectTo(connection.toSignal);
-		pcs.firePropertyChange(EVENT_ADD_CONNECTION, null, connection);
+	}
+
+	public void ctrlRemoveDspConnection(OutputModel output) {
+		DspConnection toRemove = null;
+		for (DspConnection c : dspConnections) {
+			if (output == c.fromSignal) {
+				toRemove = c;
+			}
+		}
+		if (toRemove != null) {
+			ctrlRemoveDspConnection(toRemove);
+		}
+	}
+
+	public void ctrlRemoveDspConnection(DspConnection connection) {
+		if (isMainModel) {
+			removeDspConnection(connection);
+		} else {
+			List<DspConnection> linked = parent.getLinkedConnections(connection);
+			List<DspPatchModel> models = parent.getLinkedSubModels(name);
+			for (int i = 0; i < models.size(); i++) {
+				models.get(i).removeDspConnection(linked.get(i));
+			}
+		}
 	}
 
 	private void checkToRemove(DspConnection newConnection) {

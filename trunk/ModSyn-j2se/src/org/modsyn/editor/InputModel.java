@@ -23,6 +23,7 @@ public class InputModel {
 	private float max;
 	private String name;
 	private int decimals;
+	private String metaRename;
 
 	public InputModel(DspBlockModel<?> soundBlockModel, SignalInput input, String name, float value, float min, float max) {
 		this.soundBlockModel = soundBlockModel;
@@ -140,4 +141,15 @@ public class InputModel {
 		this.name = name;
 	}
 
+	public void setMetaRename(String name) {
+		this.metaRename = name;
+	}
+
+	public String getMetaRename() {
+		return metaRename;
+	}
+
+	public boolean isMetaRename() {
+		return metaRename != null;
+	}
 }
