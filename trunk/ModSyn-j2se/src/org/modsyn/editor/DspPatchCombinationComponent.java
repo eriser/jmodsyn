@@ -73,6 +73,8 @@ public class DspPatchCombinationComponent extends JPanel implements PropertyChan
 			}
 		} else if (DspPatchCombinationModel.EVENT_ADD_SUBMODEL.equals(evt.getPropertyName())) {
 			addTab(context, (DspPatchModel) evt.getNewValue());
+		} else if (DspPatchCombinationModel.EVENT_REMOVE_SUBMODEL.equals(evt.getPropertyName())) {
+			tabs.remove(1 + (Integer) evt.getOldValue());
 		}
 	}
 }

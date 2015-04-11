@@ -20,6 +20,7 @@ import org.modsyn.Context;
 public class DspPatchCombinationModel {
 
 	static final String EVENT_ADD_SUBMODEL = "add-submodel";
+	static final String EVENT_REMOVE_SUBMODEL = "remove-submodel";
 	static final String EVENT_CLEAR = "clear";
 
 	private final PropertyChangeSupport pcs = new SwingPropertyChangeSupport(this, true);
@@ -52,6 +53,12 @@ public class DspPatchCombinationModel {
 		}
 		linkedSubModels.get(model.name).add(model);
 		pcs.firePropertyChange(EVENT_ADD_SUBMODEL, null, model);
+	}
+
+	public void removeSubModel(DspPatchModel model) {
+		int idx = subModels.indexOf(model);
+		subModels.remove(model);
+		pcs.firePropertyChange(EVENT_REMOVE_SUBMODEL, idx, model);
 	}
 
 	/**
@@ -126,4 +133,5 @@ public class DspPatchCombinationModel {
 
 		pcs.firePropertyChange(EVENT_CLEAR, null, this);
 	}
+
 }

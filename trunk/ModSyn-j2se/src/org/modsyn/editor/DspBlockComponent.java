@@ -9,9 +9,9 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -50,6 +50,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	private boolean selected;
 	private JLabel name;
 	private DspPatchModel patchModel;
+	private DspPatchModel metaPatchModel;
 
 	private final static Font font = new Font("Arial", Font.BOLD, 9);
 
@@ -201,6 +202,14 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		return selected;
 	}
 
+	public DspPatchModel getMetaPatchModel() {
+		return metaPatchModel;
+	}
+
+	public void setMetaPatchModel(DspPatchModel metaPatchModel) {
+		this.metaPatchModel = metaPatchModel;
+	}
+
 	public static final Color META_COLOR = new Color(0x006000);
 
 	public void setSelected(boolean b) {
@@ -222,7 +231,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		return model;
 	}
 
-	class Mover implements MouseListener, MouseMotionListener {
+	class Mover extends MouseAdapter {
 		boolean dragging;
 		int x, y;
 
@@ -233,22 +242,6 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				setBounds((int) (r.getX() + (e.getX() - x)), (int) (r.getY() + (e.getY() - y)), (int) r.getWidth(), (int) r.getHeight());
 				getParent().repaint();
 			}
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
 		}
 
 		@Override

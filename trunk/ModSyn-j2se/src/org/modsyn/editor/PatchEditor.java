@@ -29,7 +29,8 @@ import org.modsyn.modules.ext.AsioSupport;
 import org.modsyn.util.IOTransferTool;
 
 public class PatchEditor {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -179,7 +180,7 @@ public class PatchEditor {
 								if (!f.getName().endsWith(".dsp-patch")) {
 									f = new File(f.getAbsolutePath() + ".dsp-patch");
 								}
-								new XmlImportMeta(f, context, pcModel.getMainModel(), null);
+								new XmlImportMeta(f, context, pcModel, pcModel.getMainModel());
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

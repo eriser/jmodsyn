@@ -193,6 +193,9 @@ public class DspPatchModel {
 	public void ctrlRemoveDspComponent(DspBlockComponent dspBlockComponent) {
 		if (isMainModel) {
 			removeDspComponent(dspBlockComponent);
+			if (dspBlockComponent.getMetaPatchModel() != null) {
+				parent.removeSubModel(dspBlockComponent.getMetaPatchModel());
+			}
 		} else {
 			List<DspBlockComponent> linked = parent.getLinkedBlockComponents(dspBlockComponent);
 			List<DspPatchModel> models = parent.getLinkedSubModels(name);

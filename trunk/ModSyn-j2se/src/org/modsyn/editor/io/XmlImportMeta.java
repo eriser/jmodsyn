@@ -14,6 +14,7 @@ import org.modsyn.editor.DspBlockComponent;
 import org.modsyn.editor.DspBlockModel;
 import org.modsyn.editor.DspConnection;
 import org.modsyn.editor.DspPalette;
+import org.modsyn.editor.DspPatchCombinationModel;
 import org.modsyn.editor.DspPatchModel;
 import org.modsyn.editor.InputModel;
 import org.modsyn.editor.OutputModel;
@@ -26,6 +27,7 @@ public class XmlImportMeta {
 
 	private final Document doc;
 	public final DspBlockComponent importedMetaBlock;
+	private final DspPatchCombinationModel model;
 
 	/**
 	 * 
@@ -37,7 +39,12 @@ public class XmlImportMeta {
 	 *            The model that shows the components inside the Meta object
 	 * @throws Exception
 	 */
-	public XmlImportMeta(File f, Context c, DspPatchModel pm, DspPatchModel newModel) throws Exception {
+	public XmlImportMeta(File f, Context c, DspPatchCombinationModel model, DspPatchModel pm) throws Exception {
+		this.model = model;
+		String fname = f.getName().substring(0, f.getName().length() - ".dsp-patch".length());
+		DspPatchModel newModel = new DspPatchModel(c, fname, pm.parent);
+		model.addSubModel(newModel);
+
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		this.doc = dBuilder.parse(f);
@@ -185,16 +192,17 @@ public class XmlImportMeta {
 		}
 
 		this.importedMetaBlock = new DspBlockComponent(c, metaModel, pm, 0, 0, 100, -1);
+		this.importedMetaBlock.setMetaPatchModel(newModel);
 		pm.addDspComponent(importedMetaBlock);
 	}
 
 	private DspBlockComponent create(String className, String name, Context c, DspPatchModel pm, int channels) {
 		if (className.equals(MetaModel.class.getName())) {
 			try {
-				DspPatchModel newModel = new DspPatchModel(c, name, pm.parent);
+				// DspPatchModel newModel = new DspPatchModel(c, name, pm.parent);
 				// model.addSubModel(newModel);
 
-				XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, pm, newModel);
+				XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, model, pm);
 				return im.importedMetaBlock;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
