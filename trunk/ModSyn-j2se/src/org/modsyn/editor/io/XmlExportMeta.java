@@ -23,8 +23,36 @@ public class XmlExportMeta extends XmlExport {
 		OutputModel createOutputModel(DspBlockComponent block, OutputModel source);
 	}
 
+	private final MetaInputFactory defInputFactory = new MetaInputFactory() {
+		@Override
+		public InputModel createInputModel(DspBlockComponent block, InputModel source) {
+			if (source.isMetaRename()) {
+				return source;
+			}
+			return null;
+
+		}
+	};
+	private final MetaOutputFactory defOutputFactory = new MetaOutputFactory() {
+
+		@Override
+		public OutputModel createOutputModel(DspBlockComponent block, OutputModel source) {
+			if (source.isMetaRename()) {
+				return source;
+			}
+			return null;
+		}
+
+	};
 	private final MetaInputFactory cmi;
 	private final MetaOutputFactory cmo;
+
+	public XmlExportMeta(List<DspBlockComponent> blocks, List<DspConnection> connections) throws ParserConfigurationException {
+		super(blocks, connections);
+		this.cmi = defInputFactory;
+		this.cmo = defOutputFactory;
+		createMetaExport();
+	}
 
 	public XmlExportMeta(List<DspBlockComponent> blocks, List<DspConnection> connections, MetaInputFactory cmi, MetaOutputFactory cmo)
 			throws ParserConfigurationException {
@@ -52,37 +80,43 @@ public class XmlExportMeta extends XmlExport {
 		for (DspBlockComponent block : blocks) {
 			List<InputModel> inputs = new ArrayList<>();
 			for (InputModel im : block.getModel().getInputs()) {
-				if (!im.isConnected() || !im.getSource().getSoundBlockModel().component.isSelected()) {
-					InputModel metaInput = cmi.createInputModel(block, im);
 
-					if (metaInput != null) {
-						Element eInput = dom.createElement("input");
-						eInputs.appendChild(eInput);
-						setAttributes(metaInput, eInput, metaInput.getName());
+				if (cmi == defInputFactory) {
 
-						inputs.add(metaInput);
+				} else {
+					if (!im.isConnected() || !im.getSource().getSoundBlockModel().component.isSelected()) {
+						InputModel metaInput = cmi.createInputModel(block, im);
+
+						if (metaInput != null) {
+							Element eInput = dom.createElement("input");
+							eInputs.appendChild(eInput);
+							setAttributes(metaInput, eInput, metaInput.getName());
+
+							inputs.add(metaInput);
+						}
 					}
 				}
 			}
-			// TODO: export meta-inputs
 
 			List<OutputModel> outputs = new ArrayList<>();
 			for (OutputModel output : block.getModel().getOutputs()) {
 				InputModel target = output.getTarget();
-				if (target == null || (target.getInput() instanceof NullInput) || !target.getSoundBlockModel().component.isSelected()) {
-					OutputModel metaOutput = cmo.createOutputModel(block, output);
+				if (cmo == defOutputFactory) {
 
-					if (metaOutput != null) {
-						Element eOutput = dom.createElement("output");
-						eOutputs.appendChild(eOutput);
-						setAttributes(metaOutput, eOutput, metaOutput.getName());
+				} else {
+					if (target == null || (target.getInput() instanceof NullInput) || !target.getSoundBlockModel().component.isSelected()) {
+						OutputModel metaOutput = cmo.createOutputModel(block, output);
 
-						outputs.add(metaOutput);
+						if (metaOutput != null) {
+							Element eOutput = dom.createElement("output");
+							eOutputs.appendChild(eOutput);
+							setAttributes(metaOutput, eOutput, metaOutput.getName());
+
+							outputs.add(metaOutput);
+						}
 					}
 				}
-
 			}
-			// TODO: export meta-outputs
 
 		}
 

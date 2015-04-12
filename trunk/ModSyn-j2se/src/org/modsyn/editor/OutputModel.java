@@ -17,6 +17,7 @@ public class OutputModel {
 	private final SignalOutput output;
 	private InputModel target;
 	private String name;
+	private String metaRename;
 
 	public OutputModel(DspBlockModel<?> soundBlockModel, SignalOutput output, String name) {
 		super();
@@ -58,6 +59,18 @@ public class OutputModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setMetaRename(String name) {
+		this.metaRename = name;
+	}
+
+	public String getMetaRename() {
+		return metaRename;
+	}
+
+	public boolean isMetaRename() {
+		return metaRename != null;
 	}
 
 	public DspBlockModel<?> getSoundBlockModel() {

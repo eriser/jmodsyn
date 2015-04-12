@@ -199,9 +199,6 @@ public class XmlImportMeta {
 	private DspBlockComponent create(String className, String name, Context c, DspPatchModel pm, int channels) {
 		if (className.equals(MetaModel.class.getName())) {
 			try {
-				// DspPatchModel newModel = new DspPatchModel(c, name, pm.parent);
-				// model.addSubModel(newModel);
-
 				XmlImportMeta im = new XmlImportMeta(new File(FileSys.dirMeta, name + ".dsp-patch"), c, model, pm);
 				return im.importedMetaBlock;
 			} catch (Exception e) {
