@@ -64,7 +64,7 @@ public class PatchEditor {
 						});
 						int response = fc.showOpenDialog(btnLoad);
 						if (response == JFileChooser.APPROVE_OPTION) {
-							pcModel.getMainModel().clear();
+							pcModel.clear();
 							try {
 								File f = fc.getSelectedFile();
 								if (!f.getName().endsWith(".dsp-patch")) {

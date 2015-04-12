@@ -11,9 +11,8 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 
 	private final SelectionListener sl;
 
-	class SelectionListener implements MouseListener, MouseMotionListener {
+	class SelectionListener extends MouseAdapter {
 
 		boolean sizing;
 		boolean moving;
@@ -74,20 +73,8 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e) {
-		}
-
-		@Override
 		public void mouseClicked(MouseEvent e) {
 			clearSelectedComponents();
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
 		}
 
 		@Override
@@ -169,15 +156,16 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 	public DspPatchComponent(Context c, DspPatchModel model) {
 		super(null);
 		this.model = model;
+
 		if (model.isMainModel) {
-			setBackground(new Color(0xe0d0ff));
+			// setBackground(new Color(0xe0d0ff));
+			setBackground(new Color(0xc0a080));
 		} else {
-			setBackground(new Color(0xd0f0d0));
+			setBackground(new Color(0xc0e0c0));
 		}
 		model.addListener(this);
 		TransferHandler th = new DndConnection.ListTransferHandler(c, model);
 		setTransferHandler(th);
-		// add(ve);
 
 		sl = new SelectionListener();
 		addMouseListener(sl);

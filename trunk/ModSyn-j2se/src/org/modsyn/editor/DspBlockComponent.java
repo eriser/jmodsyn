@@ -264,18 +264,16 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	public void snapToGrid() {
 		int x1 = getX() + 12;
 		int y1 = getY() + 12;
-		int x2 = getX() - (getX() % 25);
-		int y2 = getY() - (getY() % 25);
+		int x = x1 - (x1 % 25);
+		int y = y1 - (y1 % 25);
 
 		if (!patchModel.isMainModel) {
 			List<DspBlockComponent> linked = patchModel.parent.getLinkedBlockComponents(this);
 			for (DspBlockComponent dbc : linked) {
-				dbc.setLocation(x1, y1);
-				dbc.setLocation(x2, y2);
+				dbc.setLocation(x, y);
 			}
 		} else {
-			setLocation(x1, y1);
-			setLocation(x2, y2);
+			setLocation(x, y);
 		}
 	}
 
