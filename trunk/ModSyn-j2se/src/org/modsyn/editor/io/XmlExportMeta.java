@@ -82,7 +82,17 @@ public class XmlExportMeta extends XmlExport {
 			for (InputModel im : block.getModel().getInputs()) {
 
 				if (cmi == defInputFactory) {
+					{
+						InputModel metaInput = cmi.createInputModel(block, im);
+						if (metaInput != null) {
+							Element eInput = dom.createElement("input");
+							eInputs.appendChild(eInput);
+							setAttributes(metaInput, eInput, metaInput.getMetaRename());
 
+							inputs.add(metaInput);
+						}
+
+					}
 				} else {
 					if (!im.isConnected() || !im.getSource().getSoundBlockModel().component.isSelected()) {
 						InputModel metaInput = cmi.createInputModel(block, im);
@@ -90,7 +100,7 @@ public class XmlExportMeta extends XmlExport {
 						if (metaInput != null) {
 							Element eInput = dom.createElement("input");
 							eInputs.appendChild(eInput);
-							setAttributes(metaInput, eInput, metaInput.getName());
+							setAttributes(metaInput, eInput, metaInput.getMetaRename());
 
 							inputs.add(metaInput);
 						}
@@ -102,7 +112,17 @@ public class XmlExportMeta extends XmlExport {
 			for (OutputModel output : block.getModel().getOutputs()) {
 				InputModel target = output.getTarget();
 				if (cmo == defOutputFactory) {
+					{
+						OutputModel metaOutput = cmo.createOutputModel(block, output);
 
+						if (metaOutput != null) {
+							Element eOutput = dom.createElement("output");
+							eOutputs.appendChild(eOutput);
+							setAttributes(metaOutput, eOutput, metaOutput.getMetaRename());
+
+							outputs.add(metaOutput);
+						}
+					}
 				} else {
 					if (target == null || (target.getInput() instanceof NullInput) || !target.getSoundBlockModel().component.isSelected()) {
 						OutputModel metaOutput = cmo.createOutputModel(block, output);
@@ -110,15 +130,13 @@ public class XmlExportMeta extends XmlExport {
 						if (metaOutput != null) {
 							Element eOutput = dom.createElement("output");
 							eOutputs.appendChild(eOutput);
-							setAttributes(metaOutput, eOutput, metaOutput.getName());
+							setAttributes(metaOutput, eOutput, metaOutput.getMetaRename());
 
 							outputs.add(metaOutput);
 						}
 					}
 				}
 			}
-
 		}
-
 	}
 }

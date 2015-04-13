@@ -12,7 +12,8 @@ import javax.swing.event.SwingPropertyChangeSupport;
 import org.modsyn.Context;
 
 /**
- * Model for a combined patch (i.e. the 'main' DspPatch and sub-models for used MetaModels)
+ * Model for a combined patch (i.e. the 'main' DspPatch and sub-models for used
+ * MetaModels)
  * 
  * @author ed52874
  * 
@@ -69,6 +70,18 @@ public class DspPatchCombinationModel {
 	 */
 	public List<DspPatchModel> getLinkedSubModels(String name) {
 		return linkedSubModels.get(name);
+	}
+
+	public List<DspPatchModel> getLinkedSubModels() {
+		List<DspPatchModel> result = new ArrayList<>();
+
+		for (List<DspPatchModel> l : linkedSubModels.values()) {
+			if (l.size() > 0) {
+				result.add(l.get(0));
+			}
+		}
+
+		return result;
 	}
 
 	public List<DspBlockComponent> getLinkedBlockComponents(DspBlockComponent dbc) {

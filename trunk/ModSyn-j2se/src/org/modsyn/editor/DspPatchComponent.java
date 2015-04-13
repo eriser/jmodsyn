@@ -158,7 +158,6 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		this.model = model;
 
 		if (model.isMainModel) {
-			// setBackground(new Color(0xe0d0ff));
 			setBackground(new Color(0xc0a080));
 		} else {
 			setBackground(new Color(0xc0e0c0));
@@ -181,7 +180,6 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 				}
 			}
 		});
-
 	}
 
 	public DspPatchModel getModel() {

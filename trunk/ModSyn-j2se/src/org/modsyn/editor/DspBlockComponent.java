@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,17 +16,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.DropMode;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -51,6 +57,8 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	private JLabel name;
 	private DspPatchModel patchModel;
 	private DspPatchModel metaPatchModel;
+	private boolean hasMetaConnection;
+	private int connHeight;
 
 	private final static Font font = new Font("Arial", Font.BOLD, 9);
 
@@ -193,8 +201,21 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 			ch = outputList.getCellBounds(0, 0).height;
 		}
 		int height = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
+		this.connHeight = ch;
 
 		setBounds(x, y, w, height);
+
+		for (InputModel im : model.inputs) {
+			hasMetaConnection |= im.isMetaRename();
+		}
+		for (OutputModel om : model.outputs) {
+			hasMetaConnection |= om.isMetaRename();
+		}
+
+		if (hasMetaConnection) {
+			close.setVisible(false);
+		}
+
 		setSelected(false);
 	}
 
@@ -261,6 +282,57 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		}
 	}
 
+	private final Map<InputModel, JComponent> metaInComponents = new HashMap<InputModel, JComponent>();
+	private final Map<OutputModel, JComponent> metaOutComponents = new HashMap<OutputModel, JComponent>();
+
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		Graphics2D pg = (Graphics2D) getParent().getGraphics();
+		pg.setColor(Color.WHITE);
+
+		if (hasMetaConnection) {
+			int i = 0;
+			for (InputModel im : model.inputs) {
+				if (im.isMetaRename()) {
+					JComponent lbl;
+					if (!metaInComponents.containsKey(im)) {
+						lbl = new JLabel(" " + im.getMetaRename() + " ");
+						lbl.setBackground(META_COLOR);
+						lbl.setForeground(Color.WHITE);
+						lbl.setOpaque(true);
+						getParent().add(lbl);
+						metaInComponents.put(im, lbl);
+					} else {
+						lbl = metaInComponents.get(im);
+					}
+					lbl.setBounds(getX() - 100, getY() + 18 + (i * connHeight), 100, connHeight - 1);
+				}
+				i++;
+			}
+
+			i = 0;
+			for (OutputModel im : model.outputs) {
+				if (im.isMetaRename()) {
+					JComponent lbl;
+					if (!metaOutComponents.containsKey(im)) {
+						lbl = new JLabel(" " + im.getMetaRename() + " ", SwingConstants.RIGHT);
+						lbl.setBackground(META_COLOR);
+						lbl.setForeground(Color.WHITE);
+						lbl.setOpaque(true);
+						getParent().add(lbl);
+						metaOutComponents.put(im, lbl);
+					} else {
+						lbl = metaOutComponents.get(im);
+					}
+					lbl.setBounds(getX() + getWidth(), getY() + 18 + (i * connHeight), 100, connHeight - 1);
+				}
+				i++;
+			}
+		}
+	}
+
 	public void snapToGrid() {
 		int x1 = getX() + 12;
 		int y1 = getY() + 12;
@@ -280,5 +352,15 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		repaint();
+	}
+
+	public void hideClose() {
+		close.setVisible(false);
+		for (InputModel im : model.inputs) {
+			hasMetaConnection |= im.isMetaRename();
+		}
+		for (OutputModel om : model.outputs) {
+			hasMetaConnection |= om.isMetaRename();
+		}
 	};
 }

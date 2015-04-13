@@ -95,7 +95,8 @@ public class DndConnection {
 		}
 
 		/**
-		 * Bundle up the selected items in a single list for export. Each line is separated by a newline.
+		 * Bundle up the selected items in a single list for export. Each line
+		 * is separated by a newline.
 		 */
 		@Override
 		protected Transferable createTransferable(JComponent c) {
@@ -136,7 +137,11 @@ public class DndConnection {
 				if (info.getTransferable().isDataFlavorSupported(FLAVOR_OUTPUTMODEL)) {
 					// disconnect
 					try {
-						model.ctrlRemoveDspConnection((OutputModel) info.getTransferable().getTransferData(FLAVOR_OUTPUTMODEL));
+						OutputModel om = (OutputModel) info.getTransferable().getTransferData(FLAVOR_OUTPUTMODEL);
+						if (om.isMetaRename()) {
+							return false;
+						}
+						model.ctrlRemoveDspConnection(om);
 						return true;
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -184,6 +189,12 @@ public class DndConnection {
 
 				InputModel inputModel = (InputModel) listModel.getElementAt(index);
 
+				if (inputModel.isMetaRename() || outputModel.isMetaRename()) {
+					// Don't connect to meta-renamed in/outputs, because they
+					// should be connected in the parent patch.
+					return false;
+				}
+
 				DspBlockModel<?> outputBlockModel = outputModel.getSoundBlockModel();
 				DspBlockModel<?> inputBlockModel = inputModel.getSoundBlockModel();
 
@@ -196,6 +207,7 @@ public class DndConnection {
 					model.addDspConnection(new DspConnection(outputBlockModel.component, outputBlockModel.outputs.indexOf(outputModel),
 							inputBlockModel.component, index), true);
 				} else {
+
 					List<DspBlockComponent> outComponents = model.parent.getLinkedBlockComponents(outputBlockModel.component);
 					List<DspBlockComponent> inComponents = model.parent.getLinkedBlockComponents(inputBlockModel.component);
 					List<DspPatchModel> subModels = model.parent.getLinkedSubModels(model.name);

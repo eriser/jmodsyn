@@ -98,7 +98,6 @@ public class XmlImportMeta {
 			if (newModel != null) {
 				newModel.addDspComponent(dbc);
 			}
-			// pm.addDspComponent(dbc);
 
 			NodeList nlInputs = e.getElementsByTagName("input");
 			for (int j = 0; j < nlInputs.getLength(); j++) {
@@ -177,6 +176,8 @@ public class XmlImportMeta {
 			int dec = Integer.parseInt(e.getAttribute("decimals"));
 
 			InputModel target = mapInputs.get(id);
+			target.setMetaRename(name);
+			target.getSoundBlockModel().component.hideClose();
 
 			metaModel.addMetaInput(new InputModel(metaModel, target.getInput(), name, value, min, max, dec));
 		}
@@ -188,6 +189,9 @@ public class XmlImportMeta {
 			String name = e.getAttribute("name");
 
 			OutputModel target = mapOutputs.get(id);
+			target.setMetaRename(name);
+			target.getSoundBlockModel().component.hideClose();
+
 			metaModel.addMetaOutput(new OutputModel(metaModel, target.getOutput(), name));
 		}
 

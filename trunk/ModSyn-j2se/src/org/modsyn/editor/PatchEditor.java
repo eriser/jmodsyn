@@ -106,6 +106,12 @@ public class PatchEditor {
 								}
 								new IOTransferTool().saveString(new XmlExport(pcModel.getMainModel()).toString(), "utf-8", f);
 								frame.setTitle("PatchEditor - " + f.getName());
+
+								for (DspPatchModel pm : pcModel.getLinkedSubModels()) {
+									File fm = new File(FileSys.dirMeta, pm.name + ".dsp-patch");
+									new IOTransferTool().saveString(new XmlExportMeta(pm.getDspBlocks(), pm.getDspConnections()).toString(), "utf-8", fm);
+								}
+
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

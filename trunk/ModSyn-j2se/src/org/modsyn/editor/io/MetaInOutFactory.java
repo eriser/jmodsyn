@@ -30,7 +30,7 @@ public class MetaInOutFactory implements MetaInputFactory, MetaOutputFactory {
 		if (name == null) {
 			return null;
 		}
-		source.setName(name);
+		source.setMetaRename(name);
 		return source;
 	}
 
@@ -47,7 +47,7 @@ public class MetaInOutFactory implements MetaInputFactory, MetaOutputFactory {
 		if (name == null) {
 			return null;
 		}
-		source.setName(name);
+		source.setMetaRename(name);
 		return source;
 	}
 
