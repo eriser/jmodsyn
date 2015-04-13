@@ -22,7 +22,6 @@ import org.modsyn.ContextFactory;
 import org.modsyn.editor.io.FileSys;
 import org.modsyn.editor.io.XmlExport;
 import org.modsyn.editor.io.XmlExportMeta;
-import org.modsyn.editor.io.XmlExportMidi;
 import org.modsyn.editor.io.XmlImport;
 import org.modsyn.editor.io.XmlImportMeta;
 import org.modsyn.modules.ext.AsioSupport;
@@ -127,39 +126,6 @@ public class PatchEditor {
 						frame.setTitle("PatchEditor");
 					}
 				});
-				final JButton btnExportMidi = new JButton("Export MIDI Voice");
-				btnExportMidi.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						JFileChooser fc = new JFileChooser(FileSys.dirMeta);
-						fc.setFileFilter(new FileFilter() {
-
-							@Override
-							public String getDescription() {
-								return "DSP patch";
-							}
-
-							@Override
-							public boolean accept(File f) {
-								return f.getName().endsWith(".dsp-patch");
-							}
-						});
-						int response = fc.showSaveDialog(btnExportMidi);
-						if (response == JFileChooser.APPROVE_OPTION) {
-							try {
-								File f = fc.getSelectedFile();
-								if (!f.getName().endsWith(".dsp-patch")) {
-									f = new File(f.getAbsolutePath() + ".dsp-patch");
-								}
-
-								new IOTransferTool().saveString(new XmlExportMidi(pcModel.getMainModel()).toString(), "utf-8", f);
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-					}
-				});
 
 				final JButton btnImportMeta = new JButton("Import META");
 				btnImportMeta.addActionListener(new ActionListener() {
@@ -232,8 +198,6 @@ public class PatchEditor {
 				toolBar.add(btnSave);
 				toolBar.add(new JLabel("   "));
 				toolBar.add(btnClear);
-				toolBar.add(new JLabel("   "));
-				toolBar.add(btnExportMidi);
 				toolBar.add(new JLabel("   "));
 				toolBar.add(btnImportMeta);
 				toolBar.add(btnExportMeta);
