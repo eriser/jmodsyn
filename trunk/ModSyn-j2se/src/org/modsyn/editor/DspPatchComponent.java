@@ -158,9 +158,9 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		this.model = model;
 
 		if (model.isMainModel) {
-			setBackground(new Color(0xc0a080));
+			setBackground(EditorTheme.MAIN_PATCH_BG);
 		} else {
-			setBackground(new Color(0xc0e0c0));
+			setBackground(EditorTheme.SUB_PATCH_BG);
 		}
 		model.addListener(this);
 		TransferHandler th = new DndConnection.ListTransferHandler(c, model);

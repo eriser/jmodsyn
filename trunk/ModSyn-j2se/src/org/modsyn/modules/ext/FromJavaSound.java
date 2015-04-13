@@ -29,7 +29,6 @@ import org.modsyn.SignalSource;
 public class FromJavaSound implements SignalSource {
 	private final AudioInputStream audioInputStream;
 	private final TargetDataLine targetLine;
-	// private boolean running = false;
 
 	private SignalInput connectedDevice = NullInput.INSTANCE;
 
@@ -43,13 +42,11 @@ public class FromJavaSound implements SignalSource {
 	 * Starts the recording.
 	 */
 	public void start() {
-		// running = true;
 		targetLine.start();
 		System.out.println("SoundGrabber inited");
 	}
 
 	public void stop() {
-		// targetLine.drain();
 		targetLine.stop();
 		targetLine.close();
 	}
@@ -71,7 +68,7 @@ public class FromJavaSound implements SignalSource {
 		try {
 
 			targetDataLine = (TargetDataLine) AudioSystem.getLine(info);
-			targetDataLine.open(audioFormat, soundBufferSize/* * Sys.channels */);
+			targetDataLine.open(audioFormat, soundBufferSize);
 		} catch (LineUnavailableException e) {
 
 			System.err.println("unable to get a recording line");
@@ -94,26 +91,19 @@ public class FromJavaSound implements SignalSource {
 	 */
 	@Override
 	public void updateSignal() {
-		// System.out.println("UpdateAudio();");
 		try {
-			// System.out.println("UpdateAudio();");
+			synchronized (this) {
+				if (fbuffer1Index == 0) {
+					audioInputStream.read(buffer, 0, buffer.length);
+					for (int i = 0; i < fbuffer1.length; i++) {
+						int ii = i << 1;
 
-			if (fbuffer1Index == 0) {
-				audioInputStream.read(buffer, 0, buffer.length);
-				for (int i = 0; i < fbuffer1.length; i++) {
-					int ii = i << 1; // Sys.channels;
-
-					fbuffer1[i] = ((buffer[ii + 1] << 8) + ((buffer[ii] + 256) & 0xff)) / 32768f;
-
-					// if (Sys.channels == 2) {
-					// fbuffer1[i] = (int)(buffer[ii + 2] & 255) + buffer[ii +
-					// 3] << 8;
-					// }
+						fbuffer1[i] = ((buffer[ii + 1] << 8) + ((buffer[ii] + 256) & 0xff)) / 32768f;
+					}
 				}
+				connectedDevice.set(fbuffer1[fbuffer1Index++]);
+				fbuffer1Index = fbuffer1Index % fbuffer1.length;
 			}
-			connectedDevice.set(fbuffer1[fbuffer1Index++]);
-			fbuffer1Index = fbuffer1Index % fbuffer1.length;
-			// System.out.println("UpdateAudio();");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

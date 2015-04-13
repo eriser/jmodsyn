@@ -74,7 +74,7 @@ public class DspPatchCombinationComponent extends JPanel implements PropertyChan
 		tabs.addTab(model.name, p);
 		if (tabs.getTabCount() > 1) {
 			JLabel lbl = new JLabel(model.name);
-			lbl.setForeground(DspBlockComponent.META_COLOR);
+			lbl.setForeground(EditorTheme.META_BLOCK_BG);
 			lbl.setFont(lbl.getFont().deriveFont(Font.ITALIC));
 			tabs.setTabComponentAt(tabs.getTabCount() - 1, lbl);
 		}

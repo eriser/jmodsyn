@@ -231,13 +231,11 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		this.metaPatchModel = metaPatchModel;
 	}
 
-	public static final Color META_COLOR = new Color(0x006000);
-
 	public void setSelected(boolean b) {
 		this.selected = b;
 		boolean isMeta = getModel() instanceof MetaModel;
-		setBorder(BorderFactory.createLineBorder(b ? Color.BLUE : isMeta ? META_COLOR : Color.BLACK));
-		name.setBackground(b ? Color.BLUE : isMeta ? META_COLOR : Color.BLACK);
+		setBorder(BorderFactory.createLineBorder(b ? EditorTheme.SELECTED_BG : isMeta ? EditorTheme.META_BLOCK_BG : EditorTheme.UNSELECTED_BG));
+		name.setBackground(b ? EditorTheme.SELECTED_BG : isMeta ? EditorTheme.META_BLOCK_BG : EditorTheme.UNSELECTED_BG);
 	}
 
 	public Component createCenterComponent() {
@@ -298,16 +296,16 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				if (im.isMetaRename()) {
 					JComponent lbl;
 					if (!metaInComponents.containsKey(im)) {
-						lbl = new JLabel(" " + im.getMetaRename() + " ");
-						lbl.setBackground(META_COLOR);
-						lbl.setForeground(Color.WHITE);
+						lbl = new MetaConnectionLabel(" " + im.getMetaRename());
+						lbl.setBackground(EditorTheme.META_BLOCK_BG);
+						lbl.setForeground(EditorTheme.META_BLOCK_FG);
 						lbl.setOpaque(true);
 						getParent().add(lbl);
 						metaInComponents.put(im, lbl);
 					} else {
 						lbl = metaInComponents.get(im);
 					}
-					lbl.setBounds(getX() - 100, getY() + 18 + (i * connHeight), 100, connHeight - 1);
+					lbl.setBounds(getX() - 100, getY() + 16 + (i * connHeight), 100, connHeight - 1);
 				}
 				i++;
 			}
@@ -317,16 +315,16 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				if (im.isMetaRename()) {
 					JComponent lbl;
 					if (!metaOutComponents.containsKey(im)) {
-						lbl = new JLabel(" " + im.getMetaRename() + " ", SwingConstants.RIGHT);
-						lbl.setBackground(META_COLOR);
-						lbl.setForeground(Color.WHITE);
+						lbl = new MetaConnectionLabel(im.getMetaRename() + "   ", SwingConstants.RIGHT);
+						lbl.setBackground(EditorTheme.META_BLOCK_BG);
+						lbl.setForeground(EditorTheme.META_BLOCK_FG);
 						lbl.setOpaque(true);
 						getParent().add(lbl);
 						metaOutComponents.put(im, lbl);
 					} else {
 						lbl = metaOutComponents.get(im);
 					}
-					lbl.setBounds(getX() + getWidth(), getY() + 18 + (i * connHeight), 100, connHeight - 1);
+					lbl.setBounds(getX() + getWidth(), getY() + 16 + (i * connHeight), 100, connHeight - 1);
 				}
 				i++;
 			}
