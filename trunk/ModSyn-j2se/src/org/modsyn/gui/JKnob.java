@@ -7,7 +7,6 @@ import static java.lang.Math.toRadians;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,6 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import org.modsyn.editor.EditorTheme;
 
 public class JKnob extends JComponent {
 
@@ -60,7 +61,7 @@ public class JKnob extends JComponent {
 		addMouseListener(mouseControl);
 		setName("---");
 
-		setFont(new Font("Arial", Font.PLAIN, 10));
+		setFont(EditorTheme.FONT_KNOB_TITLE);
 	}
 
 	public void setKnobSize(float rel) {

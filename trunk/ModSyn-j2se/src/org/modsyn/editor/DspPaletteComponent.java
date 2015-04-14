@@ -83,7 +83,7 @@ public class DspPaletteComponent extends JPanel {
 
 			lbl.setHorizontalAlignment(SwingConstants.CENTER);
 			lbl.setForeground(bg);
-			lbl.setFont(lbl.getFont().deriveFont(lbl.getFont().getSize2D() + 2));
+			lbl.setFont(EditorTheme.FONT_PALETTE_GROUP_TITLE);
 			lbl.setOpaque(false);
 
 			TransferHandler th = new DndConnection.ListTransferHandler(c, patchModel);

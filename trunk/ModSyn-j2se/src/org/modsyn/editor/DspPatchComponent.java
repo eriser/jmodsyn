@@ -1,7 +1,6 @@
 package org.modsyn.editor;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -144,7 +143,10 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 
 		public void render(Graphics g) {
 			if (selRectangle != null) {
-				g.setColor(Color.blue);
+				g.setColor(EditorTheme.brighten(getBackground(), 24));
+				g.fillRect(selRectangle.x, selRectangle.y, selRectangle.width, selRectangle.height);
+
+				g.setColor(EditorTheme.COLOR_SELECTED_BG);
 				Stroke s = ((Graphics2D) g).getStroke();
 				((Graphics2D) g).setStroke(dashed);
 				g.drawRect(selRectangle.x, selRectangle.y, selRectangle.width, selRectangle.height);
@@ -158,9 +160,9 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		this.model = model;
 
 		if (model.isMainModel) {
-			setBackground(EditorTheme.MAIN_PATCH_BG);
+			setBackground(EditorTheme.COLOR_MAIN_PATCH_BG);
 		} else {
-			setBackground(EditorTheme.SUB_PATCH_BG);
+			setBackground(EditorTheme.COLOR_SUB_PATCH_BG);
 		}
 		model.addListener(this);
 		TransferHandler th = new DndConnection.ListTransferHandler(c, model);
@@ -192,16 +194,24 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 
 	@Override
 	public void paintComponent(Graphics g) {
+		// Resize the DspPatchComponent based on the components inside. This
+		// makes sure DspPatchComponent becomes scrollable if need be and that
+		// no components can fall outside of the DspPatchComponent.
 		resize();
+
+		// render components
 		super.paintComponent(g);
 
+		// render selection outline
+		sl.render(g);
+
+		// render connections
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
 		for (DspConnection c : model.dspConnections) {
 			c.render(g);
 		}
-		sl.render(g);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 	}
 
 	@Override
@@ -218,7 +228,7 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 			model.selectionChanged(sl.selComponents);
 			resize();
 		} else if (prop == DspPatchModel.EVENT_SELECT_INPUT) {
-			// ve.edit((InputModel) evt.getNewValue());
+			//
 		} else if (prop == DspPatchModel.EVENT_REMOVE_ALL) {
 			sl.clearSelectedComponents();
 			model.selectionChanged(sl.selComponents);

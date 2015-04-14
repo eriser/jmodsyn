@@ -5,7 +5,6 @@ import static java.lang.Math.max;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -59,8 +58,6 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	private DspPatchModel metaPatchModel;
 	private boolean hasMetaConnection;
 	private int connHeight;
-
-	private final static Font font = new Font("Arial", Font.BOLD, 9);
 
 	public DspBlockComponent(Context c, DspBlockModel<?> model, DspPatchModel patchModel) {
 		this(c, model, patchModel, 0, 0, 80, -1);
@@ -124,7 +121,9 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		name.setOpaque(true);
 		boolean isMeta = getModel() instanceof MetaModel;
 		if (isMeta) {
-			name.setFont(name.getFont().deriveFont(Font.ITALIC));
+			name.setFont(EditorTheme.FONT_METABLOCK_TITLE);
+		} else {
+			name.setFont(EditorTheme.FONT_BLOCK_TITLE);
 		}
 
 		JPanel top = new JPanel(new BorderLayout());
@@ -154,7 +153,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 			inputList.setTransferHandler(th);
 			inputList.setDragEnabled(true);
 			inputList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			inputList.setFont(font);
+			inputList.setFont(EditorTheme.FONT_BLOCK_CONNECTION_LIST);
 			inputList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 				@Override
 				public void valueChanged(ListSelectionEvent arg0) {
@@ -186,7 +185,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 			outputList.setTransferHandler(th);
 			outputList.setDragEnabled(true);
 			outputList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			outputList.setFont(font);
+			outputList.setFont(EditorTheme.FONT_BLOCK_CONNECTION_LIST);
 
 			add(outputList, BorderLayout.EAST);
 		} else {
@@ -234,8 +233,8 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	public void setSelected(boolean b) {
 		this.selected = b;
 		boolean isMeta = getModel() instanceof MetaModel;
-		setBorder(BorderFactory.createLineBorder(b ? EditorTheme.SELECTED_BG : isMeta ? EditorTheme.META_BLOCK_BG : EditorTheme.UNSELECTED_BG));
-		name.setBackground(b ? EditorTheme.SELECTED_BG : isMeta ? EditorTheme.META_BLOCK_BG : EditorTheme.UNSELECTED_BG);
+		setBorder(BorderFactory.createLineBorder(b ? EditorTheme.COLOR_SELECTED_BG : isMeta ? EditorTheme.COLOR_META_BLOCK_BG : EditorTheme.COLOR_UNSELECTED_BG));
+		name.setBackground(b ? EditorTheme.COLOR_SELECTED_BG : isMeta ? EditorTheme.COLOR_META_BLOCK_BG : EditorTheme.COLOR_UNSELECTED_BG);
 	}
 
 	public Component createCenterComponent() {
@@ -297,8 +296,8 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 					JComponent lbl;
 					if (!metaInComponents.containsKey(im)) {
 						lbl = new MetaConnectionLabel(" " + im.getMetaRename());
-						lbl.setBackground(EditorTheme.META_BLOCK_BG);
-						lbl.setForeground(EditorTheme.META_BLOCK_FG);
+						lbl.setBackground(EditorTheme.COLOR_META_BLOCK_BG);
+						lbl.setForeground(EditorTheme.COLOR_META_BLOCK_FG);
 						lbl.setOpaque(true);
 						getParent().add(lbl);
 						metaInComponents.put(im, lbl);
@@ -316,8 +315,8 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 					JComponent lbl;
 					if (!metaOutComponents.containsKey(im)) {
 						lbl = new MetaConnectionLabel(im.getMetaRename() + "   ", SwingConstants.RIGHT);
-						lbl.setBackground(EditorTheme.META_BLOCK_BG);
-						lbl.setForeground(EditorTheme.META_BLOCK_FG);
+						lbl.setBackground(EditorTheme.COLOR_META_BLOCK_BG);
+						lbl.setForeground(EditorTheme.COLOR_META_BLOCK_FG);
 						lbl.setOpaque(true);
 						getParent().add(lbl);
 						metaOutComponents.put(im, lbl);

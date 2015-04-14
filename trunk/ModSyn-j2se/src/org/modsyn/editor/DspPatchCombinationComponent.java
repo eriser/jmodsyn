@@ -1,7 +1,6 @@
 package org.modsyn.editor;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -74,8 +73,8 @@ public class DspPatchCombinationComponent extends JPanel implements PropertyChan
 		tabs.addTab(model.name, p);
 		if (tabs.getTabCount() > 1) {
 			JLabel lbl = new JLabel(model.name);
-			lbl.setForeground(EditorTheme.META_BLOCK_BG);
-			lbl.setFont(lbl.getFont().deriveFont(Font.ITALIC));
+			lbl.setForeground(EditorTheme.COLOR_META_BLOCK_BG);
+			lbl.setFont(EditorTheme.FONT_METABLOCK_TITLE);
 			tabs.setTabComponentAt(tabs.getTabCount() - 1, lbl);
 		}
 	}
