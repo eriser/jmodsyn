@@ -1,6 +1,8 @@
 package org.modsyn.editor.io;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -77,63 +79,46 @@ public class XmlExportMeta extends XmlExport {
 		Element eOutputs = dom.createElement("outputs");
 		meta.appendChild(eOutputs);
 
-		for (DspBlockComponent block : blocks) {
-			List<InputModel> inputs = new ArrayList<>();
-			for (InputModel im : block.getModel().getInputs()) {
-
-				if (cmi == defInputFactory) {
-					{
-						InputModel metaInput = cmi.createInputModel(block, im);
-						if (metaInput != null) {
-							Element eInput = dom.createElement("input");
-							eInputs.appendChild(eInput);
-							setAttributes(metaInput, eInput, metaInput.getMetaRename());
-
-							inputs.add(metaInput);
-						}
-
-					}
+		Collections.sort(blocks, new Comparator<DspBlockComponent>() {
+			@Override
+			public int compare(DspBlockComponent o1, DspBlockComponent o2) {
+				if (o1.getY() == o2.getY()) {
+					return o1.getX() - o2.getX();
 				} else {
-					if (!im.isConnected() || !im.getSource().getSoundBlockModel().component.isSelected()) {
-						InputModel metaInput = cmi.createInputModel(block, im);
+					return o1.getY() - o2.getY();
+				}
+			}
+		});
 
-						if (metaInput != null) {
-							Element eInput = dom.createElement("input");
-							eInputs.appendChild(eInput);
-							setAttributes(metaInput, eInput, metaInput.getMetaRename());
+		for (DspBlockComponent block : blocks) {
+			List<InputModel> metaInputs = new ArrayList<>();
+			for (InputModel im : block.getModel().getInputs()) {
+				if (cmi == defInputFactory || (!im.isConnected() || !im.getSource().getSoundBlockModel().component.isSelected())) {
+					InputModel metaInput = cmi.createInputModel(block, im);
+					if (metaInput != null) {
+						Element eInput = dom.createElement("input");
+						eInputs.appendChild(eInput);
+						setAttributes(metaInput, eInput, metaInput.getMetaRename());
 
-							inputs.add(metaInput);
-						}
+						metaInputs.add(metaInput);
 					}
 				}
 			}
 
-			List<OutputModel> outputs = new ArrayList<>();
+			List<OutputModel> metaOutputs = new ArrayList<>();
 			for (OutputModel output : block.getModel().getOutputs()) {
 				InputModel target = output.getTarget();
-				if (cmo == defOutputFactory) {
-					{
-						OutputModel metaOutput = cmo.createOutputModel(block, output);
+				if (cmo == defOutputFactory
+						|| (target == null || (target.getInput() instanceof NullInput) || !target.getSoundBlockModel().component.isSelected())) {
 
-						if (metaOutput != null) {
-							Element eOutput = dom.createElement("output");
-							eOutputs.appendChild(eOutput);
-							setAttributes(metaOutput, eOutput, metaOutput.getMetaRename());
+					OutputModel metaOutput = cmo.createOutputModel(block, output);
 
-							outputs.add(metaOutput);
-						}
-					}
-				} else {
-					if (target == null || (target.getInput() instanceof NullInput) || !target.getSoundBlockModel().component.isSelected()) {
-						OutputModel metaOutput = cmo.createOutputModel(block, output);
+					if (metaOutput != null) {
+						Element eOutput = dom.createElement("output");
+						eOutputs.appendChild(eOutput);
+						setAttributes(metaOutput, eOutput, metaOutput.getMetaRename());
 
-						if (metaOutput != null) {
-							Element eOutput = dom.createElement("output");
-							eOutputs.appendChild(eOutput);
-							setAttributes(metaOutput, eOutput, metaOutput.getMetaRename());
-
-							outputs.add(metaOutput);
-						}
+						metaOutputs.add(metaOutput);
 					}
 				}
 			}
