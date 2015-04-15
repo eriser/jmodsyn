@@ -153,7 +153,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				}
 			};
 			inputList = new JList<InputModel>(lm);
-			inputList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			inputList.addMouseMotionListener(new ListCursor());
 			inputList.setDropMode(DropMode.ON);
 			inputList.setTransferHandler(th);
 			inputList.setDragEnabled(true);
@@ -187,7 +187,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				}
 			};
 			outputList = new JList<OutputModel>(lm);
-			outputList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			outputList.addMouseMotionListener(new ListCursor());
 			outputList.setTransferHandler(th);
 			outputList.setDragEnabled(true);
 			outputList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -254,6 +254,22 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 
 	public DspBlockModel<?> getModel() {
 		return model;
+	}
+
+	class ListCursor extends MouseAdapter {
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			JList<?> list = (JList<?>) e.getSource();
+			final int x = e.getX();
+			final int y = e.getY();
+			// only display a hand if the cursor is over the items
+			final Rectangle cellBounds = list.getCellBounds(0, list.getModel().getSize() - 1);
+			if (cellBounds != null && cellBounds.contains(x, y)) {
+				list.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			} else {
+				list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
+		}
 	}
 
 	class Mover extends MouseAdapter {
