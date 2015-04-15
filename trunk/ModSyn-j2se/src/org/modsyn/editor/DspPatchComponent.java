@@ -2,6 +2,7 @@ package org.modsyn.editor;
 
 import java.awt.BasicStroke;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -34,6 +35,8 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 	private final SelectionListener sl;
 
 	class SelectionListener extends MouseAdapter {
+		Cursor defCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+		Cursor handCursor = new Cursor(Cursor.MOVE_CURSOR);
 
 		boolean sizing;
 		boolean moving;
@@ -48,6 +51,7 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 			if (sizing) {
 				selRectangle.width = e.getX() - selRectangle.x;
 				selRectangle.height = e.getY() - selRectangle.y;
+
 				setSelectedComponents();
 			} else if (moving) {
 				int dx = (e.getX() - x);
@@ -77,11 +81,20 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		}
 
 		@Override
+		public void mouseMoved(MouseEvent e) {
+			if (selRectangle != null && selRectangle.contains(e.getX(), e.getY())) {
+				setCursor(handCursor);
+			} else {
+				setCursor(defCursor);
+			}
+		}
+
+		@Override
 		public void mousePressed(MouseEvent e) {
 
 			x = e.getX();
 			y = e.getY();
-			// ve.setVisible(false);
+
 			if (!hasSelection()) {
 				sizing = true;
 				moving = false;
@@ -144,7 +157,9 @@ public class DspPatchComponent extends JPanel implements PropertyChangeListener 
 		public void render(Graphics g) {
 			if (selRectangle != null) {
 				g.setColor(EditorTheme.brighten(getBackground(), 24));
-				g.fillRect(selRectangle.x, selRectangle.y, selRectangle.width, selRectangle.height);
+				if (selRectangle.width > 0 && selRectangle.height > 0) {
+					g.fillRect(selRectangle.x, selRectangle.y, selRectangle.width, selRectangle.height);
+				}
 
 				g.setColor(EditorTheme.COLOR_SELECTED_BG);
 				Stroke s = ((Graphics2D) g).getStroke();

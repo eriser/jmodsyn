@@ -6,6 +6,7 @@ import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -16,6 +17,8 @@ import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
@@ -35,6 +38,7 @@ import org.modsyn.editor.EditorTheme;
 public class JKnob extends JComponent {
 
 	private static final float SENSITIVITY = 500f;
+	private static final float WHEEL_SENSITIVITY = 0.05f;
 	/**
 	 * 
 	 */
@@ -59,6 +63,13 @@ public class JKnob extends JComponent {
 		setMinimumSize(new Dimension(64, 64));
 		addMouseMotionListener(mouseControl);
 		addMouseListener(mouseControl);
+		addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				float f = (float) e.getPreciseWheelRotation();
+				setValue(value - (f * (max - min) * WHEEL_SENSITIVITY));
+			}
+		});
 		setName("---");
 
 		setFont(EditorTheme.FONT_KNOB_TITLE);
@@ -92,6 +103,11 @@ public class JKnob extends JComponent {
 
 	public void setValue(float value) {
 		float prev = this.value;
+		if (value < min) {
+			value = min;
+		} else if (value > max) {
+			value = max;
+		}
 		this.value = value;
 		super.firePropertyChange("value", prev, value);
 		repaint();
@@ -196,7 +212,16 @@ public class JKnob extends JComponent {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getY() >= y_value_area) {
-				openSettingsDialog();
+				new SettingsDialog();
+			}
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			if (e.getY() >= y_value_area) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			} else {
+				setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
 			}
 		}
 
@@ -204,13 +229,14 @@ public class JKnob extends JComponent {
 		public void mouseDragged(MouseEvent e) {
 			float range = max - min;
 
-			int dx = e.getX() - prevX;
+			int x = e.getX() - e.getY();
+			int dx = x - prevX;
 
-			int _dirx = (e.getX() > startX ? 1 : dx < 0 ? -1 : 0);
+			int _dirx = (x > startX ? 1 : dx < 0 ? -1 : 0);
 			boolean directionChanged = _dirx != dirx;
 			dirx = _dirx;
 			if (directionChanged) {
-				startX = e.getX();
+				startX = x;
 
 			}
 
@@ -218,18 +244,18 @@ public class JKnob extends JComponent {
 
 			if (val > max) {
 				val = max;
-				startX = e.getX();
+				startX = x;
 				dirx = 0;
 			}
 			if (val < min) {
 				val = min;
-				startX = e.getX();
+				startX = x;
 				dirx = 0;
 			}
 
 			setValue(val);
 
-			prevX = e.getX();
+			prevX = x;
 		}
 	}
 
@@ -389,10 +415,6 @@ public class JKnob extends JComponent {
 						int value = Integer.parseInt(txtDecimals.getText());
 						if (value != getDecimals() && value >= 0 && value < 10) {
 							setDecimals(value);
-							// txtValue.setText(String.format(format,
-							// getValue()));
-							// txtMin.setText(String.format(format, getMin()));
-							// txtMax.setText(String.format(format, getMax()));
 						}
 					} catch (Exception e) {
 					}
@@ -414,10 +436,5 @@ public class JKnob extends JComponent {
 
 			add(p);
 		}
-	}
-
-	public void openSettingsDialog() {
-		new SettingsDialog();
-
 	}
 }

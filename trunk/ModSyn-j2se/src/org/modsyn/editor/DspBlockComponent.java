@@ -5,6 +5,7 @@ import static java.lang.Math.max;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -65,6 +66,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 
 	public DspBlockComponent(Context c, DspBlockModel<?> model, final DspPatchModel patchModel, int x, int y, int w, int h) {
 		super(new BorderLayout());
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
 		this.patchModel = patchModel;
 		this.model = model;
@@ -109,6 +111,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				}
 			}
 		});
+		close.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		button = new JButton();
 
@@ -125,6 +128,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		} else {
 			name.setFont(EditorTheme.FONT_BLOCK_TITLE);
 		}
+		name.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		JPanel top = new JPanel(new BorderLayout());
 		top.add(name, BorderLayout.CENTER);
@@ -149,6 +153,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				}
 			};
 			inputList = new JList<InputModel>(lm);
+			inputList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			inputList.setDropMode(DropMode.ON);
 			inputList.setTransferHandler(th);
 			inputList.setDragEnabled(true);
@@ -182,6 +187,7 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 				}
 			};
 			outputList = new JList<OutputModel>(lm);
+			outputList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			outputList.setTransferHandler(th);
 			outputList.setDragEnabled(true);
 			outputList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -233,7 +239,8 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 	public void setSelected(boolean b) {
 		this.selected = b;
 		boolean isMeta = getModel() instanceof MetaModel;
-		setBorder(BorderFactory.createLineBorder(b ? EditorTheme.COLOR_SELECTED_BG : isMeta ? EditorTheme.COLOR_META_BLOCK_BG : EditorTheme.COLOR_UNSELECTED_BG));
+		setBorder(BorderFactory
+				.createLineBorder(b ? EditorTheme.COLOR_SELECTED_BG : isMeta ? EditorTheme.COLOR_META_BLOCK_BG : EditorTheme.COLOR_UNSELECTED_BG));
 		name.setBackground(b ? EditorTheme.COLOR_SELECTED_BG : isMeta ? EditorTheme.COLOR_META_BLOCK_BG : EditorTheme.COLOR_UNSELECTED_BG);
 	}
 
@@ -275,7 +282,6 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 			dragging = false;
 
 			snapToGrid();
-			getParent().repaint();
 		}
 	}
 
@@ -343,6 +349,10 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 			}
 		} else {
 			setLocation(x, y);
+		}
+
+		if (getParent() != null) {
+			getParent().repaint();
 		}
 	}
 
