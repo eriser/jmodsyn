@@ -49,6 +49,7 @@ import org.modsyn.editor.blocks.MoogVCFModel;
 import org.modsyn.editor.blocks.MultiSplitterModel;
 import org.modsyn.editor.blocks.NoiseModel;
 import org.modsyn.editor.blocks.OctaverModel;
+import org.modsyn.editor.blocks.OrModel;
 import org.modsyn.editor.blocks.OscillatorHQModel;
 import org.modsyn.editor.blocks.OscillatorModel;
 import org.modsyn.editor.blocks.PanPotModel;
@@ -61,6 +62,7 @@ import org.modsyn.editor.blocks.ScopeModel.Scope;
 import org.modsyn.editor.blocks.SoftClipModel;
 import org.modsyn.editor.blocks.SpeakerModel;
 import org.modsyn.editor.blocks.StereoEnvelopeDelayModel;
+import org.modsyn.editor.blocks.SwitchValueModel;
 import org.modsyn.editor.blocks.TipScaleModel;
 import org.modsyn.editor.blocks.TubeSimModel;
 import org.modsyn.editor.blocks.VUMeterModel;
@@ -547,7 +549,28 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new IfRangeModel(), pm);
 		}
 	},
+	Or("Logical") {
+		@Override
+		public String getModelName() {
+			return OrModel.class.getName();
+		}
 
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new OrModel(), pm);
+		}
+	},
+	SwitchValue("Logical") {
+		@Override
+		public String getModelName() {
+			return SwitchValueModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new SwitchValueModel(), pm);
+		}
+	},
 	Knob("Misc") {
 		@Override
 		public String getModelName() {
