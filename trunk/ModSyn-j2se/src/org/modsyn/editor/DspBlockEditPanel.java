@@ -93,10 +93,10 @@ public class DspBlockEditPanel extends JPanel implements PropertyChangeListener 
 						}
 						final JKnob knob = new JKnob();
 						knob.setName(input.getName());
-						knob.setValue(input.getValue());
+						knob.setDecimals(input.getDecimals());
 						knob.setMin(input.getMin());
 						knob.setMax(input.getMax());
-						knob.setDecimals(input.getDecimals());
+						knob.setValue(input.getValue());
 
 						if (isMainModel) {
 							// controls just the selected component

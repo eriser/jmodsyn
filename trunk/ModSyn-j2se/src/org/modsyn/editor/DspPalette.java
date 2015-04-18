@@ -37,6 +37,8 @@ import org.modsyn.editor.blocks.Filter4PoleModel;
 import org.modsyn.editor.blocks.Filter8PoleModel;
 import org.modsyn.editor.blocks.FilterXPoleModel;
 import org.modsyn.editor.blocks.FromMidiPolyModel;
+import org.modsyn.editor.blocks.IfEQModel;
+import org.modsyn.editor.blocks.IfRangeModel;
 import org.modsyn.editor.blocks.Karlsen24dBModel;
 import org.modsyn.editor.blocks.KarplusStrongModel;
 import org.modsyn.editor.blocks.Keyboard2Model;
@@ -520,6 +522,29 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(c, new ExciterModel(c), pm);
+		}
+	},
+
+	IF__EQ("Logical") {
+		@Override
+		public String getModelName() {
+			return IfEQModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new IfEQModel(), pm);
+		}
+	},
+	IF__Range("Logical") {
+		@Override
+		public String getModelName() {
+			return IfRangeModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new IfRangeModel(), pm);
 		}
 	},
 
