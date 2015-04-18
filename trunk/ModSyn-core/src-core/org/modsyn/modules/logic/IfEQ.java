@@ -21,11 +21,11 @@ public class IfEQ extends DefaultSignalOutput implements SignalInsert {
 		if (signal == ctrl.value) {
 			connectedInput.set(1);
 			outTrue.connectedInput.set(signal);
-			outFalse.connectedInput.set(0);
+			// outFalse.connectedInput.set(0);
 		} else {
 			connectedInput.set(0);
 			outFalse.connectedInput.set(signal);
-			outTrue.connectedInput.set(0);
+			// outTrue.connectedInput.set(0);
 		}
 	}
 }
