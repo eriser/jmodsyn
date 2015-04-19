@@ -5,14 +5,15 @@ import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
 /**
- * An all-pass filter implementation, typically used for Reverb<br/>
- * <code>
+ * An all-pass filter implementation, typically used for Reverb
+ * 
+ * <pre>
  *   >--->--------->---------->---->  -1 feed forward
  *   |     ______    _______       |
  * >-+-+->| Gain |->| Delay |--+---+---->
  *     |  |______|  |_______|  | 
  *     <---<-----<------<------< feedback
- * </code>
+ * </pre>
  * 
  * @author Erik Duijs
  */
