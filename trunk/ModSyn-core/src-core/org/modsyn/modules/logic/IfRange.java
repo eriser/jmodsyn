@@ -21,11 +21,9 @@ public class IfRange extends DefaultSignalOutput implements SignalInsert {
 		if (signal >= low.value && signal <= high.value) {
 			connectedInput.set(1);
 			outTrue.connectedInput.set(signal);
-			// outFalse.connectedInput.set(0);
 		} else {
 			connectedInput.set(0);
 			outFalse.connectedInput.set(signal);
-			// outTrue.connectedInput.set(0);
 		}
 	}
 }
