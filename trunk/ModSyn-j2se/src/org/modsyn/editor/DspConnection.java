@@ -21,7 +21,6 @@ public class DspConnection {
 		this.to = to;
 		this.fromSignal = from.getModel().outputs.get(idxFrom);
 		this.toSignal = to.getModel().inputs.get(idxTo);
-		fromSignal.connectTo(toSignal);
 	}
 
 	public void render(Graphics g) {
