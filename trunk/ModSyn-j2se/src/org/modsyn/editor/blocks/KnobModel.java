@@ -16,6 +16,7 @@ public class KnobModel extends DspBlockModel<KnobModel.KnobOut> {
 
 	public KnobModel(final JKnob knob, KnobOut dsp) {
 		super(dsp);
+		setFixedSize();
 		add(new OutputModel(this, dsp, " >") {
 			@Override
 			public void connectTo(InputModel input) {

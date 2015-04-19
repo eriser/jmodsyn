@@ -205,10 +205,10 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		} else {
 			ch = outputList.getCellBounds(0, 0).height;
 		}
-		int height = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
+		// int height = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
 		this.connHeight = ch;
 
-		setBounds(x, y, w, height);
+		setBounds(x, y, w, h);
 
 		for (InputModel im : model.inputs) {
 			hasMetaConnection |= im.isMetaRename();
@@ -222,6 +222,20 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		}
 
 		setSelected(false);
+	}
+
+	@Override
+	public void setBounds(int x, int y, int w, int h) {
+		if (!model.isFixedSize()) {
+			int ch;
+			if (model.getInputs().size() > 0) {
+				ch = inputList.getCellBounds(0, 0).height;
+			} else {
+				ch = outputList.getCellBounds(0, 0).height;
+			}
+			h = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
+		}
+		super.setBounds(x, y, w, h);
 	}
 
 	public boolean isSelected() {

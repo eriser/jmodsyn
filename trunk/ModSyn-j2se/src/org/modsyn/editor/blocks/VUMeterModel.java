@@ -53,6 +53,7 @@ public class VUMeterModel extends DspBlockModel<VUMeterModel.VUMeter> {
 
 	public VUMeterModel() {
 		super(new VUMeter());
+		setFixedSize();
 		getDspObject().model = this;
 		add(new InputModel(this, getDspObject(), "IN", 0, -1, 1));
 

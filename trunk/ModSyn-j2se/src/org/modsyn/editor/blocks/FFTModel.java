@@ -106,6 +106,7 @@ public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 
 	public FFTModel(Context c) {
 		super(new FFTAnalysis(c, 256));
+		setFixedSize();
 		getDspObject().model = this;
 		add(new InputModel(this, getDspObject(), "IN", 0, -1, 1));
 

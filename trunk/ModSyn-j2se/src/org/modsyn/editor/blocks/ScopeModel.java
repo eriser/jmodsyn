@@ -68,6 +68,7 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 
 	public ScopeModel() {
 		super(new Scope());
+		setFixedSize();
 		getDspObject().model = this;
 		add(new InputModel(this, getDspObject(), "IN", 0, -1, 1));
 		add(new InputModel(this, getDspObject().ctrlAmp, "amp", 1, 0, 2));

@@ -6,9 +6,8 @@ import java.util.List;
 import org.modsyn.DspObject;
 
 /**
- * A DspBlockModel wraps a DspObject. It is used as the model for visual
- * representations of a DspObject and its inputs and outputs, and for XML
- * import/export.
+ * A DspBlockModel wraps a DspObject. It is used as the model for visual representations of a DspObject and its inputs
+ * and outputs, and for XML import/export.
  * 
  * @author Erik Duijs
  * 
@@ -20,13 +19,13 @@ public abstract class DspBlockModel<T extends DspObject> {
 	protected final List<OutputModel> outputs = new ArrayList<OutputModel>();
 	private final T dsp;
 	private final String name;
+	private boolean fixedSize;
 
 	public final int channels;
 
 	/*
-	 * FIXME: this reference to a DspBlockComponent is a design flaw that should
-	 * be fixed. Ideally, all classes that extend DspBlockModel should be moved
-	 * to ModSyn-core (which does not depend on J2SE).
+	 * FIXME: this reference to a DspBlockComponent is a design flaw that should be fixed. Ideally, all classes that
+	 * extend DspBlockModel should be moved to ModSyn-core (which does not depend on J2SE).
 	 */
 	public DspBlockComponent component;
 
@@ -72,5 +71,13 @@ public abstract class DspBlockModel<T extends DspObject> {
 
 	public List<OutputModel> getOutputs() {
 		return outputs;
+	}
+
+	public boolean isFixedSize() {
+		return fixedSize;
+	}
+
+	public void setFixedSize() {
+		this.fixedSize = true;
 	}
 }
