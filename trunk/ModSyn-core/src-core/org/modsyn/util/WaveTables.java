@@ -4,7 +4,6 @@
 package org.modsyn.util;
 
 import static java.lang.Math.PI;
-import static java.lang.Math.sin;
 
 import java.util.Random;
 
@@ -48,8 +47,8 @@ public class WaveTables {
 
 		for (int i = 0; i < WAVE_LENGTH; i++) {
 			float r = (PI2 / WAVE_LENGTH) * i;
-			SINUS[i] = (float) (sin(r) * max);
-			COSINUS[i] = cos(r) * max;
+			SINUS[i] = (float) (Math.sin(r) * max);
+			COSINUS[i] = (float) (Math.cos(r) * max);
 
 			float sv = min + rc1 * i;
 			while (sv > 1) {
@@ -63,10 +62,10 @@ public class WaveTables {
 				TRIANGLE[i] = (min + rc2 * i);
 				TRIANGLE[WAVE_LENGTH - 1 - i] = TRIANGLE[i];
 
-				HALF_COS[i] = cos(r * 2) * max;
+				HALF_COS[i] = (float) (Math.cos(r) * max);
 				HALF_COS[WAVE_LENGTH - 1 - i] = min;
 
-				HALF_SIN[i] = (float) (sin(r) * max * 2f) + min;
+				HALF_SIN[i] = (float) (Math.sin(r) * max * 2f) + min;
 				HALF_SIN[WAVE_LENGTH - 1 - i] = min;
 
 				SQUARE[i] = min;
@@ -98,8 +97,7 @@ public class WaveTables {
 		}
 	}
 
-	public static float cos(float rad) {
+	public static final float cos(float rad) {
 		return COSINUS[(int) (rad * div)];
 	}
-
 }
