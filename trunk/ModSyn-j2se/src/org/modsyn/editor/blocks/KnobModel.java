@@ -22,9 +22,9 @@ public class KnobModel extends DspBlockModel<KnobModel.KnobOut> {
 			public void connectTo(InputModel input) {
 				super.connectTo(input);
 				knob.setName(input.getSoundBlockModel().getName() + " / " + input.getName());
-				knob.setValue(input.getValue());
 				knob.setMin(input.getMin());
 				knob.setMax(input.getMax());
+				knob.setValue(input.getValue());
 				knob.setDecimals(input.getDecimals());
 			}
 
