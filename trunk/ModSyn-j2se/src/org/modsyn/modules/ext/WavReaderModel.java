@@ -19,6 +19,6 @@ public class WavReaderModel extends DspBlockModel<FromFile> {
 
 	@Override
 	public String getName() {
-		return "Wav OUT";
+		return "Wav IN";
 	}
 }
