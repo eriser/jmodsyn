@@ -15,6 +15,7 @@ import org.modsyn.editor.OutputModel;
 
 import com.sun.media.sound.FFT;
 
+@SuppressWarnings("restriction")
 public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 
 	Runnable updater = new Runnable() {
@@ -48,9 +49,12 @@ public class FFTModel extends DspBlockModel<FFTModel.FFTAnalysis> {
 		 *            Size of the result
 		 */
 		public FFTAnalysis(Context c, int size) {
-			this.fftSize = size * 2; // we need twice the size as the FFT class generates the result in 2 values per
+			this.fftSize = size * 2; // we need twice the size as the FFT class
+										// generates the result in 2 values per
 										// result index
-			this.buffer = new double[fftSize * 2]; // the 2nd half produced by the FFT will be disregarded (negative
+			this.buffer = new double[fftSize * 2]; // the 2nd half produced by
+													// the FFT will be
+													// disregarded (negative
 													// frequencies)
 			this.render = new double[buffer.length];
 			this.winFunc = new double[fftSize];
