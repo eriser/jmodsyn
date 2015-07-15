@@ -25,7 +25,8 @@ import org.modsyn.util.ContextUpdateThread;
 /**
  * @author Erik Duijs
  * 
- *         Steams its AudioInputs to JavaSound. If you set it up to mono, use inputL.
+ *         Steams its AudioInputs to JavaSound. If you set it up to mono, use
+ *         inputL.
  */
 public class ToJavaSound implements SignalSource, DspObject {
 
@@ -190,7 +191,7 @@ public class ToJavaSound implements SignalSource, DspObject {
 		 * @see org.modsyn.AudioInput#write(float[])
 		 */
 		@Override
-		public void set(float data) {
+		public synchronized void set(float data) {
 			fbuffer1[fbuffer1Index++] = data;
 			fbuffer1Index = fbuffer1Index % fbuffer1.length;
 		}
@@ -204,7 +205,7 @@ public class ToJavaSound implements SignalSource, DspObject {
 		 * @see org.modsyn.AudioInput#write(float[])
 		 */
 		@Override
-		public void set(float data) {
+		public synchronized void set(float data) {
 			fbuffer2[fbuffer2Index++] = data;
 			fbuffer2Index = fbuffer2Index % fbuffer2.length;
 		}
