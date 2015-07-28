@@ -21,7 +21,7 @@ public class FxLoop implements SignalInsert {
 		split.target2 = wire;
 		amp.connectTo(insert);
 
-		amp.control.set(0.5f);
+		amp.lvl.set(0.5f);
 
 		merge.setChannel(0, insert);
 		merge.setChannel(1, wire);
@@ -33,7 +33,7 @@ public class FxLoop implements SignalInsert {
 	}
 
 	public void setFxLevel(float level) {
-		amp.control.set(level);
+		amp.lvl.set(level);
 	}
 
 	@Override

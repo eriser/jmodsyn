@@ -60,7 +60,7 @@ public class Binaural implements SignalInput {
 
 			float limDist = max(nearest, dist);
 			float vol = 1f / (limDist);
-			amp.control.set(vol);
+			amp.lvl.set(vol);
 
 			// Calculate filtering based on relative position.
 			// This could be much refined; now it simply filters most when the source is exactly behind you and doesn't

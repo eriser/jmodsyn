@@ -14,8 +14,8 @@ import org.modsyn.SignalSource;
 /**
  * @author Erik Duijs
  * 
- *         To change the template for this generated type comment go to Window - Preferences - Java - Code Generation -
- *         Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class RingModulator implements SignalSource, SignalInput {
 
@@ -90,6 +90,5 @@ public class RingModulator implements SignalSource, SignalInput {
 		public void set(float data) {
 			modBuffer = data;
 		}
-
 	}
 }

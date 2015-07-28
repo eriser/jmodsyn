@@ -6,15 +6,18 @@ import static java.lang.Math.sin;
 
 import org.modsyn.Context;
 import org.modsyn.DefaultSignalOutput;
+import org.modsyn.FilterTypeChangeListener;
+import org.modsyn.FilterTypeChangeObservable;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
 /**
- * Based on code posted here: http://www.musicdsp.org/showArchiveComment.php?ArchiveID=24
+ * Based on code posted here:
+ * http://www.musicdsp.org/showArchiveComment.php?ArchiveID=24
  * 
  * @author Erik Duijs
  */
-public class MoogVCF extends DefaultSignalOutput implements SignalInsert {
+public class MoogVCF extends DefaultSignalOutput implements SignalInsert, FilterTypeChangeObservable {
 	public static final int MODE_LPF = 0;
 	public static final int MODE_BPF = 1;
 	public static final int MODE_HPF = 2;
@@ -50,6 +53,10 @@ public class MoogVCF extends DefaultSignalOutput implements SignalInsert {
 			default:
 				filterMode = modeLPF;
 				break;
+			}
+
+			if (ftcl != null) {
+				ftcl.filterTypeChanged(i);
 			}
 		}
 	};
@@ -163,5 +170,23 @@ public class MoogVCF extends DefaultSignalOutput implements SignalInsert {
 		oldy3 = y3;
 
 		filterMode.set(input);
+	}
+
+	private FilterTypeChangeListener ftcl;
+
+	@Override
+	public void setFilterTypeChangeListener(FilterTypeChangeListener ftcl) {
+		this.ftcl = ftcl;
+		ftcl.filterTypeChanged(getFilterType());
+	}
+
+	private int getFilterType() {
+		if (filterMode == modeBPF) {
+			return MODE_BPF;
+		} else if (filterMode == modeHPF) {
+			return MODE_HPF;
+		} else {
+			return MODE_LPF;
+		}
 	}
 }

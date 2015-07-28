@@ -13,21 +13,26 @@ import org.modsyn.DspObject;
 import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalSource;
+import org.modsyn.WaveChangeListener;
+import org.modsyn.WaveChangeObservable;
 import org.modsyn.util.WaveTables;
 
 /**
- * A simple oscillator class using pre-calculated waveforms. There is no band-limiting here, so expect heavy aliasing at
- * higher frequencies with rich waveforms.
+ * A simple oscillator class using pre-calculated waveforms. There is no
+ * band-limiting here, so expect heavy aliasing at higher frequencies with rich
+ * waveforms.
  * 
  * @author Erik Duijs
  */
-public class Oscillator implements SignalSource, DspObject {
+public class Oscillator implements SignalSource, DspObject, WaveChangeObservable {
 
 	private float[] wave;
 	private float frequency;
 	private float index;
 
 	private float pwm = 50;
+
+	private WaveChangeListener wcl;
 
 	public final SignalInput ctrFreq = new SignalInput() {
 
@@ -115,7 +120,19 @@ public class Oscillator implements SignalSource, DspObject {
 	}
 
 	public void setShape(float[] waveTable) {
+		if (wcl != null && this.wave != waveTable) {
+			wcl.waveChanged(waveTable);
+		}
 		this.wave = waveTable;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.modsyn.modules.WaveChangeListenable#setWaveChangeListener(org.modsyn.util.WaveChangeListener)
+	 */
+	@Override
+	public void setWaveChangeListener(WaveChangeListener wcl) {
+		this.wcl = wcl;
+		wcl.waveChanged(wave);
 	}
 
 	public void setDetune(float scale) {

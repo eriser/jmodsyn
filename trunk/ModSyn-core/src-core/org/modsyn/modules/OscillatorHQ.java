@@ -13,6 +13,8 @@ import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInputIntValue;
 import org.modsyn.SignalSource;
+import org.modsyn.WaveChangeListener;
+import org.modsyn.WaveChangeObservable;
 import org.modsyn.util.WaveTables;
 
 /**
@@ -20,9 +22,11 @@ import org.modsyn.util.WaveTables;
  * 
  * @author Erik Duijs
  */
-public class OscillatorHQ implements SignalSource {
+public class OscillatorHQ implements SignalSource, WaveChangeObservable {
+	private static final boolean BANDLIMITED = true;
 
 	private float[] wave;
+	private float[] wave_bandlimited;
 	private float frequency;
 	private float index;
 
@@ -50,7 +54,8 @@ public class OscillatorHQ implements SignalSource {
 	public final SignalInput ctrShape = new SignalInput() {
 		@Override
 		public void set(float signal) {
-			setShape(WaveTables.getWaveForm(round(signal)));
+			int waveId = round(signal);
+			setShape(waveId);
 		}
 	};
 	public final SignalInput ctrFilter = new SignalInput() {
@@ -80,13 +85,17 @@ public class OscillatorHQ implements SignalSource {
 	private final Butterworth24db filter;
 	private float filterFreq;
 
+	private WaveChangeListener wcl;
+
+	private int waveId;
+
 	public OscillatorHQ(Context context) {
-		this(context, WaveTables.SINUS);
+		this(context, WaveTables.SHAPE_ID_SINUS);
 	}
 
-	public OscillatorHQ(Context context, float[] waveTable) {
+	public OscillatorHQ(Context context, int waveId) {
 		this.context = context;
-		setShape(waveTable);
+		setShape(waveId);
 		index = 0;
 		detuneFactor = 1;
 		this.filter = new Butterworth24db(context);
@@ -94,7 +103,16 @@ public class OscillatorHQ implements SignalSource {
 		context.addSignalSource(this);
 	}
 
+	@Override
+	public void setWaveChangeListener(WaveChangeListener wcl) {
+		this.wcl = wcl;
+		wcl.waveChanged(wave);
+	}
+
 	public void setFrequency(float freq) {
+		if (BANDLIMITED /* && freq != frequency */) {
+			wave_bandlimited = WaveTables.getWaveForm(waveId, freq);
+		}
 		frequency = freq;
 		step = ((frequency * detuneFactor) * wave.length) / context.getSampleRate();
 		ostep = step / ctrlOversampling.value;
@@ -105,8 +123,16 @@ public class OscillatorHQ implements SignalSource {
 		updater = pwm == 50 ? updateNoPWM : updatePWM;
 	}
 
-	public void setShape(float[] waveTable) {
+	public void setShape(int waveId) {
+		this.waveId = waveId;
+		float[] waveTable = WaveTables.getWaveForm(waveId);
+		if (wcl != null && this.wave != waveTable) {
+			wcl.waveChanged(waveTable);
+		}
 		this.wave = waveTable;
+		if (BANDLIMITED) {
+			this.wave_bandlimited = WaveTables.getWaveForm(waveId, frequency);
+		}
 	}
 
 	public void setDetune(float scale) {
@@ -116,42 +142,57 @@ public class OscillatorHQ implements SignalSource {
 	}
 
 	private final Runnable updateNoPWM = new Runnable() {
-
 		@Override
 		public void run() {
+			if (BANDLIMITED) {
+				float buffer = wave_bandlimited[(int) index];
+				index = (index + step) % wave_bandlimited.length;
+				input.set(buffer);
+			} else {
+				float buffer = 0;
 
-			float buffer = 0;
+				for (int i = ctrlOversampling.value; i > 0; i--) {
+					buffer += filter.process(wave[(int) index]);
+					index = (index + ostep) % wave.length;
+				}
 
-			for (int i = ctrlOversampling.value; i > 0; i--) {
-				buffer += filter.process(wave[(int) index]);
-				index = (index + ostep) % wave.length;
+				input.set(buffer / ctrlOversampling.value);
 			}
-
-			input.set(buffer / ctrlOversampling.value);
 		}
 	};
 
 	private final Runnable updatePWM = new Runnable() {
-
 		@Override
 		public void run() {
-
-			float buffer = 0;
-
-			for (int i = 0; i < ctrlOversampling.value; i++) {
-
-				float phase = (index / wave.length) * 100;
+			if (BANDLIMITED) {
+				float phase = (index / wave_bandlimited.length) * 100;
 				if (phase > pwm) {
 					phase = 50 + ((phase - pwm) % 50);
 				}
-				phase = (phase / 100f) * wave.length;
+				phase = (phase / 100f) * wave_bandlimited.length;
 
-				index = (index + ostep) % wave.length;
+				float buffer = wave[(int) phase & (wave_bandlimited.length - 1)];
 
-				buffer += filter.process(wave[(int) phase & (wave.length - 1)]);
+				index = (index + step) % wave_bandlimited.length;
+				input.set(buffer);
+			} else {
+				float buffer = 0;
+
+				for (int i = 0; i < ctrlOversampling.value; i++) {
+
+					float phase = (index / wave.length) * 100;
+					if (phase > pwm) {
+						phase = 50 + ((phase - pwm) % 50);
+					}
+					phase = (phase / 100f) * wave.length;
+
+					index = (index + ostep) % wave.length;
+
+					buffer += filter.process(wave[(int) phase & (wave.length - 1)]);
+				}
+
+				input.set(buffer / ctrlOversampling.value);
 			}
-
-			input.set(buffer / ctrlOversampling.value);
 		}
 	};
 

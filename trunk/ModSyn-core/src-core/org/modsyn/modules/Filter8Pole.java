@@ -3,6 +3,8 @@ package org.modsyn.modules;
 import static java.lang.Math.round;
 
 import org.modsyn.DefaultSignalOutput;
+import org.modsyn.FilterTypeChangeListener;
+import org.modsyn.FilterTypeChangeObservable;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalInsert;
 
@@ -12,7 +14,7 @@ import org.modsyn.SignalInsert;
  * 
  * @author Erik Duijs
  */
-public class Filter8Pole extends DefaultSignalOutput implements SignalInsert {
+public class Filter8Pole extends DefaultSignalOutput implements SignalInsert, FilterTypeChangeObservable {
 
 	public static final int MODE_LPF = 0;
 	public static final int MODE_BPF = 1;
@@ -57,6 +59,10 @@ public class Filter8Pole extends DefaultSignalOutput implements SignalInsert {
 			default:
 				filterMode = modeLPF;
 				break;
+			}
+
+			if (ftcl != null) {
+				ftcl.filterTypeChanged(i);
 			}
 		}
 	};
@@ -106,5 +112,23 @@ public class Filter8Pole extends DefaultSignalOutput implements SignalInsert {
 		pole8 += ((-pole8 + pole7) * cutoffreq);
 
 		filterMode.set(input);
+	}
+
+	private FilterTypeChangeListener ftcl;
+
+	@Override
+	public void setFilterTypeChangeListener(FilterTypeChangeListener ftcl) {
+		this.ftcl = ftcl;
+		ftcl.filterTypeChanged(getFilterType());
+	}
+
+	private int getFilterType() {
+		if (filterMode == modeBPF) {
+			return MODE_BPF;
+		} else if (filterMode == modeHPF) {
+			return MODE_HPF;
+		} else {
+			return MODE_LPF;
+		}
 	}
 }

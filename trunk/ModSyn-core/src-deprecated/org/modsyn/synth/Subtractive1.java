@@ -101,8 +101,8 @@ public class Subtractive1 implements Synth, SignalSource {
 		lfoPwmR = new LFO(context, WaveTables.SINUS);
 		vibrato = new LFO(context, WaveTables.SINUS);
 		// Sys.enableRegistration(false);
-		outL.control.set(0);
-		outR.control.set(0);
+		outL.lvl.set(0);
+		outR.lvl.set(0);
 		vibrato.setFrequency(5f);
 		vibrato.setAmplitude(0);
 		vibrato.setOffset(1.0f);
@@ -161,8 +161,8 @@ public class Subtractive1 implements Synth, SignalSource {
 		oscR.setPWM(ctrlPwmR);
 		lpfL.setCutOff(egLPF);
 		lpfR.setCutOff(egLPF);
-		outL.control.set(egAmp);
-		outR.control.set(egAmp);
+		outL.lvl.set(egAmp);
+		outR.lvl.set(egAmp);
 
 		float sigL = oscL.process();
 		float sigR = oscR.process();

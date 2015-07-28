@@ -25,18 +25,18 @@ public class Simple implements MIDISynth {
 		amp = new Amplifier();
 
 		osc.connectTo(amp);
-		amp.control.set(0);
+		amp.lvl.set(0);
 	}
 
 	@Override
 	public void keyOn(float freq, float velo) {
 		osc.setFrequency(freq);
-		amp.control.set(velo);
+		amp.lvl.set(velo);
 	}
 
 	@Override
 	public void keyOff() {
-		amp.control.set(0);
+		amp.lvl.set(0);
 	}
 
 	@Override

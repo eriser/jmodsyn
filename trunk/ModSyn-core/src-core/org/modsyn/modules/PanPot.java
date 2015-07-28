@@ -51,7 +51,7 @@ public class PanPot implements SignalInput, DspObject {
 	 * @param value
 	 */
 	public void setPanning(float value) {
-		left.control.set(0.50f - value / 2);
-		right.control.set(0.50f + value / 2);
+		left.lvl.set(0.50f - value / 2);
+		right.lvl.set(0.50f + value / 2);
 	}
 }

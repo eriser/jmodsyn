@@ -133,7 +133,7 @@ public class Vocoder implements SignalOutput {
 
 		public VocoderBand() {
 			modulatorFilter.connectTo(modulatorTracker);
-			modulatorTracker.connectTo(output.control);
+			modulatorTracker.connectTo(output.lvl);
 
 			carrierFilter.connectTo(output);
 		}
