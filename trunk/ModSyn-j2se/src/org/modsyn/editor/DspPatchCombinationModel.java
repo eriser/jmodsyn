@@ -10,10 +10,10 @@ import java.util.Map;
 import javax.swing.event.SwingPropertyChangeSupport;
 
 import org.modsyn.Context;
+import org.modsyn.editor.blocks.MetaModel;
 
 /**
- * Model for a combined patch (i.e. the 'main' DspPatch and sub-models for used
- * MetaModels)
+ * Model for a combined patch (i.e. the 'main' DspPatch and sub-models for used MetaModels)
  * 
  * @author ed52874
  * 
@@ -70,6 +70,25 @@ public class DspPatchCombinationModel {
 	 */
 	public List<DspPatchModel> getLinkedSubModels(String name) {
 		return linkedSubModels.get(name);
+	}
+
+	public void renameLinkedSubModels(String name, String newName) {
+		if (newName.endsWith(".dsp-patch")) {
+			newName = newName.substring(0, newName.length() - ".dsp-patch".length());
+		}
+
+		for (DspPatchModel lpm : getLinkedSubModels(name)) {
+			lpm.name = newName;
+			for (DspBlockComponent block : lpm.parent.mainModel.dspBlocks) {
+				DspBlockModel<?> model = block.getModel();
+				System.out.println(model);
+				if (model instanceof MetaModel && model.getName().equals(name)) {
+					((MetaModel) model).setName(newName);
+					block.refresh();
+				}
+			}
+		}
+
 	}
 
 	public List<DspPatchModel> getLinkedSubModels() {

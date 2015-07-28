@@ -12,8 +12,8 @@ public class Butterworth24dbModel extends DspBlockModel<Butterworth24db> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.ctrlCutoff, "freq", 0.1f, 0.01f, 0.45f));
-		add(new InputModel(this, amp.ctrlQ, "reso", 0, 0, 1));
+		add(new InputModel(this, amp.ctrlCutoff, "frq", 0.1f, 0.01f, 0.45f));
+		add(new InputModel(this, amp.ctrlQ, "Q", 0, 0, 1));
 
 		add(new OutputModel(this, amp, "OUT"));
 	}

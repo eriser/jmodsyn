@@ -12,8 +12,8 @@ public class Karlsen24dBModel extends DspBlockModel<Karlsen24dB> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.ctrlFreq, "freq", 0.1f, 0, 1));
-		add(new InputModel(this, amp.ctrlReso, "reso", 5, 0, 50));
+		add(new InputModel(this, amp.ctrlFreq, "frq", 0.1f, 0, 1));
+		add(new InputModel(this, amp.ctrlReso, "Q", 5, 0, 50));
 
 		add(new OutputModel(this, amp, "OUT"));
 	}

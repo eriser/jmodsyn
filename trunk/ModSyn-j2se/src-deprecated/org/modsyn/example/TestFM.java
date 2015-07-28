@@ -53,7 +53,7 @@ public class TestFM {
 		// used to prevent clipping
 		Amplifier volume1 = new Amplifier();
 		volume1.connectTo(pan1);
-		volume1.control.set(0.50f);
+		volume1.lvl.set(0.50f);
 
 		// FM Operator
 		FMOperator fm = new FMOperator(context, WaveTables.SINUS);

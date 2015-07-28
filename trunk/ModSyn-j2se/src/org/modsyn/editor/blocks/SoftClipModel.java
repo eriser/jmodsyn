@@ -11,8 +11,8 @@ public class SoftClipModel extends DspBlockModel<SoftClip> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.ctrlGain, "gain", 1, 0, 20));
-		add(new InputModel(this, amp.ctrlThreshold, "thrs", .75f, 0, 1));
+		add(new InputModel(this, amp.ctrlGain, "lvl", 1, 0, 20));
+		add(new InputModel(this, amp.ctrlThreshold, "thr", .75f, 0, 1));
 
 		add(new OutputModel(this, amp, "OUT"));
 	}

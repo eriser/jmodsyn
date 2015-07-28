@@ -7,7 +7,7 @@ import org.modsyn.editor.OutputModel;
 
 public class MetaModel extends DspBlockModel<MetaDspObject> {
 
-	private final String name;
+	private String name;
 
 	public MetaModel(MetaDspObject dsp, String name) {
 		super(dsp);
@@ -25,5 +25,9 @@ public class MetaModel extends DspBlockModel<MetaDspObject> {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String newName) {
+		this.name = newName;
 	}
 }

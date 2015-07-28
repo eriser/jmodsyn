@@ -80,4 +80,13 @@ public abstract class DspBlockModel<T extends DspObject> {
 	public void setFixedSize() {
 		this.fixedSize = true;
 	}
+
+	public InputModel getInput(String name) {
+		for (InputModel im : inputs) {
+			if (name.equals(im.getName())) {
+				return im;
+			}
+		}
+		return null;
+	}
 }

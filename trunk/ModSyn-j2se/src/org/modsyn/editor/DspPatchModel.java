@@ -35,7 +35,7 @@ public class DspPatchModel {
 	final List<DspConnection> dspConnections = new ArrayList<DspConnection>();
 	private final Context context;
 
-	public final String name;
+	public String name;
 	public final boolean isMainModel;
 	public final DspPatchCombinationModel parent;
 

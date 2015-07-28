@@ -1,5 +1,6 @@
 package org.modsyn.modules.ext;
 
+import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -16,6 +17,9 @@ public enum MidiSupport {
 	private MidiSupport() {
 		System.out.println("Initializing MIDI...");
 		try {
+			for (Info info : MidiSystem.getMidiDeviceInfo()) {
+				System.out.println(" MidiDevice.Info : " + info);
+			}
 			MidiSystem.getTransmitter().setReceiver(new MidiReceiver());
 		} catch (MidiUnavailableException e) {
 			// TODO Auto-generated catch block

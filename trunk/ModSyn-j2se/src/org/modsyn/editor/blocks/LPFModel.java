@@ -12,8 +12,8 @@ public class LPFModel extends DspBlockModel<LPF> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.cutOffControl, "freq", 1000, 1, 20000));
-		add(new InputModel(this, amp.resonanceControl, "reso", 1, 1, 10));
+		add(new InputModel(this, amp.cutOffControl, "frq", 1000, 1, 20000));
+		add(new InputModel(this, amp.resonanceControl, "Q", 1, 1, 10));
 
 		add(new OutputModel(this, amp, "OUT"));
 	}

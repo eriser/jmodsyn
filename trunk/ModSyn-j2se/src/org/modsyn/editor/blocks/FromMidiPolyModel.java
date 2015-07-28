@@ -17,10 +17,10 @@ public class FromMidiPolyModel extends DspBlockModel<MidiVoicePolyAdapter> {
 		int voices = dsp.voices.size();
 		for (int i = 0; i < voices; i++) {
 			String nr = voices == 1 ? "" : Integer.toString(i);
-			add(new OutputModel(this, dsp.voices.get(i).keyFreqOut, "freq" + nr));
-			add(new OutputModel(this, dsp.voices.get(i).keyVeloOut, "velo" + nr));
-			add(new OutputModel(this, dsp.voices.get(i).keyTrigOut, "trig" + nr));
-			add(new OutputModel(this, dsp.voices.get(i).bendOut, "bend" + nr));
+			add(new OutputModel(this, dsp.voices.get(i).keyFreqOut, "frq" + nr));
+			add(new OutputModel(this, dsp.voices.get(i).keyVeloOut, "vel" + nr));
+			add(new OutputModel(this, dsp.voices.get(i).keyTrigOut, "trg" + nr));
+			add(new OutputModel(this, dsp.voices.get(i).bendOut, "pb" + nr));
 			add(new OutputModel(this, dsp.voices.get(i).modOut, "mod" + nr));
 			// add(new OutputModel(this, dsp.voices.get(i).ctrl1Out, "c-out"));
 		}

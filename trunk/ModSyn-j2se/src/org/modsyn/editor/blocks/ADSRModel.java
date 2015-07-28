@@ -14,14 +14,14 @@ public class ADSRModel extends DspBlockModel<ADSREnvelope> {
 
 	public ADSRModel(ADSREnvelope dsp) {
 		super(dsp);
-		add(new InputModel(this, dsp.trigger, "trig", 0, 0, 1));
-		add(new InputModel(this, dsp.ctrlAtkLevel, "at-lvl", 0, 0, 1));
-		add(new InputModel(this, dsp.ctrlAtkTime, "at-tim", 0.1f, 0, 1));
-		add(new InputModel(this, dsp.ctrlDcyLevel, "dc-lvl", 1, 0, 1));
-		add(new InputModel(this, dsp.ctrlDcyTime, "dc-tim", 0.3f, 0, 1));
-		add(new InputModel(this, dsp.ctrlSusLevel, "su-lvl", .5f, 0, 1));
-		add(new InputModel(this, dsp.ctrlRlsLevel, "rl-lvl", 0f, 0, 1));
-		add(new InputModel(this, dsp.ctrlRlsTime, "rl-tim", .2f, 0, 1));
+		add(new InputModel(this, dsp.trigger, "trg", 0, 0, 1));
+		add(new InputModel(this, dsp.ctrlAtkLevel, "atL", 0, 0, 1));
+		add(new InputModel(this, dsp.ctrlAtkTime, "atT", 0.1f, 0, 1));
+		add(new InputModel(this, dsp.ctrlDcyLevel, "dcL", 1, 0, 1));
+		add(new InputModel(this, dsp.ctrlDcyTime, "dcT", 0.3f, 0, 1));
+		add(new InputModel(this, dsp.ctrlSusLevel, "suL", .5f, 0, 1));
+		add(new InputModel(this, dsp.ctrlRlsLevel, "rlL", 0f, 0, 1));
+		add(new InputModel(this, dsp.ctrlRlsTime, "rlT", .2f, 0, 1));
 
 		add(new OutputModel(this, dsp, "OUT"));
 	}
@@ -30,5 +30,4 @@ public class ADSRModel extends DspBlockModel<ADSREnvelope> {
 	public String getName() {
 		return "ADSR";
 	}
-
 }

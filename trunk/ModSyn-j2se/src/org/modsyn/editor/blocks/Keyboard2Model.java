@@ -9,7 +9,7 @@ public class Keyboard2Model extends DspBlockModel<Keyboard2Adapter> {
 
 	public Keyboard2Model(Keyboard2Adapter dsp) {
 		super(dsp);
-		add(new OutputModel(this, dsp.freqOut, "freq") {
+		add(new OutputModel(this, dsp.freqOut, "frq") {
 			@Override
 			public void connectTo(InputModel input) {
 				super.connectTo(input);
@@ -23,7 +23,7 @@ public class Keyboard2Model extends DspBlockModel<Keyboard2Adapter> {
 				input.getInput().set(0);
 			}
 		});
-		add(new OutputModel(this, dsp.trigOut, "trig") {
+		add(new OutputModel(this, dsp.trigOut, "trg") {
 			@Override
 			public void connectTo(InputModel input) {
 				super.connectTo(input);

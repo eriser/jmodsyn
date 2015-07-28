@@ -68,8 +68,12 @@ import org.modsyn.editor.blocks.TubeSimModel;
 import org.modsyn.editor.blocks.VUMeterModel;
 import org.modsyn.editor.blocks.VeloSensModel;
 import org.modsyn.editor.blocks.VocoderModel;
+import org.modsyn.gui.JColorLabel;
+import org.modsyn.gui.JFilterTypeComponent;
 import org.modsyn.gui.JKnob;
-import org.modsyn.modules.ADR;
+import org.modsyn.gui.JOpComponent;
+import org.modsyn.gui.JWaveComponent;
+import org.modsyn.modules.ADSR;
 import org.modsyn.modules.Compressor;
 import org.modsyn.modules.Tracker;
 import org.modsyn.modules.ctrl.ADSREnvelope;
@@ -82,7 +86,9 @@ import org.modsyn.modules.ext.WavReaderModel;
 import org.modsyn.modules.ext.WavWriterModel;
 import org.modsyn.util.Keyboard2;
 import org.modsyn.util.Keyboard2Adapter;
+import org.modsyn.util.WaveTables;
 
+@SuppressWarnings("serial")
 public enum DspPalette {
 
 	Amp("Basics") {
@@ -93,7 +99,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new AmplifierModel(), pm);
+			return new DspBlockComponent(c, new AmplifierModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JOpComponent(getModel(), "\u2217", Color.ORANGE);
+				}
+			};
 		}
 	},
 	Mix("Basics") {
@@ -104,7 +115,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new MixerModel(c, getChannelsOrAsk(channels, "channels", 2, 32)), pm);
+			return new DspBlockComponent(c, new MixerModel(c, getChannelsOrAsk(channels, "channels", 2, 32)), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JOpComponent(getModel(), "\u2211");
+				}
+			};
 		}
 	},
 	Add("Basics") {
@@ -115,7 +131,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new AdderModel(), pm);
+			return new DspBlockComponent(c, new AdderModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JOpComponent(getModel(), "+");
+				}
+			};
 		}
 	},
 	Split("Basics") {
@@ -126,7 +147,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new MultiSplitterModel(getChannelsOrAsk(channels, "channels", 2, 16)), pm);
+			return new DspBlockComponent(c, new MultiSplitterModel(getChannelsOrAsk(channels, "channels", 2, 16)), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JOpComponent(getModel(), "");
+				}
+			};
 		}
 	},
 	Pan("Basics") {
@@ -137,7 +163,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new PanPotModel(), pm);
+			return new DspBlockComponent(c, new PanPotModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JOpComponent(getModel(), "\u227a");
+				}
+			};
 		}
 	},
 	Osc("Oscillators") {
@@ -148,7 +179,13 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new OscillatorModel(c), pm);
+			final OscillatorModel om = new OscillatorModel(c);
+			return new DspBlockComponent(c, om, pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JWaveComponent(om.getDspObject(), om.inputs.get(3));
+				}
+			};
 		}
 	},
 	Osc__HQ("Oscillators") {
@@ -159,7 +196,13 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new OscillatorHQModel(c), pm);
+			final OscillatorHQModel om = new OscillatorHQModel(c);
+			return new DspBlockComponent(c, om, pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JWaveComponent(om.getDspObject(), om.inputs.get(3));
+				}
+			};
 		}
 	},
 	Noise("Oscillators") {
@@ -170,7 +213,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new NoiseModel(c), pm);
+			return new DspBlockComponent(c, new NoiseModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JWaveComponent(WaveTables.NOISE, EditorTheme.COLOR_OSC_BLOCK_BG);
+				}
+			};
 		}
 	},
 	K__Str("Oscillators") {
@@ -196,7 +244,7 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new ArpeggioModel(c, channels), pm);
 		}
 	},
-	ADR("Dynamics") {
+	ADSR("Dynamics") {
 		@Override
 		public String getModelName() {
 			return ADRModel.class.getName();
@@ -204,10 +252,15 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new ADRModel(new ADR(c)), pm);
+			return new DspBlockComponent(c, new ADRModel(new ADSR(c)), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_ADSR, EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
-	ADSR("Dynamics") {
+	ADSR2("Dynamics") {
 		@Override
 		public String getModelName() {
 			return ADSRModel.class.getName();
@@ -215,7 +268,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new ADSRModel(new ADSREnvelope(c)), pm);
+			return new DspBlockComponent(c, new ADSRModel(new ADSREnvelope(c)), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_ADSR, EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Tracker("Dynamics") {
@@ -226,7 +284,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new EnvelopeFollowerModel(new Tracker()), pm);
+			return new DspBlockComponent(c, new EnvelopeFollowerModel(new Tracker()), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_ENVELOPE_FOLLOWER, EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Tracker2("Dynamics") {
@@ -237,7 +300,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new EnvelopeFollower2Model(c), pm);
+			return new DspBlockComponent(c, new EnvelopeFollower2Model(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_ENVELOPE_FOLLOWER, EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
 	TipScale("Dynamics") {
@@ -270,7 +338,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new CompressorModel(new Compressor()), pm);
+			return new DspBlockComponent(c, new CompressorModel(new Compressor()), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_COMPRESSOR, EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
 	xxx4__Pole("Filters") {
@@ -281,7 +354,13 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new Filter4PoleModel(c), pm);
+			final Filter4PoleModel om = new Filter4PoleModel(c);
+			return new DspBlockComponent(c, om, pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JFilterTypeComponent(om.getDspObject(), om.getInput("typ"));
+				}
+			};
 		}
 	},
 	xxx8__Pole("Filters") {
@@ -292,7 +371,13 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new Filter8PoleModel(c), pm);
+			final Filter8PoleModel om = new Filter8PoleModel(c);
+			return new DspBlockComponent(c, om, pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JFilterTypeComponent(om.getDspObject(), om.getInput("typ"));
+				}
+			};
 		}
 	},
 	X__Pole("Filters") {
@@ -303,7 +388,13 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new FilterXPoleModel(c), pm);
+			final FilterXPoleModel om = new FilterXPoleModel(c);
+			return new DspBlockComponent(c, om, pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JFilterTypeComponent(om.getDspObject(), om.getInput("typ"));
+				}
+			};
 		}
 	},
 	MoogVCF("Filters") {
@@ -314,7 +405,13 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new MoogVCFModel(c), pm);
+			final MoogVCFModel om = new MoogVCFModel(c);
+			return new DspBlockComponent(c, om, pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JFilterTypeComponent(om.getDspObject(), om.getInput("typ"));
+				}
+			};
 		}
 	},
 	Butterworth("Filters") {
@@ -325,7 +422,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new Butterworth24dbModel(c), pm);
+			return new DspBlockComponent(c, new Butterworth24dbModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_LPF, EditorTheme.COLOR_FILTER_BLOCK_BG);
+				}
+			};
 		}
 	},
 	LPF("Filters") {
@@ -336,7 +438,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new LPFModel(c), pm);
+			return new DspBlockComponent(c, new LPFModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_LPF, EditorTheme.COLOR_FILTER_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Resonator("Filters") {
@@ -347,7 +454,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new Karlsen24dBModel(c), pm);
+			return new DspBlockComponent(c, new Karlsen24dBModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_BPF, EditorTheme.COLOR_FILTER_BLOCK_BG);
+				}
+			};
 		}
 	},
 	APF("Filters") {
@@ -391,7 +503,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new SoftClipModel(), pm);
+			return new DspBlockComponent(c, new SoftClipModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_TANH, EditorTheme.COLOR_SHAPE_BLOCK_BG);
+				}
+			};
 		}
 	},
 	TubeSim("Shape") {
@@ -790,7 +907,12 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			channels = getChannelsOrAsk(channels, "polyphony", 1, 16);
-			return new DspBlockComponent(c, new FromMidiPolyModel(new MidiVoicePolyAdapter(channels)), pm);
+			return new DspBlockComponent(c, new FromMidiPolyModel(new MidiVoicePolyAdapter(channels)), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.ICON_MIDI, EditorTheme.COLOR_EXT_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Audio_IN("EXT") {

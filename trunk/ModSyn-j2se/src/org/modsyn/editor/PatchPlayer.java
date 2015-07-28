@@ -22,7 +22,7 @@ import org.modsyn.modules.ext.AsioSupport;
 
 public class PatchPlayer {
 
-	static final String[] patches = { "dirty-rhodes", "dirty-rhodes-compressed", "dirty-rhodes-compressed-phased", "simple-synth", "synth4", "karplus-clavi",
+	static final String[] patches = { "dirty-rhodes", "dirty-rhodes-compressed", "dirty-rhodes-compressed-phased", "simple-synth", "fatpad", "karplus-clavi",
 			"tubelead-synth", "multi-vocoder" };
 
 	public static void main(String[] args) {

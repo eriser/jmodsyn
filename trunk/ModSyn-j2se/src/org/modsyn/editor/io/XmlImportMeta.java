@@ -103,7 +103,7 @@ public class XmlImportMeta {
 			for (int j = 0; j < nlInputs.getLength(); j++) {
 				Element eInput = (Element) nlInputs.item(j);
 				String id = eInput.getAttribute("id");
-				String name = eInput.getAttribute("name");
+				String name = TransTable.get(eInput.getAttribute("name"));
 				float value = Float.parseFloat(eInput.getAttribute("value"));
 
 				String sMin = eInput.getAttribute("min");
@@ -132,7 +132,7 @@ public class XmlImportMeta {
 			for (int j = 0; j < nlOutputs.getLength(); j++) {
 				Element eOutput = (Element) nlOutputs.item(j);
 				String id = eOutput.getAttribute("id");
-				String name = eOutput.getAttribute("name");
+				String name = TransTable.get(eOutput.getAttribute("name"));
 
 				for (OutputModel outputModel : dbc.getModel().getOutputs()) {
 					if (outputModel.getName().equals(name)) {

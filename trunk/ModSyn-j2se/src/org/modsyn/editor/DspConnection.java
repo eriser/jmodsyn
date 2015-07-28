@@ -59,5 +59,7 @@ public class DspConnection {
 			curve.setCurve(x01, y0, x01, yHalf, x11, yHalf, x11, y1);
 			g2d.draw(curve);
 		}
+
+		g2d.setStroke(normal);
 	}
 }

@@ -88,8 +88,8 @@ public class TestFrameAudioThread extends Thread {
 			osc2.setFrequency(osc2freq);
 			osc1.setPWM(pwm1);
 			osc2.setPWM(pwm2);
-			amp1.control.set(a1);
-			amp2.control.set(a2);
+			amp1.lvl.set(a1);
+			amp2.lvl.set(a2);
 			pan1.setPanning(p1);
 			pan2.setPanning(p2);
 			// lpf1.setCutOff(co1);

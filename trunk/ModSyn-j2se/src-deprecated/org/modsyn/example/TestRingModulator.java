@@ -52,7 +52,7 @@ public class TestRingModulator {
 		// used to prevent clipping
 		Amplifier volume1 = new Amplifier();
 		volume1.connectTo(pan1);
-		volume1.control.set(1);
+		volume1.lvl.set(1);
 
 		// Ring Modulator
 		RingModulator ring = new RingModulator(context);

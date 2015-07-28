@@ -113,8 +113,8 @@ public class PlayJDX40 extends JFrame {
 
 			mixerL.connectTo(outL);
 			mixerR.connectTo(outR);
-			outL.control.set(1f / 6f);
-			outR.control.set(1f / 6f);
+			outL.lvl.set(1f / 6f);
+			outR.lvl.set(1f / 6f);
 			outL.connectTo(master.inputL);
 			outR.connectTo(master.inputR);
 

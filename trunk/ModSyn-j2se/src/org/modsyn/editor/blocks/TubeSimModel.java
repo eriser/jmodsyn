@@ -12,7 +12,7 @@ public class TubeSimModel extends DspBlockModel<TubeSim> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.ctrlGain, "gain", 1, 0, 20));
+		add(new InputModel(this, amp.ctrlGain, "lvl", 1, 0, 20));
 		add(new InputModel(this, amp.ctrlThresholdTop, "thrs+", .75f, 0, 1));
 		add(new InputModel(this, amp.ctrlThresholdBottom, "thrs-", 0.6f, 0, 1));
 		add(new InputModel(this, amp.ctrlThresholdDCM, "thrsDCM", 0.7f, 0, 1));

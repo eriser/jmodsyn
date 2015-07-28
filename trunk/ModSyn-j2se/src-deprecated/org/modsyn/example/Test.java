@@ -78,8 +78,8 @@ public class Test {
 		Amplifier volume2 = new Amplifier();
 		volume1.connectTo(pan1);
 		volume2.connectTo(pan2);
-		volume1.control.set(0.20f);
-		volume2.control.set(0.20f);
+		volume1.lvl.set(0.20f);
+		volume2.lvl.set(0.20f);
 
 		// 2 Low Pass Filters connected to Amplifiers
 		LPF filter1 = new LPF(context);

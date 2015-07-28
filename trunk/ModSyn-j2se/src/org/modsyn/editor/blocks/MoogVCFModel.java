@@ -12,9 +12,9 @@ public class MoogVCFModel extends DspBlockModel<MoogVCF> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.ctrlCutOff, "freq", 0.1f, 0, 1));
-		add(new InputModel(this, amp.ctrlResonance, "reso", 0, 0, 5));
-		add(new InputModel(this, amp.ctrlMode, "mode", 0, 0, 2, 0));
+		add(new InputModel(this, amp.ctrlCutOff, "frq", 0.1f, 0, 1));
+		add(new InputModel(this, amp.ctrlResonance, "Q", 0, 0, 5));
+		add(new InputModel(this, amp.ctrlMode, "typ", 0, 0, 2, 0));
 
 		add(new OutputModel(this, amp, "OUT"));
 	}

@@ -63,7 +63,8 @@ public class XmlImport {
 			Rectangle r = new Rectangle(Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]), Integer.parseInt(b[3]));
 			dbc.setBounds(r);
 
-			if (!(dbc.getModel() instanceof MetaModel)) {
+			boolean isMetaModel = dbc.getModel() instanceof MetaModel;
+			if (!isMetaModel) {
 				// meta import already adds a meta model
 				pm.getMainModel().addDspComponent(dbc);
 			}
@@ -72,7 +73,7 @@ public class XmlImport {
 			for (int j = 0; j < nlInputs.getLength(); j++) {
 				Element eInput = (Element) nlInputs.item(j);
 				String id = eInput.getAttribute("id");
-				String name = eInput.getAttribute("name");
+				String name = isMetaModel ? eInput.getAttribute("name") : TransTable.get(eInput.getAttribute("name"));
 				float value = Float.parseFloat(eInput.getAttribute("value"));
 
 				String sMin = eInput.getAttribute("min");
@@ -101,7 +102,7 @@ public class XmlImport {
 			for (int j = 0; j < nlOutputs.getLength(); j++) {
 				Element eOutput = (Element) nlOutputs.item(j);
 				String id = eOutput.getAttribute("id");
-				String name = eOutput.getAttribute("name");
+				String name = isMetaModel ? eOutput.getAttribute("name") : TransTable.get(eOutput.getAttribute("name"));
 
 				for (OutputModel outputModel : dbc.getModel().getOutputs()) {
 					if (outputModel.getName().equals(name)) {

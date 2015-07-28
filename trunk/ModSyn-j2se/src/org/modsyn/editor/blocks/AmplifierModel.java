@@ -11,7 +11,7 @@ public class AmplifierModel extends DspBlockModel<Amplifier> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.control, "lvl", .5f, 0, 2));
+		add(new InputModel(this, amp.lvl, "lvl", .5f, 0, 2));
 
 		add(new OutputModel(this, amp, "OUT"));
 	}

@@ -95,8 +95,7 @@ public class DndConnection {
 		}
 
 		/**
-		 * Bundle up the selected items in a single list for export. Each line
-		 * is separated by a newline.
+		 * Bundle up the selected items in a single list for export. Each line is separated by a newline.
 		 */
 		@Override
 		protected Transferable createTransferable(JComponent c) {
@@ -160,8 +159,10 @@ public class DndConnection {
 
 							model.addDspComponent(dbc);
 						} else {
+							int channels = -1;
 							for (DspPatchModel m : model.parent.getLinkedSubModels(model.name)) {
-								DspBlockComponent dbc = pal.create(context, m, -1);
+								DspBlockComponent dbc = pal.create(context, m, channels);
+								channels = dbc.getModel().channels;
 								dbc.setLocation(info.getDropLocation().getDropPoint().x, info.getDropLocation().getDropPoint().y);
 								dbc.snapToGrid();
 

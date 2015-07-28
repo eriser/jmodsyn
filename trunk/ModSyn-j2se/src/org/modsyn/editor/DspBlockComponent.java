@@ -258,6 +258,11 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		name.setBackground(b ? EditorTheme.COLOR_SELECTED_BG : isMeta ? EditorTheme.COLOR_META_BLOCK_BG : EditorTheme.COLOR_UNSELECTED_BG);
 	}
 
+	public void refresh() {
+		name.setText(model.getName());
+		repaint();
+	}
+
 	public Component createCenterComponent() {
 		return button;
 	}

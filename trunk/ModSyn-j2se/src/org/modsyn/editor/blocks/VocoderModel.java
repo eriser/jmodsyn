@@ -14,8 +14,8 @@ public class VocoderModel extends DspBlockModel<Vocoder> {
 		add(new InputModel(this, dsp.inputCarrier, "IN.C", 0, -1, 1));
 		add(new InputModel(this, dsp.ctrlLow, "low", 0.01f, 0, 1));
 		add(new InputModel(this, dsp.ctrlHigh, "high", 0.5f, 0, 1));
-		add(new InputModel(this, dsp.ctrlPoles, "poles", 8, 0, 16, 0));
-		add(new InputModel(this, dsp.ctrlReso, "reso", 1f, 0, 5));
+		add(new InputModel(this, dsp.ctrlPoles, "pol", 8, 0, 16, 0));
+		add(new InputModel(this, dsp.ctrlReso, "Q", 1f, 0, 5));
 
 		add(new OutputModel(this, dsp, "OUT"));
 	}
