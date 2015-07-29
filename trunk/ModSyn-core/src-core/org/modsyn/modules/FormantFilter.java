@@ -30,6 +30,7 @@ public class FormantFilter extends DefaultSignalOutput implements SignalInsert {
 
 	private final double[] memory = new double[10];
 
+	private final double[] mixedVowel = new double[11];
 	private double[] curVowel = VOWEL_COEFFS[A];
 
 	public final SignalInput ctrlVowel = new SignalInput() {
@@ -38,9 +39,36 @@ public class FormantFilter extends DefaultSignalOutput implements SignalInsert {
 			setVowel(Math.round(signal));
 		}
 	};
+	public final SignalInput ctrlMixVowel = new SignalInput() {
+		@Override
+		public void set(float signal) {
+			setMixVowel(signal);
+		}
+	};
 
 	public void setVowel(int i) {
 		curVowel = VOWEL_COEFFS[i];
+	}
+
+	public void setMixVowel(float f) {
+		curVowel = mixedVowel;
+		if (f < 0) {
+			f = 0;
+		} else if (f >= 5) {
+			f = 0;
+		}
+
+		int i0 = (int) f;
+		int i1 = (i0 + 1) % VOWELS;
+
+		float mix = f - i0;
+
+		double[] v0 = VOWEL_COEFFS[i0];
+		double[] v1 = VOWEL_COEFFS[i1];
+
+		for (int i = v0.length - 1; i >= 0; i--) {
+			mixedVowel[i] = v0[i] + ((v1[i] - v0[i]) * mix);
+		}
 	}
 
 	@Override

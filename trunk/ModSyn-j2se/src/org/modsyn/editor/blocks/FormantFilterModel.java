@@ -11,7 +11,8 @@ public class FormantFilterModel extends DspBlockModel<FormantFilter> {
 		super(o);
 
 		add(new InputModel(this, o, "IN", 0, -1, 1));
-		add(new InputModel(this, o.ctrlVowel, "vwl", 0, 0, 2));
+		add(new InputModel(this, o.ctrlVowel, "vwl", 0, 0, 4));
+		add(new InputModel(this, o.ctrlMixVowel, "mxvwl", 0, 0, 5, 2));
 
 		add(new OutputModel(this, o, "OUT"));
 	}
