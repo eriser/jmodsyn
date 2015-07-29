@@ -205,7 +205,8 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		} else {
 			ch = outputList.getCellBounds(0, 0).height;
 		}
-		// int height = 18 + (max(model.getInputs().size(), model.getOutputs().size()) * ch);
+		// int height = 18 + (max(model.getInputs().size(),
+		// model.getOutputs().size()) * ch);
 		this.connHeight = ch;
 
 		setBounds(x, y, w, h);
@@ -244,6 +245,10 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 
 	public DspPatchModel getMetaPatchModel() {
 		return metaPatchModel;
+	}
+
+	public DspPatchModel getPatchModel() {
+		return patchModel;
 	}
 
 	public void setMetaPatchModel(DspPatchModel metaPatchModel) {

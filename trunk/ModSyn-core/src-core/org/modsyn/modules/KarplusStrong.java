@@ -17,11 +17,12 @@ import org.modsyn.SignalSource;
 import org.modsyn.util.WaveTables;
 
 /**
- * @author DU1381
+ * @author Erik Duijs
  * 
- *         Simulates plucked string sounds using the Karplus-Strong algorithm, which is a simple physical modelling
- *         algorithm. The ControlInput is the frequency control. The Triggered interface initiates the 'pluck', thus the
- *         start of the sound.
+ *         Simulates plucked string sounds using the Karplus-Strong algorithm,
+ *         which is a simple physical modelling algorithm. The ControlInput is
+ *         the frequency control. The Triggered interface initiates the 'pluck',
+ *         thus the start of the sound.
  */
 public class KarplusStrong extends DefaultSignalOutput implements SignalSource, Device {
 

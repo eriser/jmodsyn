@@ -2,8 +2,6 @@ package org.modsyn.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 
 import javax.swing.JComponent;
 
@@ -34,19 +32,7 @@ public class JWaveComponent extends JComponent implements WaveChangeListener {
 			wco.setWaveChangeListener(this);
 		}
 		if (im != null) {
-			addMouseWheelListener(new MouseWheelListener() {
-				@Override
-				public void mouseWheelMoved(MouseWheelEvent e) {
-					float v = im.getValue() - e.getWheelRotation();
-					if (v > im.getMax()) {
-						v = im.getMax();
-					}
-					if (v < im.getMin()) {
-						v = im.getMin();
-					}
-					im.setValue(v);
-				}
-			});
+			addMouseWheelListener(new InputMouseWheelListener(im));
 		}
 	}
 

@@ -36,6 +36,7 @@ import org.modsyn.editor.blocks.FFTModel;
 import org.modsyn.editor.blocks.Filter4PoleModel;
 import org.modsyn.editor.blocks.Filter8PoleModel;
 import org.modsyn.editor.blocks.FilterXPoleModel;
+import org.modsyn.editor.blocks.FormantFilterModel;
 import org.modsyn.editor.blocks.FromMidiPolyModel;
 import org.modsyn.editor.blocks.IfEQModel;
 import org.modsyn.editor.blocks.IfRangeModel;
@@ -68,6 +69,7 @@ import org.modsyn.editor.blocks.TubeSimModel;
 import org.modsyn.editor.blocks.VUMeterModel;
 import org.modsyn.editor.blocks.VeloSensModel;
 import org.modsyn.editor.blocks.VocoderModel;
+import org.modsyn.editor.blocks.WaveTableShaperModel;
 import org.modsyn.gui.JColorLabel;
 import org.modsyn.gui.JFilterTypeComponent;
 import org.modsyn.gui.JKnob;
@@ -484,6 +486,17 @@ public enum DspPalette {
 			return new DspBlockComponent(c, new VocoderModel(), pm);
 		}
 	},
+	Formant("Filters") {
+		@Override
+		public String getModelName() {
+			return FormantFilterModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new FormantFilterModel(), pm);
+		}
+	},
 	Speaker("Filters") {
 		@Override
 		public String getModelName() {
@@ -493,6 +506,25 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			return new DspBlockComponent(c, new SpeakerModel(), pm);
+		}
+	},
+	WaveShaper("Shape") {
+		@Override
+		public String getModelName() {
+			return WaveTableShaperModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			final WaveTableShaperModel om = new WaveTableShaperModel();
+			return new DspBlockComponent(c, om, pm) {
+				@Override
+				public Component createCenterComponent() {
+					JWaveComponent jwc = new JWaveComponent(om.getDspObject(), om.inputs.get(1));
+					jwc.setBackground(EditorTheme.COLOR_SHAPE_BLOCK_BG);
+					return jwc;
+				}
+			};
 		}
 	},
 	SoftClip("Shape") {
