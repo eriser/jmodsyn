@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
@@ -27,8 +29,19 @@ public class EditorTheme {
 	public static final Color COLOR_OSC_BLOCK_BG = new Color(0xc060ff);
 	public static final Color COLOR_EXT_BLOCK_BG = new Color(0xc00000);
 
+	private static final Map<String, Color> DSP_CATEGORY_COLORS = new HashMap<>();
+	static {
+		DSP_CATEGORY_COLORS.put("Basics", COLOR_BASIC_BLOCK_BG);
+		DSP_CATEGORY_COLORS.put("Dynamics", COLOR_DYNAMICS_BLOCK_BG);
+		DSP_CATEGORY_COLORS.put("Shape", COLOR_SHAPE_BLOCK_BG);
+		DSP_CATEGORY_COLORS.put("Filters", COLOR_FILTER_BLOCK_BG);
+		DSP_CATEGORY_COLORS.put("Oscillators", COLOR_OSC_BLOCK_BG);
+		DSP_CATEGORY_COLORS.put("EXT", COLOR_EXT_BLOCK_BG);
+	}
+
 	public static final Color COLOR_LINE = Color.BLACK;
 	public static final Color COLOR_CTRL_LINE = Color.RED.darker();
+	public static final Color LIST_SELECTION_COLOR = new Color(0xd0d0ff);
 
 	public static final ImageIcon ICON_MIDI = new ImageIcon(EditorTheme.class.getResource("/midi32.png"));
 	public static final ImageIcon ICON_ADR = new ImageIcon(EditorTheme.class.getResource("/adr32.png"));
@@ -39,6 +52,15 @@ public class EditorTheme {
 	public static final ImageIcon ICON_HPF = getScaledImage(new ImageIcon(EditorTheme.class.getResource("/filter_hipass.png")), 32, 32);
 	public static final ImageIcon ICON_ENVELOPE_FOLLOWER = getScaledImage(new ImageIcon(EditorTheme.class.getResource("/enevelop-tracker.png")), 32, 32);
 	public static final ImageIcon ICON_COMPRESSOR = getScaledImage(new ImageIcon(EditorTheme.class.getResource("/compressor.png")), 32, 32);
+
+	public static final Color getColor(DspPalette pal) {
+		Color c = DSP_CATEGORY_COLORS.get(pal.category);
+		if (c == null) {
+			return COLOR_BASIC_BLOCK_BG;
+		} else {
+			return c;
+		}
+	}
 
 	public static Color brighten(Color c, int v) {
 		return new Color(v8(c.getRed() + v), v8(c.getGreen() + v), v8(c.getBlue() + v));
@@ -92,5 +114,4 @@ public class EditorTheme {
 
 	public final static Font FONT_KNOB_TITLE = new Font("Arial", Font.PLAIN, 10);
 	public final static Font FONT_PALETTE_GROUP_TITLE = new Font("Arial", Font.BOLD, 14);
-
 }

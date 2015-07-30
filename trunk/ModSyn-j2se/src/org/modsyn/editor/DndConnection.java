@@ -95,7 +95,8 @@ public class DndConnection {
 		}
 
 		/**
-		 * Bundle up the selected items in a single list for export. Each line is separated by a newline.
+		 * Bundle up the selected items in a single list for export. Each line
+		 * is separated by a newline.
 		 */
 		@Override
 		protected Transferable createTransferable(JComponent c) {
@@ -107,6 +108,7 @@ public class DndConnection {
 			}
 
 			if (o instanceof DspPalette) {
+				list.clearSelection();
 				return new DspPaletteTransferable((DspPalette) o);
 			}
 
@@ -126,6 +128,7 @@ public class DndConnection {
 		 */
 		@Override
 		public boolean importData(TransferHandler.TransferSupport info) {
+
 			if (!info.isDrop()) {
 				System.err.println("NO DROP");
 				return false;

@@ -22,6 +22,7 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
 import org.modsyn.Context;
+import org.modsyn.gui.DspPaletteListRenderer;
 
 /**
  * Component that displays the categorized palette of DSP components.
@@ -69,6 +70,7 @@ public class DspPaletteComponent extends JPanel {
 			List<DspPalette> l = lists.get(key);
 			DspPalette[] pal = new DspPalette[l.size()];
 			pal = l.toArray(pal);
+			final Color categoryColor = EditorTheme.getColor(pal[0]);
 
 			@SuppressWarnings("serial")
 			JLabel lbl = new JLabel(key) {
@@ -77,6 +79,10 @@ public class DspPaletteComponent extends JPanel {
 					Graphics2D g2d = (Graphics2D) g;
 					g2d.setPaint(new GradientPaint(0, 0, Color.BLACK, 0, getHeight(), new Color(0xff404040)));
 					g2d.fillRect(0, 0, getWidth(), getHeight());
+
+					g2d.setPaint(new GradientPaint(getWidth() - 16, 0, new Color(0, true), getWidth() - 16 / 2, 0, categoryColor));
+					g2d.fillRect(getWidth() - 16, getHeight() - 4, 16, 4);
+
 					super.paintComponent(g);
 				}
 			};
@@ -91,6 +97,8 @@ public class DspPaletteComponent extends JPanel {
 			final JList<DspPalette> list = new JList<DspPalette>(pal);
 			list.setDragEnabled(true);
 			list.setTransferHandler(th);
+			list.setSelectionBackground(EditorTheme.LIST_SELECTION_COLOR);
+			list.setCellRenderer(new DspPaletteListRenderer(categoryColor));
 
 			lbl.addMouseListener(new MouseAdapter() {
 				@Override
