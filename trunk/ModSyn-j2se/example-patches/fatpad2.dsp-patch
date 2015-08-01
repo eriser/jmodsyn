@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<patch>
+  <dspobjects>
+    <dspobject bounds="25,100,80,578" channels="8" id="1749809610" name="MIDI IN" type="org.modsyn.editor.blocks.FromMidiPolyModel">
+      <inputs>
+        <input decimals="0" id="1409053252" max="12.0" min="-12.0" name="pb-r" value="2.0"/>
+        <input decimals="0" id="1655830895" max="127.0" min="0.0" name="c-nr" value="16.0"/>
+      </inputs>
+      <outputs>
+        <output id="309270792" name="frq0"/>
+        <output id="1003775404" name="vel0"/>
+        <output id="1969167843" name="trg0"/>
+        <output id="933453384" name="pb0"/>
+        <output id="1182983553" name="mod0"/>
+        <output id="1000971345" name="frq1"/>
+        <output id="2085988464" name="vel1"/>
+        <output id="1537577173" name="trg1"/>
+        <output id="1388822260" name="pb1"/>
+        <output id="935964577" name="mod1"/>
+        <output id="438931364" name="frq2"/>
+        <output id="513107303" name="vel2"/>
+        <output id="1647598816" name="trg2"/>
+        <output id="1539156094" name="pb2"/>
+        <output id="8460096" name="mod2"/>
+        <output id="454912770" name="frq3"/>
+        <output id="677142070" name="vel3"/>
+        <output id="1210925037" name="trg3"/>
+        <output id="314574240" name="pb3"/>
+        <output id="2091996413" name="mod3"/>
+        <output id="1581444607" name="frq4"/>
+        <output id="2081894577" name="vel4"/>
+        <output id="1451095068" name="trg4"/>
+        <output id="1730512544" name="pb4"/>
+        <output id="1353295687" name="mod4"/>
+        <output id="841306032" name="frq5"/>
+        <output id="798147976" name="vel5"/>
+        <output id="1290173470" name="trg5"/>
+        <output id="803126531" name="pb5"/>
+        <output id="1212885122" name="mod5"/>
+        <output id="1045468130" name="frq6"/>
+        <output id="471661156" name="vel6"/>
+        <output id="846907815" name="trg6"/>
+        <output id="458034389" name="pb6"/>
+        <output id="1602585075" name="mod6"/>
+        <output id="907454851" name="frq7"/>
+        <output id="164819763" name="vel7"/>
+        <output id="2019335758" name="trg7"/>
+        <output id="144527518" name="pb7"/>
+        <output id="269990269" name="mod7"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="1150,300,80,46" id="93504972" name="Asio OUT" type="org.modsyn.editor.blocks.ToAsioModel">
+      <inputs>
+        <input decimals="3" id="1727518447" max="1.0" min="-1.0" name="IN.L" value="0.0"/>
+        <input decimals="3" id="423631289" max="1.0" min="-1.0" name="IN.R" value="0.0"/>
+      </inputs>
+      <outputs/>
+    </dspobject>
+    <dspobject bounds="800,225,80,130" channels="8" id="1062784418" name="Mix" type="org.modsyn.editor.blocks.MixerModel">
+      <inputs>
+        <input decimals="3" id="1596221227" max="1.0" min="-1.0" name="in.1" value="0.0"/>
+        <input decimals="3" id="1324443865" max="1.0" min="-1.0" name="in.2" value="0.0"/>
+        <input decimals="3" id="1260037900" max="1.0" min="-1.0" name="in.3" value="0.0"/>
+        <input decimals="3" id="1120742233" max="1.0" min="-1.0" name="in.4" value="0.0"/>
+        <input decimals="3" id="735642194" max="1.0" min="-1.0" name="in.5" value="0.0"/>
+        <input decimals="3" id="874998779" max="1.0" min="-1.0" name="in.6" value="0.0"/>
+        <input decimals="3" id="136463997" max="1.0" min="-1.0" name="in.7" value="0.0"/>
+        <input decimals="3" id="37862583" max="1.0" min="-1.0" name="in.8" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="701272969" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="800,375,80,130" channels="8" id="904535247" name="Mix" type="org.modsyn.editor.blocks.MixerModel">
+      <inputs>
+        <input decimals="3" id="487159216" max="1.0" min="-1.0" name="in.1" value="0.0"/>
+        <input decimals="3" id="1477280948" max="1.0" min="-1.0" name="in.2" value="0.0"/>
+        <input decimals="3" id="1602450069" max="1.0" min="-1.0" name="in.3" value="0.0"/>
+        <input decimals="3" id="785892656" max="1.0" min="-1.0" name="in.4" value="0.0"/>
+        <input decimals="3" id="1473440342" max="1.0" min="-1.0" name="in.5" value="0.0"/>
+        <input decimals="3" id="1477894437" max="1.0" min="-1.0" name="in.6" value="0.0"/>
+        <input decimals="3" id="1175941457" max="1.0" min="-1.0" name="in.7" value="0.0"/>
+        <input decimals="3" id="756064458" max="1.0" min="-1.0" name="in.8" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="514606307" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,725,100,88" id="1071555280" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="831727218" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="868294603" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="1276011256" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="1149480650" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="558396138" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="460353976" name="OUT.L"/>
+        <output id="1933178138" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,625,100,88" id="1644869903" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="771471890" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="1769278291" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="54176828" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="16881868" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="265714072" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1237905991" name="OUT.L"/>
+        <output id="664418601" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,525,100,88" id="2115946254" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="379496658" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="173899416" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="2241145" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="1159702016" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="550202740" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="192867198" name="OUT.L"/>
+        <output id="966173463" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,425,100,88" id="1353537674" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="613414247" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="1731743729" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="570985512" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="1596565388" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="666306851" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1639509299" name="OUT.L"/>
+        <output id="870113636" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,325,100,88" id="1783727829" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="241909883" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="592859810" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="2018188237" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="185494894" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="1613911661" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="147341170" name="OUT.L"/>
+        <output id="314399199" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,225,100,88" id="1297565973" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="494872926" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="125102451" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="210403544" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="1494281046" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="1707772104" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1406809773" name="OUT.L"/>
+        <output id="456901341" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,125,100,88" id="1886800162" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="1706791132" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="2099482545" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="699329958" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="460604075" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="1841624737" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="505150548" name="OUT.L"/>
+        <output id="1062403645" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,25,100,88" id="1639020357" name="fatpad2" type="org.modsyn.editor.blocks.MetaModel">
+      <inputs>
+        <input decimals="3" id="1242400030" max="1.0" min="-1.0" name="frq" value="0.0"/>
+        <input decimals="3" id="1033804429" max="1.0" min="-1.0" name="vel" value="0.0"/>
+        <input decimals="3" id="2008333973" max="1.0" min="-1.0" name="trg" value="0.0"/>
+        <input decimals="3" id="2068604312" max="1.0" min="-1.0" name="pb" value="0.0"/>
+        <input decimals="3" id="1419910501" max="1.0" min="-1.0" name="mod" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1597504843" name="OUT.L"/>
+        <output id="1423341507" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+  </dspobjects>
+  <connections>
+    <connection from-id="701272969" to-id="1727518447"/>
+    <connection from-id="514606307" to-id="423631289"/>
+    <connection from-id="309270792" to-id="1242400030"/>
+    <connection from-id="1003775404" to-id="1033804429"/>
+    <connection from-id="1969167843" to-id="2008333973"/>
+    <connection from-id="933453384" to-id="2068604312"/>
+    <connection from-id="1182983553" to-id="1419910501"/>
+    <connection from-id="1000971345" to-id="1706791132"/>
+    <connection from-id="2085988464" to-id="2099482545"/>
+    <connection from-id="1537577173" to-id="699329958"/>
+    <connection from-id="1388822260" to-id="460604075"/>
+    <connection from-id="935964577" to-id="1841624737"/>
+    <connection from-id="438931364" to-id="494872926"/>
+    <connection from-id="513107303" to-id="125102451"/>
+    <connection from-id="1647598816" to-id="210403544"/>
+    <connection from-id="1539156094" to-id="1494281046"/>
+    <connection from-id="8460096" to-id="1707772104"/>
+    <connection from-id="454912770" to-id="241909883"/>
+    <connection from-id="677142070" to-id="592859810"/>
+    <connection from-id="1210925037" to-id="2018188237"/>
+    <connection from-id="314574240" to-id="185494894"/>
+    <connection from-id="2091996413" to-id="1613911661"/>
+    <connection from-id="1581444607" to-id="613414247"/>
+    <connection from-id="2081894577" to-id="1731743729"/>
+    <connection from-id="1451095068" to-id="570985512"/>
+    <connection from-id="1730512544" to-id="1596565388"/>
+    <connection from-id="1353295687" to-id="666306851"/>
+    <connection from-id="841306032" to-id="379496658"/>
+    <connection from-id="798147976" to-id="173899416"/>
+    <connection from-id="1290173470" to-id="2241145"/>
+    <connection from-id="803126531" to-id="1159702016"/>
+    <connection from-id="1212885122" to-id="550202740"/>
+    <connection from-id="1045468130" to-id="771471890"/>
+    <connection from-id="471661156" to-id="1769278291"/>
+    <connection from-id="846907815" to-id="54176828"/>
+    <connection from-id="458034389" to-id="16881868"/>
+    <connection from-id="1602585075" to-id="265714072"/>
+    <connection from-id="907454851" to-id="831727218"/>
+    <connection from-id="164819763" to-id="868294603"/>
+    <connection from-id="2019335758" to-id="1276011256"/>
+    <connection from-id="144527518" to-id="1149480650"/>
+    <connection from-id="269990269" to-id="558396138"/>
+    <connection from-id="1597504843" to-id="1596221227"/>
+    <connection from-id="505150548" to-id="1324443865"/>
+    <connection from-id="1406809773" to-id="1260037900"/>
+    <connection from-id="147341170" to-id="1120742233"/>
+    <connection from-id="1639509299" to-id="735642194"/>
+    <connection from-id="192867198" to-id="874998779"/>
+    <connection from-id="1237905991" to-id="136463997"/>
+    <connection from-id="460353976" to-id="37862583"/>
+    <connection from-id="1423341507" to-id="487159216"/>
+    <connection from-id="1062403645" to-id="1477280948"/>
+    <connection from-id="456901341" to-id="1602450069"/>
+    <connection from-id="314399199" to-id="785892656"/>
+    <connection from-id="870113636" to-id="1473440342"/>
+    <connection from-id="966173463" to-id="1477894437"/>
+    <connection from-id="664418601" to-id="1175941457"/>
+    <connection from-id="1933178138" to-id="756064458"/>
+  </connections>
+</patch>

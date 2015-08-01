@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<patch>
+  <meta type="generic-meta-dspobject">
+    <inputs>
+      <input decimals="3" id="1450300921" max="1.0" min="-1.0" name="frq" value="0.0"/>
+      <input decimals="3" id="1328534055" max="1.0" min="-1.0" name="vel" value="0.0"/>
+      <input decimals="3" id="1585803909" max="1.0" min="-1.0" name="trg" value="0.0"/>
+      <input decimals="3" id="654507575" max="1.0" min="-1.0" name="pb" value="0.0"/>
+      <input decimals="3" id="1092109464" max="1.0" min="-1.0" name="mod" value="0.0"/>
+    </inputs>
+    <outputs>
+      <output id="271762746" name="OUT.L"/>
+      <output id="1195567611" name="OUT.R"/>
+    </outputs>
+  </meta>
+  <dspobjects>
+    <dspobject bounds="125,75,80,46" id="265029344" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1450300921" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="467100730" max="2.0" min="0.0" name="lvl" value="0.25"/>
+      </inputs>
+      <outputs>
+        <output id="1509239325" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="125,150,80,46" id="1855980558" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1328534055" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1265265631" max="2.0" min="0.0" name="lvl" value="0.5"/>
+      </inputs>
+      <outputs>
+        <output id="936387623" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="125,225,80,46" id="1106614545" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1585803909" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1662274795" max="2.0" min="0.0" name="lvl" value="0.5"/>
+      </inputs>
+      <outputs>
+        <output id="1237715742" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="125,300,80,46" id="1761870952" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="654507575" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="113081781" max="2.0" min="0.0" name="lvl" value="0.5"/>
+      </inputs>
+      <outputs>
+        <output id="42465672" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="125,475,80,46" id="755978500" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1092109464" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1217393848" max="2.0" min="0.0" name="lvl" value="0.8000001"/>
+      </inputs>
+      <outputs>
+        <output id="1661698367" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="1450,150,80,46" id="139624934" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1624123214" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="2121704328" max="2.0" min="0.0" name="lvl" value="1.8"/>
+      </inputs>
+      <outputs>
+        <output id="271762746" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="1450,225,80,46" id="518682261" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="856637454" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="775319890" max="2.0" min="0.0" name="lvl" value="1.8"/>
+      </inputs>
+      <outputs>
+        <output id="1195567611" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="725,100,80,74" id="2018104881" name="Osc-HQ" type="org.modsyn.editor.blocks.OscillatorHQModel">
+      <inputs>
+        <input decimals="2" id="932014249" max="48000.0" min="0.0" name="frq" value="440.0"/>
+        <input decimals="2" id="617761725" max="100.0" min="0.0" name="pwm" value="50.0"/>
+        <input decimals="4" id="1785362477" max="1.1" min="0.9" name="det" value="1.0"/>
+        <input decimals="0" id="1945635055" max="10.0" min="0.0" name="shp" value="3.0"/>
+      </inputs>
+      <outputs>
+        <output id="554876516" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="1325,175,80,46" id="1435609138" name="Pan" type="org.modsyn.editor.blocks.PanPotModel">
+      <inputs>
+        <input decimals="3" id="1304008321" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="3" id="1397233412" max="1.0" min="-1.0" name="pan" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="568275539" name="OUT.L"/>
+        <output id="1147205764" name="OUT.R"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="825,150,80,46" id="979092782" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1592683760" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1999778112" max="2.0" min="0.0" name="lvl" value="0.5"/>
+      </inputs>
+      <outputs>
+        <output id="4169187" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="725,225,80,116" id="1352049205" name="ADSR" type="org.modsyn.editor.blocks.ADRModel">
+      <inputs>
+        <input decimals="4" id="1366519528" max="1.0" min="0.0" name="vel" value="0.0"/>
+        <input decimals="4" id="1903586078" max="1.0" min="0.0" name="trg" value="0.0"/>
+        <input decimals="4" id="359839940" max="1.0" min="0.0" name="sen" value="0.6499999"/>
+        <input decimals="7" id="515921628" max="0.005" min="0.0" name="atk" value="4.9999997E-4"/>
+        <input decimals="7" id="1703318857" max="1.0" min="0.999" name="dcy" value="0.9999"/>
+        <input decimals="2" id="1723015089" max="1.0" min="0.0" name="sus" value="0.0"/>
+        <input decimals="7" id="2045104675" max="1.0" min="0.999" name="rel" value="0.9999"/>
+      </inputs>
+      <outputs>
+        <output id="1598502490" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="1225,175,80,60" id="1010925460" name="SoftClip" type="org.modsyn.editor.blocks.SoftClipModel">
+      <inputs>
+        <input decimals="3" id="1881074803" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="3" id="2117446534" max="20.0" min="0.0" name="lvl" value="1.0"/>
+        <input decimals="4" id="1972382501" max="1.0" min="0.0" name="thr" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1275119215" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="1025,150,80,60" id="1189333092" name="Formant" type="org.modsyn.editor.blocks.FormantFilterModel">
+      <inputs>
+        <input decimals="3" id="343490968" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="616656040" max="4.0" min="0.0" name="vwl" value="0.0"/>
+        <input decimals="2" id="381983858" max="5.0" min="0.0" name="mxvwl" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1174080523" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="1125,175,80,46" id="1691601425" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="209147342" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1856130502" max="2.0" min="0.0" name="lvl" value="0.20000002"/>
+      </inputs>
+      <outputs>
+        <output id="1637890792" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="825,225,80,46" id="1585153898" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="2146922651" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1308758463" max="5.0" min="0.0" name="lvl" value="4.0"/>
+      </inputs>
+      <outputs>
+        <output id="1775975067" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="725,375,80,74" id="937741416" name="Osc" type="org.modsyn.editor.blocks.OscillatorModel">
+      <inputs>
+        <input decimals="2" id="237493379" max="5.0" min="0.25" name="frq" value="2.95"/>
+        <input decimals="2" id="1526604727" max="100.0" min="0.0" name="pwm" value="50.0"/>
+        <input decimals="4" id="1658515980" max="1.1" min="0.9" name="det" value="1.0"/>
+        <input decimals="0" id="340337800" max="10.0" min="0.0" name="shp" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1308452639" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="850,475,80,46" id="930958393" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="51859109" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="1865167928" max="2.0" min="0.0" name="lvl" value="0.5"/>
+      </inputs>
+      <outputs>
+        <output id="1058570637" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="925,225,80,46" id="1642164311" name="Add" type="org.modsyn.editor.blocks.AdderModel">
+      <inputs>
+        <input decimals="3" id="395743733" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="2" id="508065772" max="100.0" min="-100.0" name="add" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="666449532" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="225,225,80,46" channels="2" id="1890065219" name="Split" type="org.modsyn.editor.blocks.MultiSplitterModel">
+      <inputs>
+        <input decimals="3" id="748029309" max="1.0" min="-1.0" name="IN" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="759326825" name="OUT-1"/>
+        <output id="1658117301" name="OUT-2"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="350,300,80,116" id="82190788" name="ADSR" type="org.modsyn.editor.blocks.ADRModel">
+      <inputs>
+        <input decimals="4" id="548588895" max="1.0" min="0.0" name="vel" value="0.0"/>
+        <input decimals="4" id="986261694" max="1.0" min="0.0" name="trg" value="0.0"/>
+        <input decimals="4" id="1821503512" max="1.0" min="0.0" name="sen" value="1.0"/>
+        <input decimals="7" id="1630138199" max="5.0E-5" min="0.0" name="atk" value="9.999988E-6"/>
+        <input decimals="7" id="136342167" max="1.0" min="0.999" name="dcy" value="1.0"/>
+        <input decimals="2" id="137749420" max="1.0" min="0.0" name="sus" value="1.0"/>
+        <input decimals="7" id="167130474" max="1.0" min="0.999" name="rel" value="0.9999"/>
+      </inputs>
+      <outputs>
+        <output id="53266242" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="225,150,80,60" channels="3" id="1892532142" name="Split" type="org.modsyn.editor.blocks.MultiSplitterModel">
+      <inputs>
+        <input decimals="3" id="1407414877" max="1.0" min="-1.0" name="IN" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="2036949681" name="OUT-1"/>
+        <output id="1976471740" name="OUT-2"/>
+        <output id="1283482384" name="OUT-3"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="325,0,80,74" id="15193773" name="Osc" type="org.modsyn.editor.blocks.OscillatorModel">
+      <inputs>
+        <input decimals="2" id="1958672465" max="3.0" min="0.0" name="frq" value="2.3500001"/>
+        <input decimals="2" id="631294392" max="100.0" min="0.0" name="pwm" value="50.0"/>
+        <input decimals="4" id="1595630164" max="1.1" min="0.9" name="det" value="1.0"/>
+        <input decimals="0" id="2127866259" max="10.0" min="0.0" name="shp" value="0.0"/>
+      </inputs>
+      <outputs>
+        <output id="1003041522" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="425,25,80,46" id="372231304" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="471662617" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="871462842" max="0.5" min="0.0" name="lvl" value="0.27500004"/>
+      </inputs>
+      <outputs>
+        <output id="837512954" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="525,25,80,46" id="1472395440" name="Amp" type="org.modsyn.editor.blocks.AmplifierModel">
+      <inputs>
+        <input decimals="3" id="1096095699" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="4" id="965689127" max="2.0" min="0.0" name="lvl" value="0.5"/>
+      </inputs>
+      <outputs>
+        <output id="1803237110" name="OUT"/>
+      </outputs>
+    </dspobject>
+    <dspobject bounds="625,25,80,46" id="1716881306" name="Add" type="org.modsyn.editor.blocks.AdderModel">
+      <inputs>
+        <input decimals="3" id="2033828850" max="1.0" min="-1.0" name="IN" value="0.0"/>
+        <input decimals="2" id="1064272651" max="1.0" min="0.0" name="add" value="1.0"/>
+      </inputs>
+      <outputs>
+        <output id="839149494" name="OUT"/>
+      </outputs>
+    </dspobject>
+  </dspobjects>
+  <connections>
+    <connection from-id="568275539" to-id="1624123214"/>
+    <connection from-id="1147205764" to-id="856637454"/>
+    <connection from-id="1509239325" to-id="932014249"/>
+    <connection from-id="554876516" to-id="1592683760"/>
+    <connection from-id="1275119215" to-id="1304008321"/>
+    <connection from-id="4169187" to-id="343490968"/>
+    <connection from-id="1174080523" to-id="209147342"/>
+    <connection from-id="1637890792" to-id="1881074803"/>
+    <connection from-id="1598502490" to-id="2146922651"/>
+    <connection from-id="1308452639" to-id="51859109"/>
+    <connection from-id="1661698367" to-id="1865167928"/>
+    <connection from-id="1775975067" to-id="395743733"/>
+    <connection from-id="666449532" to-id="381983858"/>
+    <connection from-id="1058570637" to-id="508065772"/>
+    <connection from-id="1237715742" to-id="748029309"/>
+    <connection from-id="759326825" to-id="1903586078"/>
+    <connection from-id="2036949681" to-id="1999778112"/>
+    <connection from-id="1976471740" to-id="1366519528"/>
+    <connection from-id="936387623" to-id="1407414877"/>
+    <connection from-id="1658117301" to-id="986261694"/>
+    <connection from-id="1283482384" to-id="548588895"/>
+    <connection from-id="1003041522" to-id="471662617"/>
+    <connection from-id="837512954" to-id="1096095699"/>
+    <connection from-id="53266242" to-id="965689127"/>
+    <connection from-id="1803237110" to-id="2033828850"/>
+    <connection from-id="839149494" to-id="1785362477"/>
+  </connections>
+</patch>
