@@ -29,13 +29,23 @@ import org.modsyn.modules.ext.AsioSupport;
 import org.modsyn.util.IOTransferTool;
 
 public class PatchEditor {
+
+	private static final String FILE_SUFFIX = ".dsp-patch";
+	private static final String TEMPLATE_PREFIX = ".template";
+	private static final String PATCH_EDITOR = "PatchEditor - ";
+
+	private static final JFrame frame = new JFrame("PatchEditor");
+
+	private static String getFileName() {
+		return frame.getTitle().length() <= PATCH_EDITOR.length() ? null : frame.getTitle().substring(PATCH_EDITOR.length());
+	}
+
 	public static void main(String[] args) throws Exception {
 
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				final JFrame frame = new JFrame("PatchEditor");
 
 				final Context context = ContextFactory.create();
 
@@ -54,11 +64,11 @@ public class PatchEditor {
 							pcModel.clear();
 							try {
 								File f = fc.getSelectedFile();
-								if (!f.getName().endsWith(".dsp-patch")) {
-									f = new File(f.getAbsolutePath() + ".dsp-patch");
+								if (!f.getName().endsWith(FILE_SUFFIX)) {
+									f = new File(f.getAbsolutePath() + FILE_SUFFIX);
 								}
 								new XmlImport(f, context, pcModel);
-								frame.setTitle("PatchEditor - " + f.getName());
+								frame.setTitle(PATCH_EDITOR + f.getName());
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -72,36 +82,47 @@ public class PatchEditor {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						JFileChooser fc = createFileChooser(FileSys.dirPatches);
+						if (getFileName() != null) {
+							fc.setSelectedFile(new File(FileSys.dirPatches, getFileName()));
+						}
 						int response = fc.showSaveDialog(btnSave);
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
-								if (!f.getName().endsWith(".dsp-patch")) {
-									f = new File(f.getAbsolutePath() + ".dsp-patch");
+								if (!f.getName().endsWith(FILE_SUFFIX)) {
+									f = new File(f.getAbsolutePath() + FILE_SUFFIX);
 								}
-								frame.setTitle("PatchEditor - " + f.getName());
+								boolean isRenamed = !f.getName().equalsIgnoreCase(getFileName());
+
+								frame.setTitle(PATCH_EDITOR + f.getName());
 
 								for (DspPatchModel pm : pcModel.getLinkedSubModels()) {
 									String pmname = pm.name;
 
-									if (pmname.startsWith(".template") && !f.getName().startsWith(".template")) {
-										JOptionPane.showConfirmDialog(btnSave,
-												"Your patch includes a template.\nIt's recommended to save under a different name.", "Rename " + pmname,
-												JOptionPane.YES_NO_OPTION);
+									boolean isTemplate = pmname.startsWith(TEMPLATE_PREFIX) && !f.getName().startsWith(TEMPLATE_PREFIX);
+
+									if (isTemplate || isRenamed) {
 										// rename templates
 										JFileChooser fcm = createFileChooser(FileSys.dirMeta);
+										if (isTemplate) {
+											JOptionPane.showConfirmDialog(btnSave,
+													"Your patch includes a template.\nIt's recommended to save under a different name.", "Rename " + pmname,
+													JOptionPane.YES_NO_OPTION);
+										} else {
+											fcm.setSelectedFile(new File(FileSys.dirMeta, pmname + FILE_SUFFIX));
+										}
 
 										int responsem = fcm.showSaveDialog(btnSave);
 										if (responsem == JFileChooser.APPROVE_OPTION) {
 											File frm = fcm.getSelectedFile();
-											if (!frm.getName().endsWith(".dsp-patch")) {
-												frm = new File(frm.getAbsolutePath() + ".dsp-patch");
+											if (!frm.getName().endsWith(FILE_SUFFIX)) {
+												frm = new File(frm.getAbsolutePath() + FILE_SUFFIX);
 											}
 
 											pcModel.renameLinkedSubModels(pmname, frm.getName());
 										}
 									}
-									File fm = new File(FileSys.dirMeta, pm.name + ".dsp-patch");
+									File fm = new File(FileSys.dirMeta, pm.name + FILE_SUFFIX);
 									new IOTransferTool().saveString(new XmlExportMeta(pm.getDspBlocks(), pm.getDspConnections()).toString(), "utf-8", fm);
 								}
 
@@ -110,7 +131,7 @@ public class PatchEditor {
 								// reload, just to be sure...
 								pcModel.clear();
 								new XmlImport(f, context, pcModel);
-								frame.setTitle("PatchEditor - " + f.getName());
+								frame.setTitle(PATCH_EDITOR + f.getName());
 
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
@@ -138,8 +159,8 @@ public class PatchEditor {
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
-								if (!f.getName().endsWith(".dsp-patch")) {
-									f = new File(f.getAbsolutePath() + ".dsp-patch");
+								if (!f.getName().endsWith(FILE_SUFFIX)) {
+									f = new File(f.getAbsolutePath() + FILE_SUFFIX);
 								}
 								new XmlImportMeta(f, context, pcModel, pcModel.getMainModel());
 							} catch (Exception e1) {
@@ -158,8 +179,8 @@ public class PatchEditor {
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								File f = fc.getSelectedFile();
-								if (!f.getName().endsWith(".dsp-patch")) {
-									f = new File(f.getAbsolutePath() + ".dsp-patch");
+								if (!f.getName().endsWith(FILE_SUFFIX)) {
+									f = new File(f.getAbsolutePath() + FILE_SUFFIX);
 								}
 
 								new IOTransferTool().saveString(new XmlExportMeta(pcModel.getMainModel(), true).toString(), "utf-8", f);
@@ -210,7 +231,7 @@ public class PatchEditor {
 
 			@Override
 			public boolean accept(File f) {
-				return f.getName().endsWith(".dsp-patch");
+				return f.getName().endsWith(FILE_SUFFIX);
 			}
 		});
 		return fc;
