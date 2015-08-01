@@ -14,7 +14,8 @@ import java.util.Random;
  */
 public class WaveTables {
 
-	public static final int WAVE_LENGTH = 1024 * 2;
+	private static final int WAVE_LENGTH_MUL = 8;
+	public static final int WAVE_LENGTH = 1024 * WAVE_LENGTH_MUL;
 	static final int MAX_FREQ = 20480;
 	static final int FREQ_WINDOWS_SIZE = 20;
 	static final int FREQ_WINDOWS = MAX_FREQ / FREQ_WINDOWS_SIZE;
@@ -30,6 +31,7 @@ public class WaveTables {
 			c1++;
 			FREQ_TABLE_LOOKUP[i] = table;
 		}
+		System.out.println(FREQ_TABLE_LOOKUP);
 	}
 	private static final float PI2 = 2f * (float) PI;
 	private static final float div = WAVE_LENGTH / PI2;
@@ -175,7 +177,7 @@ public class WaveTables {
 
 	public static float[] getWaveForm(int shape_id, float freq) {
 		if (shape_id >= 0 && shape_id < WAVES.length) {
-			int freqWindow = (int) ((freq * 2) / FREQ_WINDOWS_SIZE);
+			int freqWindow = (int) ((freq * WAVE_LENGTH_MUL) / FREQ_WINDOWS_SIZE);
 			return BAND_LIMITED_WAVES[shape_id][freqWindow];
 		} else {
 			return SINUS;
