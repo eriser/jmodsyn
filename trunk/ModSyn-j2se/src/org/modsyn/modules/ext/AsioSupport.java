@@ -8,6 +8,7 @@ import org.modsyn.Context;
 import org.modsyn.NullInput;
 import org.modsyn.SignalInput;
 import org.modsyn.SignalSource;
+import org.modsyn.abnormal.Abnormal;
 import org.modsyn.util.Debug;
 
 import com.synthbot.jasiohost.AsioChannel;
@@ -132,13 +133,14 @@ public enum AsioSupport implements SignalSource {
 							SYNC.notifyAll();
 						}
 					} else {
-
+						Abnormal.setDenormals(false);
 						while (bufferIndex < bufferSize) {
 							connectedInput.set(inputBuffer[bufferIndex]);
 							context.update();
 							bufferIndex++;
 						}
 						bufferIndex = 0;
+						Abnormal.setDenormals(true);
 					}
 
 					if (PROFILE) {
