@@ -13,7 +13,7 @@ public class RingModulatorModel extends DspBlockModel<RingModulator> {
 
 		add(new InputModel(this, dsp, "IN", 0, -1, 1));
 		add(new InputModel(this, dsp.modInput, "mod", 0, -1, 1));
-		add(new InputModel(this, dsp.modInput, "amount", 0, 0, 1));
+		add(new InputModel(this, dsp.modulationControl, "amount", 0, 0, 1));
 		add(new OutputModel(this, dsp, "OUT"));
 	}
 
