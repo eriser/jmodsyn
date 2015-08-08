@@ -29,6 +29,8 @@ public class EditorTheme {
 	public static final Color COLOR_OSC_BLOCK_BG = new Color(0xc060ff);
 	public static final Color COLOR_EXT_BLOCK_BG = new Color(0xc00000);
 
+	public static final Color COLOR_HELP_BG = new Color(0xffffe0);
+
 	private static final Map<String, Color> DSP_CATEGORY_COLORS = new HashMap<>();
 	static {
 		DSP_CATEGORY_COLORS.put("Basics", COLOR_BASIC_BLOCK_BG);

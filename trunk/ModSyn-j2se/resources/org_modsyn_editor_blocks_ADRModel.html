@@ -1,0 +1,19 @@
+<html>
+<h3>ADSR</h3>
+A simple ADSR-type envelope generator.<br/>
+<br/>
+Inputs:
+<ul>
+<li>vel: velocity (typically connected from a MIDI velocity output)</li>
+<li>trg: trigger (typically connected from a MIDI trigger output)</li>
+<li>sen: velocity sensitivity factor (0=no touch sensitivity, 1=full sensitivity)</li>
+<li>atk: attack rate (addition per sample)</li>
+<li>dcy: decay rate (multiplication per sample)</li>
+<li>sus: sustain level (0=no sustain, 1=sustain at full level)</li>
+<li>rel: release rate (multiplication per sample)</li>
+</ul>
+Outputs:
+<ul>
+<li>OUT: the output (typically in the range of 0-1)</li>
+</ul>
+</html>

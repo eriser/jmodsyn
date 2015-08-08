@@ -19,8 +19,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
@@ -266,15 +264,6 @@ public class JKnob extends JComponent {
 			super();
 
 			createGUI();
-
-			addWindowFocusListener(new WindowAdapter() {
-				@Override
-				public void windowLostFocus(final WindowEvent e) {
-					if (getOwner() != null) {
-						dispose();
-					}
-				}
-			});
 
 			pack();
 			setLocationRelativeTo(JKnob.this);

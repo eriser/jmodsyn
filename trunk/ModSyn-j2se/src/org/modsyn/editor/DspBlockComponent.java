@@ -37,6 +37,7 @@ import javax.swing.event.ListSelectionListener;
 
 import org.modsyn.Context;
 import org.modsyn.editor.blocks.MetaModel;
+import org.modsyn.gui.HelpDialog;
 
 public class DspBlockComponent extends JPanel implements PropertyChangeListener {
 
@@ -118,6 +119,14 @@ public class DspBlockComponent extends JPanel implements PropertyChangeListener 
 		Mover m = new Mover();
 		name.addMouseListener(m);
 		name.addMouseMotionListener(m);
+		name.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.isControlDown()) {
+					new HelpDialog(DspBlockComponent.this);
+				}
+			}
+		});
 
 		name.setForeground(Color.WHITE);
 		name.setBackground(Color.BLACK);

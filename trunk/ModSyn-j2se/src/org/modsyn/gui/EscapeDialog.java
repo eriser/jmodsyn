@@ -4,6 +4,8 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -11,9 +13,9 @@ import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
 /**
- * A JDialog that can be closed with the ESC key
+ * A JDialog that can be closed with the ESC key, and will be closed when it loses focus.
  * 
- * @author ed83897
+ * @author Erik Duijs
  */
 public class EscapeDialog extends JDialog {
 	/**
@@ -46,6 +48,14 @@ public class EscapeDialog extends JDialog {
 				dispose();
 			}
 		}, strokeE, JComponent.WHEN_IN_FOCUSED_WINDOW);
+		addWindowFocusListener(new WindowAdapter() {
+			@Override
+			public void windowLostFocus(final WindowEvent e) {
+				if (getOwner() != null) {
+					dispose();
+				}
+			}
+		});
 		return rootPane;
 	}
 }
