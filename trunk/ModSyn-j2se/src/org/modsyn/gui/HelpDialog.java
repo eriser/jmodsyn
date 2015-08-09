@@ -1,6 +1,7 @@
 package org.modsyn.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 
 import javax.swing.JLabel;
 import javax.swing.border.CompoundBorder;
@@ -22,7 +23,7 @@ public class HelpDialog extends EscapeDialog {
 		IOTransferTool io = new IOTransferTool();
 		String html = null;
 		try {
-			html = io.loadString(HelpDialog.class.getResource(name));
+			html = io.loadString(HelpDialog.class.getResource(name)).replace("{name}", block.getModel().getName());
 			JLabel lbl = new JLabel(html, JLabel.LEFT);
 			lbl.setBackground(EditorTheme.COLOR_HELP_BG);
 			lbl.setOpaque(true);
@@ -30,8 +31,9 @@ public class HelpDialog extends EscapeDialog {
 
 			add(lbl, BorderLayout.CENTER);
 			pack();
-			// setLocationRelativeTo(block);
-			setLocation(block.getLocationOnScreen().x + block.getWidth(), block.getY());
+
+			Point loc = block.getLocationOnScreen();
+			setLocation(loc.x + block.getWidth(), loc.y + block.getHeight() / 2 - getHeight() / 2);
 			setVisible(true);
 		} catch (Exception e) {
 			System.out.println("No help for " + name);
