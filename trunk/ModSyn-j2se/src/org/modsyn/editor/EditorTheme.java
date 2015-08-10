@@ -30,6 +30,7 @@ public class EditorTheme {
 	public static final Color COLOR_EXT_BLOCK_BG = new Color(0xc00000);
 
 	public static final Color COLOR_HELP_BG = new Color(0xffffe0);
+	public static final Color COLOR_HELP_BORDER = COLOR_SELECTED_BG;
 
 	private static final Map<String, Color> DSP_CATEGORY_COLORS = new HashMap<>();
 	static {

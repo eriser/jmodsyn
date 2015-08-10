@@ -17,17 +17,22 @@ public class HelpDialog extends EscapeDialog {
 
 	public HelpDialog(DspBlockComponent block) {
 		super(null, false);
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(2, 2));
 		setUndecorated(true);
 		String name = "/" + block.getModel().getClass().getName().replace('.', '_') + ".html";
-		IOTransferTool io = new IOTransferTool();
-		String html = null;
+
+		WindowResizeMouseAdapter dm = new WindowResizeMouseAdapter(this);
+		addMouseListener(dm);
+		addMouseMotionListener(dm);
+
 		try {
-			html = io.loadString(HelpDialog.class.getResource(name)).replace("{name}", block.getModel().getName());
+			IOTransferTool io = new IOTransferTool();
+			String html = io.loadString(HelpDialog.class.getResource(name)).replace("{name}", block.getModel().getName());
 			JLabel lbl = new JLabel(html, JLabel.LEFT);
+			lbl.setVerticalAlignment(JLabel.TOP);
 			lbl.setBackground(EditorTheme.COLOR_HELP_BG);
 			lbl.setOpaque(true);
-			lbl.setBorder(new CompoundBorder(new LineBorder(EditorTheme.COLOR_SELECTED_BG), new EmptyBorder(0, 4, 0, 8)));
+			lbl.setBorder(new CompoundBorder(new LineBorder(EditorTheme.COLOR_HELP_BORDER, 1), new EmptyBorder(0, 4, 8, 8)));
 
 			add(lbl, BorderLayout.CENTER);
 			pack();
