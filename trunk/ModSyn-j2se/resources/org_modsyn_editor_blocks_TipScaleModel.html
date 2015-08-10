@@ -1,0 +1,19 @@
+<html>
+<h3>{name}</h3>
+Modifies an input signal based on a control signal, a 'tipping point' and a scale factor.<br/>
+A typical application is a 'keyboard scaling' to make higher tones softer than lower tones.<br/>
+(We'll take this example for the input/output descriptions below)<br/>
+<br/>
+Inputs:
+<ul>
+<li>IN: the input signal (connect from a amplitude output, for example an amp ADSR-OUT or MIDI-velocity)</li>
+<li>ctrl: the control input (connect from a frequency output, for example MIDI-freq)</li>
+<li>center: the 'tipping' point that will always remain unmodified (for example the 'center C' frequency)</li>
+<li>scale: the scaling factor (0=no scaling, &gt;0=attenuation of frequencies above 'center', &lt;0=amplification of frequencies above 'center')</li>
+</ul>
+Outputs:
+<ul>
+<li>OUT: the output (connect to the 'lvl' input of an Amp that controls output volume)</li>
+<li>ctrl-o: the passthrough of the ctrl input (connect to the frequency input of an oscillator)</li>
+</ul>
+</html>
