@@ -9,6 +9,10 @@ import org.modsyn.editor.EditorTheme;
 
 @SuppressWarnings("serial")
 public class JColorLabel extends JLabel {
+	public JColorLabel(Color bg) {
+		this("", bg);
+	}
+
 	public JColorLabel(String label, Color bg) {
 		super(label);
 		setFont(EditorTheme.FONT_COLORLABEL);

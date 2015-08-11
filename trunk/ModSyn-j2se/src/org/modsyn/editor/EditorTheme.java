@@ -27,6 +27,7 @@ public class EditorTheme {
 	public static final Color COLOR_SHAPE_BLOCK_BG = new Color(0xffc080);
 	public static final Color COLOR_FILTER_BLOCK_BG = new Color(0xe08040);
 	public static final Color COLOR_OSC_BLOCK_BG = new Color(0xc060ff);
+	public static final Color COLOR_FX_BLOCK_BG = new Color(0x784800);
 	public static final Color COLOR_EXT_BLOCK_BG = new Color(0xc00000);
 
 	public static final Color COLOR_HELP_BG = new Color(0xffffe0);
@@ -38,6 +39,7 @@ public class EditorTheme {
 		DSP_CATEGORY_COLORS.put("Dynamics", COLOR_DYNAMICS_BLOCK_BG);
 		DSP_CATEGORY_COLORS.put("Shape", COLOR_SHAPE_BLOCK_BG);
 		DSP_CATEGORY_COLORS.put("Filters", COLOR_FILTER_BLOCK_BG);
+		DSP_CATEGORY_COLORS.put("FX", COLOR_FX_BLOCK_BG);
 		DSP_CATEGORY_COLORS.put("Oscillators", COLOR_OSC_BLOCK_BG);
 		DSP_CATEGORY_COLORS.put("EXT", COLOR_EXT_BLOCK_BG);
 	}

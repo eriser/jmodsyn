@@ -48,6 +48,7 @@ import org.modsyn.editor.blocks.LPFModel;
 import org.modsyn.editor.blocks.MixerModel;
 import org.modsyn.editor.blocks.MoogVCFModel;
 import org.modsyn.editor.blocks.MultiSplitterModel;
+import org.modsyn.editor.blocks.NoiseGateModel;
 import org.modsyn.editor.blocks.NoiseModel;
 import org.modsyn.editor.blocks.OctaverModel;
 import org.modsyn.editor.blocks.OrModel;
@@ -243,7 +244,12 @@ public enum DspPalette {
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
 			channels = getChannelsOrAsk(channels, "voices", 2, 16);
-			return new DspBlockComponent(c, new ArpeggioModel(c, channels), pm);
+			return new DspBlockComponent(c, new ArpeggioModel(c, channels), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
 	ADSR("Dynamics") {
@@ -318,7 +324,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new TipScaleModel(), pm);
+			return new DspBlockComponent(c, new TipScaleModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
 	VeloSens("Dynamics") {
@@ -329,7 +340,28 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new VeloSensModel(), pm);
+			return new DspBlockComponent(c, new VeloSensModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
+		}
+	},
+	NoiseGate("Dynamics") {
+		@Override
+		public String getModelName() {
+			return NoiseGateModel.class.getName();
+		}
+
+		@Override
+		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
+			return new DspBlockComponent(c, new NoiseGateModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_DYNAMICS_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Compressor("Dynamics") {
@@ -584,7 +616,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new ChorusModel(c), pm);
+			return new DspBlockComponent(c, new ChorusModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Phaser("FX") {
@@ -595,7 +632,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new PhaserModel(c), pm);
+			return new DspBlockComponent(c, new PhaserModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Octaver("FX") {
@@ -606,7 +648,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new OctaverModel(), pm);
+			return new DspBlockComponent(c, new OctaverModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	PitchShift("FX") {
@@ -617,7 +664,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new PitcherModel(), pm);
+			return new DspBlockComponent(c, new PitcherModel(), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	RingMod("FX") {
@@ -628,7 +680,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new RingModulatorModel(c), pm);
+			return new DspBlockComponent(c, new RingModulatorModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Binaural("FX") {
@@ -639,7 +696,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new BinauralModel(c), pm);
+			return new DspBlockComponent(c, new BinauralModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Reverb242("FX") {
@@ -650,7 +712,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new Reverb242Model(c), pm);
+			return new DspBlockComponent(c, new Reverb242Model(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	DimensionE("FX") {
@@ -661,7 +728,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new StereoEnvelopeDelayModel(c), pm);
+			return new DspBlockComponent(c, new StereoEnvelopeDelayModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 	Exciter("FX") {
@@ -672,7 +744,12 @@ public enum DspPalette {
 
 		@Override
 		public DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-			return new DspBlockComponent(c, new ExciterModel(c), pm);
+			return new DspBlockComponent(c, new ExciterModel(c), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel(EditorTheme.COLOR_FX_BLOCK_BG);
+				}
+			};
 		}
 	},
 

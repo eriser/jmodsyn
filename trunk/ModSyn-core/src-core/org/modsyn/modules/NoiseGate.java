@@ -31,6 +31,7 @@ public class NoiseGate extends DefaultSignalOutput implements SignalInsert {
 		@Override
 		public void set(float signal) {
 			hold = (int) (signal * c.getSampleRate());
+			System.out.println("hold=" + hold + " (samplerate=" + c.getSampleRate() + ")");
 		}
 	};
 
@@ -69,6 +70,9 @@ public class NoiseGate extends DefaultSignalOutput implements SignalInsert {
 			if (amp <= MIN_NORMAL) {
 				amp = 0;
 				state = STATE_CLOSE;
+			} else if (signal > ctrlThreshold.value) {
+				state = STATE_ATTACK;
+				holdCounter = hold;
 			}
 			break;
 		}
