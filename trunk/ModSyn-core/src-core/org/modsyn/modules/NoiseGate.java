@@ -31,7 +31,6 @@ public class NoiseGate extends DefaultSignalOutput implements SignalInsert {
 		@Override
 		public void set(float signal) {
 			hold = (int) (signal * c.getSampleRate());
-			System.out.println("hold=" + hold + " (samplerate=" + c.getSampleRate() + ")");
 		}
 	};
 
