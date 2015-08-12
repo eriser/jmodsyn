@@ -54,23 +54,42 @@ public class MidiVoiceAdapter implements MidiListener, DspObject {
 	@Override
 	public void keyOn(int key, int velo) {
 		this.key = key;
-		keyFreqOut.connectedInput.set(calcFreq());
-		keyVeloOut.connectedInput.set(velo / 127f);
-		keyTrigOut.connectedInput.set(velo == 0 ? 0 : 1);
+		this.trigger = velo != 0;
+
+		if (trigger) {
+			keyFreqOut.connectedInput.set(calcFreq());
+			keyVeloOut.connectedInput.set(velo / 127f);
+			keyTrigOut.connectedInput.set(velo == 0 ? 0 : 1);
+		} else {
+			keyOff(key, 0);
+		}
 	}
 
 	@Override
 	public void keyOff(int key, int velo) {
 		if (key == this.key) {
 			this.key = key;
-			keyFreqOut.connectedInput.set(calcFreq());
-			keyVeloOut.connectedInput.set(0);
-			keyTrigOut.connectedInput.set(0);
+			this.trigger = false;
+
+			if (!sustain) {
+				keyFreqOut.connectedInput.set(calcFreq());
+				keyVeloOut.connectedInput.set(0);
+				keyTrigOut.connectedInput.set(0);
+			}
 		}
 	}
 
+	boolean trigger;
+	boolean sustain;
+
 	@Override
 	public void controlChange(int control, int value) {
+		if (control == 0x40) {
+			sustain = value != 0;
+			if (!sustain && !trigger) {
+				keyOff(key, 0);
+			}
+		}
 		if (control == 1) {
 			modOut.connectedInput.set(value / 127f);
 			// System.out.println(value / 127f);
