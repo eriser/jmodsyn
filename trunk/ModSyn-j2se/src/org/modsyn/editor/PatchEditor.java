@@ -162,7 +162,12 @@ public class PatchEditor {
 								if (!f.getName().endsWith(FILE_SUFFIX)) {
 									f = new File(f.getAbsolutePath() + FILE_SUFFIX);
 								}
-								new XmlImportMeta(f, context, pcModel, pcModel.getMainModel());
+
+								int count = askNumber(1, 8, "How many times?", "How many times do you want to import " + f.getName() + "?");
+
+								for (int i = 0; i < count; i++) {
+									new XmlImportMeta(f, context, pcModel, pcModel.getMainModel());
+								}
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -218,6 +223,15 @@ public class PatchEditor {
 				frame.setVisible(true);
 			}
 		});
+	}
+
+	private static int askNumber(int min, int max, String title, String message) {
+		Integer[] choices = new Integer[max - (min - 1)];
+		for (int i = 0; i < choices.length; i++) {
+			choices[i] = i + min;
+		}
+
+		return (Integer) JOptionPane.showInputDialog(null, message, title, JOptionPane.PLAIN_MESSAGE, null, choices, Integer.toString(min));
 	}
 
 	private static JFileChooser createFileChooser(File dir) {
