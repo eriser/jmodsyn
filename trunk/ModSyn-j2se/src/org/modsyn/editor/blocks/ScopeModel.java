@@ -40,7 +40,7 @@ public class ScopeModel extends DspBlockModel<ScopeModel.Scope> {
 		private ScopeModel model;
 
 		@Override
-		public void set(float signal) {
+		public synchronized void set(float signal) {
 			ptr %= buffer.length;
 			if (count == 0) {
 				count = interval;
