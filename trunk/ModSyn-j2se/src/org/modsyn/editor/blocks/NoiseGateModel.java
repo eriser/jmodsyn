@@ -16,7 +16,9 @@ public class NoiseGateModel extends DspBlockModel<NoiseGate> {
 		add(new InputModel(this, dsp.ctrlAttack, "atk", 0.0005f, 0.000010f, 0.001f, 6));
 		add(new InputModel(this, dsp.ctrlHold, "hld", 0.2f, 0.1f, 1));
 		add(new InputModel(this, dsp.ctrlRelease, "rel", 0.997500f, 0.997000f, 0.999999f, 6));
+
 		add(new OutputModel(this, dsp, "OUT"));
+		add(new OutputModel(this, dsp.meterOut, "meter"));
 	}
 
 	public NoiseGateModel(Context c) {
