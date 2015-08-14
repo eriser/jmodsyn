@@ -34,6 +34,8 @@ public class NoiseGate extends DefaultSignalOutput implements SignalInsert {
 		}
 	};
 
+	public final DefaultSignalOutput meterOut = new DefaultSignalOutput();
+
 	@Override
 	public void set(float signal) {
 		switch (state) {
@@ -77,5 +79,6 @@ public class NoiseGate extends DefaultSignalOutput implements SignalInsert {
 		}
 
 		connectedInput.set(signal * amp);
+		meterOut.connectedInput.set(amp);
 	}
 }
