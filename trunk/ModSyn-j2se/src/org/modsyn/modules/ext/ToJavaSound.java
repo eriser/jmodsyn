@@ -136,7 +136,7 @@ public class ToJavaSound implements SignalSource, DspObject {
 		if (fbuffer1Index == 0) {
 			if (inputR != null) {
 				if (fbuffer2Index != 0) {
-					System.err.println("RESET ToJavaSound");
+					// RESET the buffers if indices are not as expected.
 					fbuffer2Index = 0;
 					for (int i = 0; i < fbuffer2.length; i++) {
 						fbuffer2[i] = 0;

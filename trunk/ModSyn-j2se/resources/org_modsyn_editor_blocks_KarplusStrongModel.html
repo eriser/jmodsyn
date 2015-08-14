@@ -1,0 +1,19 @@
+<html>
+<h3>{name}</h3>
+Karplus-Strong synthesis is a simple form of physical modeling that is useful for simulating plucked strings and such.<br/>
+A short burst of noise is created (to simulate the 'pluck'), which will resonate in a comb-filter with a strong feedback.<br/>
+<br/>
+Inputs:
+<ul>
+<li>frq: the frequency</li>
+<li>trg: the trigger</li>
+<li>fb: the feedback</li>
+<li>cut: filter cut-off frequency (in Hz). Note that much filtering will lead to phase shifts, leading to an incorrect pitch.</li>
+<li>plu: the time in seconds of the 'pluck'</li>
+<li>env: the envelope of the pluck</li>
+</ul>
+Outputs:
+<ul>
+<li>OUT: the output</li>
+</ul>
+</html>

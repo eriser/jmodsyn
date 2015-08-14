@@ -11,7 +11,7 @@ public class CompressorModel extends DspBlockModel<Compressor> {
 		super(dsp);
 
 		add(new InputModel(this, dsp, "IN", 0, -1, 1));
-		add(new InputModel(this, dsp.ctrlThreshold, "thr", .1f, 0, .1f));
+		add(new InputModel(this, dsp.ctrlThreshold, "thr", .1f, 0, 1f));
 		add(new InputModel(this, dsp.ctrlRatio, "rat", 1, 0, 1));
 		add(new InputModel(this, dsp.ctrlAttack, "atk", 500, 0, 2000));
 		add(new InputModel(this, dsp.ctrlRelease, "rel", 500, 0, 2000));
