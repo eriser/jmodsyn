@@ -30,7 +30,7 @@ public class AudioOutSupport {
 				}
 			};
 		} else {
-			return new DspBlockComponent(c, new ToJavaSoundModel(new ToJavaSound(c, 2, 1024)), pm) {
+			return new DspBlockComponent(c, new ToJavaSoundModel(new ToJavaSound(c, 2, 1024, true)), pm) {
 				@Override
 				public Component createCenterComponent() {
 					return new JColorLabel("\u25cb\u27a0", EditorTheme.COLOR_EXT_BLOCK_BG);

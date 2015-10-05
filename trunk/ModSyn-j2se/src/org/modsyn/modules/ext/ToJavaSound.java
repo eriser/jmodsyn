@@ -32,6 +32,8 @@ public class ToJavaSound implements SignalSource, DspObject {
 
 	public static final int MONO = 1;
 	public static final int STEREO = 2;
+	
+	private final float gain = 32767f;
 
 	private AudioFormat format;
 	private SourceDataLine line;
@@ -46,22 +48,23 @@ public class ToJavaSound implements SignalSource, DspObject {
 	public SignalInput inputL;
 	public SignalInput inputR;
 
-	private float gain = 32767f;
 	private final Context context;
 
 	private ContextUpdateThread updater;
 
 	public ToJavaSound(Context context, int channels, int soundBufferSize) {
 		this.context = context;
-		init(channels, soundBufferSize, 1);
+		init(channels, soundBufferSize, 1, false);
 	}
 
-	public ToJavaSound(Context context, int channels, int soundBufferSize, int overSampling) {
+	public ToJavaSound(Context context, int channels, int soundBufferSize,
+			boolean startThread) {
 		this.context = context;
-		init(channels, soundBufferSize, overSampling);
+		init(channels, soundBufferSize, 1, startThread);
 	}
 
-	private void init(int channels, int soundBufferSize, int overSampling) {
+	private void init(int channels, int soundBufferSize, int overSampling,
+			boolean startThread) {
 		// this.overSampling = overSampling;
 		// this.channels = channels;
 		inputL = new InputL();
@@ -90,8 +93,11 @@ public class ToJavaSound implements SignalSource, DspObject {
 		// format = new AudioFormat(Sys.sampleRate, 16, 1, true, false);
 		// DataLine.Info info = new DataLine.Info( SourceDataLine.class, format,
 		// bufferSize * 2 * channels );
-		format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, context.getSampleRate(), 16, channels, channels * 2, context.getSampleRate(), false);
-		DataLine.Info info = new DataLine.Info(SourceDataLine.class, format, soundBufferSize * channels);
+		format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+				context.getSampleRate(), 16, channels, channels * 2,
+				context.getSampleRate(), false);
+		DataLine.Info info = new DataLine.Info(SourceDataLine.class, format,
+				soundBufferSize * channels);
 		System.out.println("Getting Line");
 		try {
 			line = (SourceDataLine) mixer.getLine(info);
@@ -104,8 +110,10 @@ public class ToJavaSound implements SignalSource, DspObject {
 			System.out.println("buffer    : " + line.getBufferSize());
 			System.out.println("Sound initialized successfully.");
 
-			updater = new ContextUpdateThread(context);
-			updater.start();
+			if (startThread) {
+				updater = new ContextUpdateThread(context);
+				updater.start();
+			}
 		} catch (LineUnavailableException lue) {
 			System.err.println("Unavailable data line");
 		}
@@ -177,8 +185,10 @@ public class ToJavaSound implements SignalSource, DspObject {
 	}
 
 	public void stop() {
-		// line.drain();
-		updater.interrupt();
+		line.drain();
+		if (updater != null) {
+			updater.interrupt();
+		}
 		line.stop();
 		line.close();
 	}
@@ -220,14 +230,4 @@ public class ToJavaSound implements SignalSource, DspObject {
 	public void connectTo(SignalInput input) {
 		// dummy, this is an end point
 	}
-
-	/**
-	 * Default gain = 32767 (=max amplitude of the signal for 16 bit)
-	 * 
-	 * @param gain
-	 */
-	public void setGain(float gain) {
-		this.gain = gain;
-	}
-
 }
