@@ -25,15 +25,14 @@ import org.modsyn.util.ContextUpdateThread;
 /**
  * @author Erik Duijs
  * 
- *         Steams its AudioInputs to JavaSound. If you set it up to mono, use
- *         inputL.
+ *         Steams its AudioInputs to JavaSound. If you set it up to mono, use inputL.
  */
 public class ToJavaSound implements SignalSource, DspObject {
 
 	public static final int MONO = 1;
 	public static final int STEREO = 2;
-	
-	private final float gain = 32767f;
+
+	private float gain = 32767f;
 
 	private AudioFormat format;
 	private SourceDataLine line;
@@ -57,14 +56,12 @@ public class ToJavaSound implements SignalSource, DspObject {
 		init(channels, soundBufferSize, 1, false);
 	}
 
-	public ToJavaSound(Context context, int channels, int soundBufferSize,
-			boolean startThread) {
+	public ToJavaSound(Context context, int channels, int soundBufferSize, boolean startThread) {
 		this.context = context;
 		init(channels, soundBufferSize, 1, startThread);
 	}
 
-	private void init(int channels, int soundBufferSize, int overSampling,
-			boolean startThread) {
+	private void init(int channels, int soundBufferSize, int overSampling, boolean startThread) {
 		// this.overSampling = overSampling;
 		// this.channels = channels;
 		inputL = new InputL();
@@ -93,11 +90,8 @@ public class ToJavaSound implements SignalSource, DspObject {
 		// format = new AudioFormat(Sys.sampleRate, 16, 1, true, false);
 		// DataLine.Info info = new DataLine.Info( SourceDataLine.class, format,
 		// bufferSize * 2 * channels );
-		format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-				context.getSampleRate(), 16, channels, channels * 2,
-				context.getSampleRate(), false);
-		DataLine.Info info = new DataLine.Info(SourceDataLine.class, format,
-				soundBufferSize * channels);
+		format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, context.getSampleRate(), 16, channels, channels * 2, context.getSampleRate(), false);
+		DataLine.Info info = new DataLine.Info(SourceDataLine.class, format, soundBufferSize * channels);
 		System.out.println("Getting Line");
 		try {
 			line = (SourceDataLine) mixer.getLine(info);
@@ -229,5 +223,9 @@ public class ToJavaSound implements SignalSource, DspObject {
 	@Override
 	public void connectTo(SignalInput input) {
 		// dummy, this is an end point
+	}
+
+	public void setGain(float i) {
+		this.gain = i;
 	}
 }
