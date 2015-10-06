@@ -20,10 +20,10 @@ public class FromMidiPolyModel extends DspBlockModel<MidiVoicePolyAdapter> {
 			add(new OutputModel(this, dsp.voices.get(i).keyFreqOut, "frq" + nr));
 			add(new OutputModel(this, dsp.voices.get(i).keyVeloOut, "vel" + nr));
 			add(new OutputModel(this, dsp.voices.get(i).keyTrigOut, "trg" + nr));
-			add(new OutputModel(this, dsp.voices.get(i).bendOut, "pb" + nr));
-			add(new OutputModel(this, dsp.voices.get(i).modOut, "mod" + nr));
-			// add(new OutputModel(this, dsp.voices.get(i).ctrl1Out, "c-out"));
 		}
+		add(new OutputModel(this, dsp.voices.get(0).bendOut, "pb"));
+		add(new OutputModel(this, dsp.voices.get(0).modOut, "mod"));
+		add(new OutputModel(this, dsp.voices.get(0).ctrl1Out, "c-out"));
 
 	}
 

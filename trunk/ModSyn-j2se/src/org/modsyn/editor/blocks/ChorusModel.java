@@ -12,7 +12,7 @@ public class ChorusModel extends DspBlockModel<Chorus> {
 		super(amp);
 
 		add(new InputModel(this, amp, "IN", 0, -1, 1));
-		add(new InputModel(this, amp.mix, "mix", 0, -1, +1));
+		add(new InputModel(this, amp.mix.panControl, "mix", 0, -1, +1));
 		add(new InputModel(this, amp.wdt, "wdt", 0.0015f, 0, 0.05f));
 		add(new InputModel(this, amp.frq, "frq", 1, 0, 10));
 		add(new InputModel(this, amp.fbk, "fb", 0.1f, 0, 1));
