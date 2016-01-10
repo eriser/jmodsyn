@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Tools {
 
-	public static final boolean FAST_MATH = true;
+	public static final boolean FAST_MATH = false;
 
 	public static final float[] FREQUENCY = new float[128];
 	public static final double LOG2 = Math.log(2);

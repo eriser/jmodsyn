@@ -9,12 +9,24 @@ class ContextImpl implements Context {
 
 	private static final boolean DEBUG = true;
 
-	private final int sampleRate;
+	private static final ContextListener NULL_LISTENER = new ContextListener() {
+		@Override
+		public void added(DspObject o) {
+		}
+
+		@Override
+		public void removed(DspObject o) {
+		}
+	};
+
+	private int sampleRate;
 	private final SignalSource[] updatedSignals = new SignalSource[1024];
 	private final SignalSource[] masters = new SignalSource[32];
 
 	private int iUpdatedSignals = 0;
 	private int iMasters = 0;
+
+	private ContextListener listener = NULL_LISTENER;
 
 	public ContextImpl(int sampleRate) {
 		this.sampleRate = sampleRate;
@@ -23,6 +35,11 @@ class ContextImpl implements Context {
 	@Override
 	public int getSampleRate() {
 		return sampleRate;
+	}
+
+	@Override
+	public void setSampleRate(int sampleRate) {
+		this.sampleRate = sampleRate;
 	}
 
 	@Override
@@ -37,6 +54,7 @@ class ContextImpl implements Context {
 				for (int j = i; j < iUpdatedSignals; j++) {
 					updatedSignals[i] = updatedSignals[i + 1];
 				}
+				listener.removed(source);
 				return;
 			}
 		}
@@ -48,6 +66,7 @@ class ContextImpl implements Context {
 				for (int j = i; j < iMasters; j++) {
 					masters[i] = masters[i + 1];
 				}
+				listener.removed(source);
 				return;
 			}
 		}
@@ -61,12 +80,14 @@ class ContextImpl implements Context {
 	public void addSignalSource(SignalSource sg) {
 		updatedSignals[iUpdatedSignals] = (sg);
 		iUpdatedSignals++;
+		listener.added(sg);
 	}
 
 	@Override
 	public void addMaster(SignalSource master) {
 		masters[iMasters] = (master);
 		iMasters++;
+		listener.added(master);
 	}
 
 	@Override
@@ -96,5 +117,15 @@ class ContextImpl implements Context {
 			masters[i] = null;
 		}
 		iUpdatedSignals = iMasters = 0;
+	}
+
+	@Override
+	public void setListener(ContextListener l) {
+		this.listener = l;
+	}
+
+	@Override
+	public void removeListener() {
+		this.listener = NULL_LISTENER;
 	}
 }

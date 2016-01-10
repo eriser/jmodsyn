@@ -10,12 +10,23 @@ public interface Context {
 
 	public static final float SPEED_OF_SOUND_MPS = 343;
 
+	void setListener(ContextListener l);
+
+	void removeListener();
+
 	/**
 	 * The sample rate that is used.
 	 * 
 	 * @return The sample rate.
 	 */
 	int getSampleRate();
+
+	/**
+	 * Set the sample rate.
+	 * 
+	 * @param sampleRate
+	 */
+	void setSampleRate(int sampleRate);
 
 	/**
 	 * Register a SignalSource instance. Calling this method should normally be the responsibility of SignalSource

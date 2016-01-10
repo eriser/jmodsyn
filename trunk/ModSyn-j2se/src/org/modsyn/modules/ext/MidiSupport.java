@@ -7,6 +7,8 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
+import org.modsyn.vst.VSTPluginSupport;
+
 public enum MidiSupport {
 
 	INSTANCE;
@@ -15,15 +17,19 @@ public enum MidiSupport {
 	private final MidiListener[] listeners = new MidiListener[16];
 
 	private MidiSupport() {
-		System.out.println("Initializing MIDI...");
-		try {
-			for (Info info : MidiSystem.getMidiDeviceInfo()) {
-				System.out.println(" MidiDevice.Info : " + info);
+		if (!VSTPluginSupport.VST_INSTRUMENT) {
+			System.out.println("Initializing Java MIDI...");
+			try {
+				for (Info info : MidiSystem.getMidiDeviceInfo()) {
+					System.out.println(" MidiDevice.Info : " + info);
+				}
+				MidiSystem.getTransmitter().setReceiver(new MidiReceiver());
+			} catch (MidiUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			MidiSystem.getTransmitter().setReceiver(new MidiReceiver());
-		} catch (MidiUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} else {
+			System.out.println("MIDI support provided by VSTInstrumentSupport");
 		}
 	}
 

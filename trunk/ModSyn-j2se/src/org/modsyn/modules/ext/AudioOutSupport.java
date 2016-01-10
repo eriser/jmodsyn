@@ -9,11 +9,14 @@ import org.modsyn.editor.EditorTheme;
 import org.modsyn.editor.blocks.ToAsioModel;
 import org.modsyn.editor.blocks.ToJavaSoundModel;
 import org.modsyn.gui.JColorLabel;
+import org.modsyn.vst.ToVSTAudioModel;
+import org.modsyn.vst.VSTPluginAudioSupport;
 
 public class AudioOutSupport {
 
 	public static synchronized String normalizeClassName(String name) {
-		if (ToAsioModel.class.getName().equals(name) || ToJavaSoundModel.class.getName().equals(name) || AudioOutSupport.class.getName().equals(name)) {
+		if (ToVSTAudioModel.class.getName().equals(name) || ToAsioModel.class.getName().equals(name) || ToJavaSoundModel.class.getName().equals(name)
+				|| AudioOutSupport.class.getName().equals(name)) {
 			return AudioOutSupport.class.getName();
 		}
 
@@ -22,7 +25,15 @@ public class AudioOutSupport {
 
 	@SuppressWarnings("serial")
 	public static synchronized DspBlockComponent create(Context c, DspPatchModel pm, int channels) {
-		if (AsioSupport.INSTANCE.isSupported()) {
+		if (VSTPluginAudioSupport.isSupported()) {
+			return new DspBlockComponent(c, new ToVSTAudioModel(c, new VSTPluginAudioSupport()), pm) {
+				@Override
+				public Component createCenterComponent() {
+					return new JColorLabel("\u25cb\u27a0", EditorTheme.COLOR_EXT_BLOCK_BG);
+				}
+
+			};
+		} else if (AsioSupport.INSTANCE.isSupported()) {
 			return new DspBlockComponent(c, new ToAsioModel(c, AsioSupport.INSTANCE), pm) {
 				@Override
 				public Component createCenterComponent() {

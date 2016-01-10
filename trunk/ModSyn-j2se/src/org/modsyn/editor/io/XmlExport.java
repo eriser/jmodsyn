@@ -24,6 +24,7 @@ import org.modsyn.editor.blocks.FromJavaSoundModel;
 import org.modsyn.editor.blocks.FromMidiModel;
 import org.modsyn.editor.blocks.ToAsioModel;
 import org.modsyn.editor.blocks.ToJavaSoundModel;
+import org.modsyn.vst.ToVSTAudioModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -61,7 +62,8 @@ public class XmlExport {
 			Element eDspObject = (Element) nl.item(i);
 			String type = eDspObject.getAttribute("type");
 			if (type.equals(FromMidiModel.class.getName()) || type.equals(ToJavaSoundModel.class.getName()) || type.equals(ToAsioModel.class.getName())
-					|| type.equals(FromAsioModel.class.getName()) || type.equals(FromJavaSoundModel.class.getName())) {
+					|| type.equals(ToVSTAudioModel.class.getName()) || type.equals(FromAsioModel.class.getName())
+					|| type.equals(FromJavaSoundModel.class.getName())) {
 				eDspObject.getParentNode().removeChild(eDspObject);
 			}
 		}
@@ -92,7 +94,7 @@ public class XmlExport {
 
 	protected DspBlockComponent findAudio() {
 		for (DspBlockComponent block : blocks) {
-			if ((block.getModel() instanceof ToAsioModel) || (block.getModel() instanceof ToJavaSoundModel)) {
+			if ((block.getModel() instanceof ToAsioModel) || (block.getModel() instanceof ToJavaSoundModel) || (block.getModel() instanceof ToVSTAudioModel)) {
 				return block;
 			}
 		}

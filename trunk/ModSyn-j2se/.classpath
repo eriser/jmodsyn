@@ -2,10 +2,17 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src-deprecated"/>
+	<classpathentry kind="src" path="src-speech"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ModSyn-core"/>
 	<classpathentry kind="lib" path="lib/JAsioHost.jar"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="lib" path="lib/abnormal.jar"/>
+	<classpathentry kind="lib" path="lib/jVSTwRapper-Release-1.0beta/jVSTwRapper-1.0beta.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ModSyn-j2se/lib/jVSTwRapper-Release-1.0beta/jVSTwRapper-1.0beta-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jVSTwRapper-Release-1.0beta/jVSTsYstem-1.0beta.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
