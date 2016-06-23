@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -67,13 +68,16 @@ public class DspPaletteComponent extends JPanel {
 		final ArrayList<JList<DspPalette>> jLists = new ArrayList<>();
 
 		for (String key : lists.keySet()) {
+
 			List<DspPalette> l = lists.get(key);
 			DspPalette[] pal = new DspPalette[l.size()];
 			pal = l.toArray(pal);
 			final Color categoryColor = EditorTheme.getColor(pal[0]);
 
+			final JList<DspPalette> list = new JList<DspPalette>(pal);
+
 			@SuppressWarnings("serial")
-			JLabel lbl = new JLabel(key) {
+			final JLabel lbl = new JLabel(key) {
 				@Override
 				public void paintComponent(Graphics g) {
 					Graphics2D g2d = (Graphics2D) g;
@@ -82,6 +86,13 @@ public class DspPaletteComponent extends JPanel {
 
 					g2d.setPaint(new GradientPaint(getWidth() - 16, 0, new Color(0, true), getWidth() - 16 / 2, 0, categoryColor));
 					g2d.fillRect(getWidth() - 16, getHeight() - 4, 16, 4);
+
+					g2d.setColor(Color.GRAY);
+					if (!list.isVisible()) {
+						g2d.fillPolygon(new Polygon(new int[] { 1, getHeight() / 2, 1 }, new int[] { 1, getHeight() / 2, getHeight() - 2 }, 3));
+					} else {
+						g2d.fillPolygon(new Polygon(new int[] { 1, getHeight() - 2, getHeight() / 2 }, new int[] { 2, 2, 1 + getHeight() / 2 }, 3));
+					}
 
 					super.paintComponent(g);
 				}
@@ -94,7 +105,6 @@ public class DspPaletteComponent extends JPanel {
 
 			TransferHandler th = new DndConnection.ListTransferHandler(c, patchModel);
 
-			final JList<DspPalette> list = new JList<DspPalette>(pal);
 			list.setDragEnabled(true);
 			list.setTransferHandler(th);
 			list.setSelectionBackground(EditorTheme.LIST_SELECTION_COLOR);
@@ -104,6 +114,7 @@ public class DspPaletteComponent extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					list.setVisible(!list.isVisible());
+					lbl.repaint();
 				}
 			});
 
